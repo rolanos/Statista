@@ -7,7 +7,7 @@ using Statista.Contracts.Authentication;
 namespace Statista.Api.Controllers;
 
 [ApiController]
-[Route("auth")]
+[Route("")]
 public class AuthenticationController : ControllerBase
 {
     private readonly IMediator _mediator;
@@ -20,7 +20,14 @@ public class AuthenticationController : ControllerBase
     [HttpPost("register")]
     public async Task<IActionResult> Register(RegisterRequest request)
     {
-        var command = new RegisterCommand(request.FirstName, request.LastName, request.Email, request.Password);
+        var command = new RegisterCommand(
+            request.Username,
+            request.FirstName,
+            request.LastName,
+            request.Email,
+            request.Password,
+            DateTime.UtcNow);
+
         var authResult = await _mediator.Send(command);
 
         return Ok(authResult);

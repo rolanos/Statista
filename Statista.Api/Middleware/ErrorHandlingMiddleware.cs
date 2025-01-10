@@ -1,6 +1,7 @@
+using System.ComponentModel.DataAnnotations;
 using System.Net;
-using System.Net.Mime;
 using System.Text.Json;
+using Microsoft.AspNetCore.Diagnostics;
 
 public class ErrorHandlingMiddleware
 {

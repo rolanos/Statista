@@ -1,14 +1,17 @@
 using MediatR;
+using Microsoft.AspNetCore.Identity;
+using Statista.Application.Common.Interfaces.Persistence;
+using Statista.Domain.Entities;
 
 namespace Statista.Application.Authentification.Commands.Register;
 
-public class LoginCommandHandler : IRequestHandler<RegisterCommand, RegisterResult>
+public class RegisterCommandHandler : IRequestHandler<RegisterCommand, RegisterResult>
 {
     private readonly IJwtTokenGenerator _jwtTokenGenerator;
 
     private readonly IUserRepository _userRepository;
 
-    public LoginCommandHandler(IJwtTokenGenerator _jwtTokenGenerator, IUserRepository _userRepository)
+    public RegisterCommandHandler(IJwtTokenGenerator _jwtTokenGenerator, IUserRepository _userRepository)
     {
         this._jwtTokenGenerator = _jwtTokenGenerator;
         this._userRepository = _userRepository;
@@ -21,13 +24,16 @@ public class LoginCommandHandler : IRequestHandler<RegisterCommand, RegisterResu
             throw new Exception("User with this email already exists");
         }
 
-        var user = new UserEntity
-        {
-            FirstName = command.FirstName,
-            LastName = command.LastName,
-            Email = command.Email,
-            Password = command.Password,
-        };
+        var user = new User(
+            Guid.NewGuid(),
+            command.Username,
+            command.FirstName,
+            command.LastName,
+            command.Email,
+            command.CreatedDate,
+            command.CreatedDate);
+        var passwordHash = new PasswordHasher<User>().HashPassword(user, command.Password);
+        user.PasswordHash = passwordHash;
         _userRepository.Add(user);
         var token = _jwtTokenGenerator.GenerateToken(user.Id, command.FirstName, command.LastName);
         return new RegisterResult(user, token);

@@ -1,5 +1,8 @@
 using MediatR;
+using Microsoft.AspNetCore.Identity;
 using Statista.Application.Authentification.Queries.Login;
+using Statista.Application.Common.Interfaces.Persistence;
+using Statista.Domain.Entities;
 
 namespace Statista.Application.Authentification.Commands.Login;
 
@@ -17,18 +20,29 @@ public class LoginCommandHandler : IRequestHandler<LoginQuery, LoginResult>
 
     public async Task<LoginResult> Handle(LoginQuery query, CancellationToken cancellationToken)
     {
-        if (_userRepository.GetUserByEmail(query.Email) is not UserEntity user)
+        if (_userRepository.GetUserByEmail(query.Email) is not User user)
         {
             throw new Exception("User with this email already exists");
         }
 
-        if (user.Password != query.Password)
+        if (user is null)
         {
-            throw new Exception("Invalid password");
+            throw new Exception("User is null");
         }
 
-        var token = _jwtTokenGenerator.GenerateToken(user.Id, user.FirstName, user.LastName);
-
-        return new LoginResult(user, token);
+        if (user.PasswordHash != null)
+        {
+            var hashCompareResult = new PasswordHasher<User>().VerifyHashedPassword(user, user.PasswordHash, query.Password);
+            if (hashCompareResult == PasswordVerificationResult.Failed)
+            {
+                throw new Exception("Invalid password");
+            }
+            var token = _jwtTokenGenerator.GenerateToken(user.Id, user.Name ?? "empty_name", user.Surname ?? "empty_surname");
+            return new LoginResult(user!, token);
+        }
+        else
+        {
+            throw new Exception("Auth error");
+        }
     }
 }

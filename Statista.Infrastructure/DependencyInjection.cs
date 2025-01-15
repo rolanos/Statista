@@ -10,12 +10,12 @@ public static class DependencyInjection
 {
     public static IServiceCollection AddInfrastructure(this IServiceCollection services, ConfigurationManager configuration)
     {
-        var connectionString = configuration.GetConnectionString("DbConnection");
+        var connectionString = configuration.GetConnectionString("DbConnectionLocal");
         services.Configure<JwtSettings>(configuration.GetSection(JwtSettings.SectionName));
         services.AddSingleton<IJwtTokenGenerator, JwtTokenGenerator>();
         services.AddSingleton<IDateTimeProvider, DateTimeProvider>();
         services.AddPersistence();
-        services.AddEntityFrameworkNpgsql().AddDbContext<PostgresDbContext>(options => options.UseNpgsql(connectionString));
+        services.AddDbContext<PostgresDbContext>(options => options.UseNpgsql(connectionString));
         services.AddCustomAuthentication(configuration);
         return services;
     }

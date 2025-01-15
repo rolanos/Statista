@@ -1,3 +1,5 @@
+using Statista.Infrastructure.Persistence;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -11,16 +13,16 @@ builder.Services.AddControllers();
 var app = builder.Build();
 
 app.UseMiddleware<ErrorHandlingMiddleware>();
-app.UseHttpsRedirection();
+//app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
 
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+if (app.Environment.IsDevelopment()) { }
+app.UseSwagger();
+app.UseSwaggerUI();
+
+app.ApplyMigrations();
 
 app.Run();
 

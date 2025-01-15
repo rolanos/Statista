@@ -4,10 +4,11 @@ namespace Statista.Application.Common.Interfaces.Persistence;
 
 public interface IUserRepository
 {
-    User? GetUserById(Guid id);
-    User? GetUserByEmail(string email);
+    Task<User?> GetUserById(Guid id);
+    Task<User?> GetUserByEmail(string email);
+    Task<User?> GetUserByUsername(string username);
     Task<User?> UpdateUser(User user);
-    Task<bool> DeleteUserById(Guid id);
+    Task<User?> DeleteUserById(Guid id);
     IReadOnlyCollection<User?> GetUsers();
     Task Add(User user);
 }

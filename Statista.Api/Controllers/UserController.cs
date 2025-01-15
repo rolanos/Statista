@@ -8,13 +8,14 @@ using Statista.Application.Users.Queries.GetUsers;
 namespace Statista.Api.Controllers;
 
 [ApiController]
-[Route("api/user")]
+[Route("api/users")]
 public class UserController : BaseController
 {
     [HttpGet]
     public async Task<IActionResult> GetUsers()
     {
         var createUserResult = await mediator.Send(new GetUsersQuery());
+        logger.LogInformation("GetUsers success");
         return Ok(createUserResult);
     }
 
@@ -25,7 +26,7 @@ public class UserController : BaseController
         return Ok(createUserResult);
     }
 
-    [HttpGet("{email}")]
+    [HttpGet("{email:alpha}")]
     public async Task<IActionResult> GetUserByEmail(string email)
     {
         var createUserResult = await mediator.Send(new GetUserByEmailQuery(email));
@@ -38,5 +39,20 @@ public class UserController : BaseController
         var command = mapper.Map<CreateUserCommand>(request);
         var createUserResult = await mediator.Send(command);
         return Ok(mapper.Map<UserResponse>(createUserResult));
+    }
+
+    [HttpDelete("{id:guid}")]
+    public async Task<IActionResult> DeleteUser(Guid id)
+    {
+        var createUserResult = await mediator.Send(new DeleteUserCommand(id));
+        return Ok(createUserResult);
+    }
+
+    [HttpPut()]
+    public async Task<IActionResult> UpdateUser(UpdateUserRequest request)
+    {
+        var command = mapper.Map<UpdateUserCommand>(request);
+        var updateUserResult = await mediator.Send(command);
+        return Ok(mapper.Map<UserResponse>(updateUserResult));
     }
 }

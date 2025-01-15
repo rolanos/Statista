@@ -20,7 +20,8 @@ public class LoginCommandHandler : IRequestHandler<LoginQuery, LoginResult>
 
     public async Task<LoginResult> Handle(LoginQuery query, CancellationToken cancellationToken)
     {
-        if (_userRepository.GetUserByEmail(query.Email) is not User user)
+        var user = await _userRepository.GetUserByEmail(query.Email);
+        if (user is null)
         {
             throw new Exception("User with this email already exists");
         }

@@ -1,3 +1,4 @@
+using Microsoft.EntityFrameworkCore;
 using Statista.Application.Common.Interfaces.Persistence;
 using Statista.Domain.Entities;
 using Statista.Infrastructure.Persistence;
@@ -12,31 +13,36 @@ public class UserRepository : IUserRepository
     }
     public async Task Add(User user)
     {
-        _dbContext.Add(user);
+        await _dbContext.AddAsync(user);
 
         await _dbContext.SaveChangesAsync();
     }
 
-    public async Task<bool> DeleteUserById(Guid id)
+    public async Task<User?> DeleteUserById(Guid id)
     {
-        var user = GetUserById(id);
+        var user = await GetUserById(id);
         if (user is not null)
         {
-            var deleted = _dbContext.Users.Remove(user);
+            _dbContext.Users.Remove(user);
             await _dbContext.SaveChangesAsync();
-            return true;
+            return user;
         }
-        return false;
+        return null;
     }
 
-    public User? GetUserByEmail(string email)
+    public Task<User?> GetUserByEmail(string email)
     {
-        return _dbContext.Users.SingleOrDefault(u => u.Email == email);
+        return _dbContext.Users.SingleOrDefaultAsync(u => u.Email == email);
     }
 
-    public User? GetUserById(Guid id)
+    public Task<User?> GetUserById(Guid id)
     {
-        return _dbContext.Users.SingleOrDefault(u => u.Id!.Equals(id));
+        return _dbContext.Users.SingleOrDefaultAsync(u => u.Id!.Equals(id));
+    }
+
+    public Task<User?> GetUserByUsername(string username)
+    {
+        return _dbContext.Users.SingleOrDefaultAsync(u => u.Username!.Equals(username));
     }
 
     public IReadOnlyCollection<User?> GetUsers()
@@ -46,8 +52,16 @@ public class UserRepository : IUserRepository
 
     public async Task<User?> UpdateUser(User user)
     {
-        _dbContext.Users.Update(user);
+        var oldElement = await GetUserById(user.Id);
+        if (oldElement is null)
+        {
+            throw new Exception("In DataBase no User with this Id");
+        }
+
+        _dbContext.Entry(oldElement).CurrentValues.SetValues(user);
+
         await _dbContext.SaveChangesAsync();
-        return GetUserById(user.Id);
+
+        return await GetUserById(user.Id);
     }
 }

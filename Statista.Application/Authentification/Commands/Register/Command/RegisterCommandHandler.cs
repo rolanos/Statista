@@ -23,6 +23,10 @@ public class RegisterCommandHandler : IRequestHandler<RegisterCommand, RegisterR
         {
             throw new Exception("User with this email already exists");
         }
+        if (_userRepository.GetUserByUsername(command.Username) is not null)
+        {
+            throw new Exception("User with this Username already exists");
+        }
 
         var user = new User(
             Guid.NewGuid(),
@@ -34,8 +38,8 @@ public class RegisterCommandHandler : IRequestHandler<RegisterCommand, RegisterR
             command.CreatedDate);
         var passwordHash = new PasswordHasher<User>().HashPassword(user, command.Password);
         user.PasswordHash = passwordHash;
-        _userRepository.Add(user);
-        var token = _jwtTokenGenerator.GenerateToken(user.Id, command.FirstName, command.LastName);
+        await _userRepository.Add(user);
+        var token = _jwtTokenGenerator.GenerateToken(user.Id, command.FirstName ?? command.Username, command.LastName ?? command.Email);
         return new RegisterResult(user, token);
     }
 }

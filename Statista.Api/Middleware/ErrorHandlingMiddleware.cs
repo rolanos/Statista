@@ -6,9 +6,12 @@ using Microsoft.AspNetCore.Diagnostics;
 public class ErrorHandlingMiddleware
 {
     private readonly RequestDelegate _next;
-    public ErrorHandlingMiddleware(RequestDelegate next)
+
+    private readonly ILogger<ErrorHandlingMiddleware> _logger;
+    public ErrorHandlingMiddleware(RequestDelegate next, ILogger<ErrorHandlingMiddleware> logger)
     {
         _next = next;
+        _logger = logger;
     }
 
     public async Task Invoke(HttpContext context)
@@ -19,6 +22,7 @@ public class ErrorHandlingMiddleware
         }
         catch (Exception ex)
         {
+            _logger.LogError("Exception: {ex}", ex.Message);
             //Перехватываем и обрабатываем исключение
             await HandleExceptionAsync(context, ex);
         }

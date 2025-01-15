@@ -10,6 +10,7 @@ internal sealed class AutoMapperProfile : Profile
     public AutoMapperProfile()
     {
         CreateMap<CreateUserRequest, CreateUserCommand>();
+        CreateMap<UpdateUserRequest, UpdateUserCommand>();
         CreateMap<User, UserResponse>();
     }
 }

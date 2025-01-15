@@ -2,7 +2,7 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Statista.Application.Authentification.Commands.Register;
 using Statista.Application.Authentification.Queries.Login;
-using Statista.Contracts.Authentication;
+using Statista.Application.Authentication;
 
 namespace Statista.Api.Controllers;
 

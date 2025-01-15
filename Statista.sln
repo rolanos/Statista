@@ -5,8 +5,6 @@ VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Statista.Application", "Statista.Application\Statista.Application.csproj", "{62121BDF-9639-42D8-BAF7-908CB960AF3C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Statista.Contracts", "Statista.Contracts\Statista.Contracts.csproj", "{0F67E3AB-82FF-4ECE-80ED-59AA6914E886}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Statista.Domain", "Statista.Domain\Statista.Domain.csproj", "{536B14CA-CD68-4209-8C45-6BA4BA09CC4A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Statista.Infrastructure", "Statista.Infrastructure\Statista.Infrastructure.csproj", "{ABCE7287-564C-4806-A1F1-504AE6979341}"

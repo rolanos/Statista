@@ -26,12 +26,12 @@ public class UserController : BaseController
         return Ok(createUserResult);
     }
 
-    [HttpGet("{email:alpha}")]
-    public async Task<IActionResult> GetUserByEmail(string email)
-    {
-        var createUserResult = await mediator.Send(new GetUserByEmailQuery(email));
-        return Ok(createUserResult);
-    }
+    // [HttpGet("{email:alpha}")]
+    // public async Task<IActionResult> GetUserByEmail(string email)
+    // {
+    //     var createUserResult = await mediator.Send(new GetUserByEmailQuery(email));
+    //     return Ok(createUserResult);
+    // }
 
     [HttpPost]
     public async Task<IActionResult> CreateUser(CreateUserRequest request)

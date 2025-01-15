@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Statista.Infrastructure.Persistence;
@@ -11,9 +12,11 @@ using Statista.Infrastructure.Persistence;
 namespace Statista.Infrastructure.Migrations
 {
     [DbContext(typeof(PostgresDbContext))]
-    partial class PostgresDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250115140511_ReportMigration2")]
+    partial class ReportMigration2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -58,9 +61,6 @@ namespace Statista.Infrastructure.Migrations
                     b.Property<long>("AnswersAmount")
                         .HasColumnType("bigint");
 
-                    b.Property<Guid>("CategoryId")
-                        .HasColumnType("uuid");
-
                     b.Property<Guid>("CreatedById")
                         .HasColumnType("uuid");
 
@@ -68,6 +68,9 @@ namespace Statista.Infrastructure.Migrations
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<Guid>("FormId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("QuestionCategoryId")
                         .HasColumnType("uuid");
 
                     b.Property<Guid>("QuestionTypeId")
@@ -79,15 +82,15 @@ namespace Statista.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CategoryId");
-
                     b.HasIndex("CreatedById");
 
                     b.HasIndex("FormId");
 
+                    b.HasIndex("QuestionCategoryId");
+
                     b.HasIndex("QuestionTypeId");
 
-                    b.ToTable("Question", (string)null);
+                    b.ToTable("Questions");
                 });
 
             modelBuilder.Entity("Statista.Domain.Entities.QuestionCategory", b =>
@@ -126,7 +129,7 @@ namespace Statista.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<Guid>("CreatedById")
+                    b.Property<Guid>("CreatedId")
                         .HasColumnType("uuid");
 
                     b.Property<string>("Message")
@@ -141,7 +144,7 @@ namespace Statista.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CreatedById");
+                    b.HasIndex("CreatedId");
 
                     b.HasIndex("ReportTypeId");
 
@@ -218,12 +221,6 @@ namespace Statista.Infrastructure.Migrations
 
             modelBuilder.Entity("Statista.Domain.Entities.Question", b =>
                 {
-                    b.HasOne("Statista.Domain.Entities.QuestionCategory", "Category")
-                        .WithMany()
-                        .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("Statista.Domain.Entities.User", "CreatedBy")
                         .WithMany()
                         .HasForeignKey("CreatedById")
@@ -231,8 +228,14 @@ namespace Statista.Infrastructure.Migrations
                         .IsRequired();
 
                     b.HasOne("Statista.Domain.Entities.Form", "Form")
-                        .WithMany("Questions")
+                        .WithMany()
                         .HasForeignKey("FormId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Statista.Domain.Entities.QuestionCategory", "Category")
+                        .WithMany()
+                        .HasForeignKey("QuestionCategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -255,7 +258,7 @@ namespace Statista.Infrastructure.Migrations
                 {
                     b.HasOne("Statista.Domain.Entities.User", "CreatedBy")
                         .WithMany()
-                        .HasForeignKey("CreatedById")
+                        .HasForeignKey("CreatedId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -276,11 +279,6 @@ namespace Statista.Infrastructure.Migrations
                     b.Navigation("ReportType");
 
                     b.Navigation("ReportedQuestion");
-                });
-
-            modelBuilder.Entity("Statista.Domain.Entities.Form", b =>
-                {
-                    b.Navigation("Questions");
                 });
 
             modelBuilder.Entity("Statista.Domain.Entities.ReportType", b =>

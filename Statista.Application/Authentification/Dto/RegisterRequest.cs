@@ -1,5 +1,5 @@
 
-namespace Statista.Contracts.Authentication;
+namespace Statista.Application.Authentication;
 
 public record RegisterRequest(
     string Username,

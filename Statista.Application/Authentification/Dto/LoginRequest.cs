@@ -1,4 +1,4 @@
-namespace Statista.Contracts.Authentication;
+namespace Statista.Application.Authentication;
 
 public record LoginRequest(
     string Email,

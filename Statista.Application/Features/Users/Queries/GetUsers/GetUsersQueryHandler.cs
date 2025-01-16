@@ -5,7 +5,7 @@ using Statista.Application.Users.Dto;
 
 namespace Statista.Application.Users.Queries.GetUsers;
 
-public class GetUsersQueryHandler : IRequestHandler<GetUsersQuery, IReadOnlyList<UserResponse>>
+public class GetUsersQueryHandler : IRequestHandler<GetUsersQuery, ICollection<UserResponse>>
 {
     private readonly IUserRepository _userRepository;
 
@@ -17,7 +17,7 @@ public class GetUsersQueryHandler : IRequestHandler<GetUsersQuery, IReadOnlyList
         _mapper = mapper;
     }
 
-    public async Task<IReadOnlyList<UserResponse>> Handle(GetUsersQuery request, CancellationToken cancellationToken)
+    public async Task<ICollection<UserResponse>> Handle(GetUsersQuery request, CancellationToken cancellationToken)
     {
         var users = _userRepository.GetUsers();
         var result = new List<UserResponse>();

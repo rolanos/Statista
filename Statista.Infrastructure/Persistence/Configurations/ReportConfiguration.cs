@@ -15,7 +15,7 @@ public class ReportConfigurations : IEntityTypeConfiguration<Report>
     {
         builder.ToTable("Report");
         builder.HasKey(x => x.Id);
-        builder.HasOne(x => x.ReportType).WithMany(x => x.Reports).HasForeignKey(x => x.ReportTypeId);
+        builder.HasOne(x => x.ReportType).WithMany().HasForeignKey(x => x.ReportTypeId);
         builder.HasOne(x => x.ReportedQuestion).WithMany();
         builder.HasOne(x => x.CreatedBy).WithMany().HasForeignKey(x => x.CreatedById);
     }

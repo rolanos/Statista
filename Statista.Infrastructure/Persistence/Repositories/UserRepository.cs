@@ -3,6 +3,8 @@ using Statista.Application.Common.Interfaces.Persistence;
 using Statista.Domain.Entities;
 using Statista.Infrastructure.Persistence;
 
+namespace Statista.Infrastructure.Persistence.Repositories;
+
 public class UserRepository : IUserRepository
 {
     private readonly PostgresDbContext _dbContext;
@@ -30,19 +32,19 @@ public class UserRepository : IUserRepository
         return null;
     }
 
-    public Task<User?> GetUserByEmail(string email)
+    public async Task<User?> GetUserByEmail(string email)
     {
-        return _dbContext.Users.SingleOrDefaultAsync(u => u.Email == email);
+        return await _dbContext.Users.SingleOrDefaultAsync(u => u.Email == email);
     }
 
-    public Task<User?> GetUserById(Guid id)
+    public async Task<User?> GetUserById(Guid id)
     {
-        return _dbContext.Users.SingleOrDefaultAsync(u => u.Id!.Equals(id));
+        return await _dbContext.Users.SingleOrDefaultAsync(u => u.Id!.Equals(id));
     }
 
-    public Task<User?> GetUserByUsername(string username)
+    public async Task<User?> GetUserByUsername(string username)
     {
-        return _dbContext.Users.SingleOrDefaultAsync(u => u.Username!.Equals(username));
+        return await _dbContext.Users.SingleOrDefaultAsync(u => u.Username!.Equals(username));
     }
 
     public IReadOnlyCollection<User?> GetUsers()

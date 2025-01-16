@@ -24,6 +24,7 @@ public class ReportController : BaseController
         var result = await mediator.Send(new GetReportByIdQuery(id));
         return Ok(result);
     }
+
     [HttpGet("/question/{question_id:guid}")]
     public async Task<IActionResult> GetReportsByQuestionId(Guid questionId)
     {

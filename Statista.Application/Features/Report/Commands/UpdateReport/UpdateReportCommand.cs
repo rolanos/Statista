@@ -2,7 +2,7 @@ using MediatR;
 
 namespace Statista.Application.Features.Report.Commands.UpdateReport;
 
-public record UpdateReportCommand : IRequest<ReportRequest>
+public record UpdateReportCommand : IRequest<ReportResponse>
 {
     public Guid Id { get; set; }
     public Guid ReportTypeId { get; set; }

@@ -14,16 +14,16 @@ public class UserController : BaseController
     [HttpGet]
     public async Task<IActionResult> GetUsers()
     {
-        var createUserResult = await mediator.Send(new GetUsersQuery());
+        var result = await mediator.Send(new GetUsersQuery());
         logger.LogInformation("GetUsers success");
-        return Ok(createUserResult);
+        return Ok(result);
     }
 
     [HttpGet("{id:guid}")]
     public async Task<IActionResult> GetUserById(Guid id)
     {
-        var createUserResult = await mediator.Send(new GetUserByIdQuery(id));
-        return Ok(createUserResult);
+        var result = await mediator.Send(new GetUserByIdQuery(id));
+        return Ok(result);
     }
 
     // [HttpGet("{email:alpha}")]
@@ -37,22 +37,22 @@ public class UserController : BaseController
     public async Task<IActionResult> CreateUser(CreateUserRequest request)
     {
         var command = mapper.Map<CreateUserCommand>(request);
-        var createUserResult = await mediator.Send(command);
-        return Ok(mapper.Map<UserResponse>(createUserResult));
+        var result = await mediator.Send(command);
+        return Ok(mapper.Map<UserResponse>(result));
     }
 
     [HttpDelete("{id:guid}")]
     public async Task<IActionResult> DeleteUser(Guid id)
     {
-        var createUserResult = await mediator.Send(new DeleteUserCommand(id));
-        return Ok(createUserResult);
+        var result = await mediator.Send(new DeleteUserCommand(id));
+        return Ok(result);
     }
 
     [HttpPut()]
     public async Task<IActionResult> UpdateUser(UpdateUserRequest request)
     {
         var command = mapper.Map<UpdateUserCommand>(request);
-        var updateUserResult = await mediator.Send(command);
-        return Ok(mapper.Map<UserResponse>(updateUserResult));
+        var result = await mediator.Send(command);
+        return Ok(mapper.Map<UserResponse>(result));
     }
 }

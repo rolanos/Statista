@@ -1,7 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Statista.Application.Common.Interfaces.Persistence;
 using Statista.Domain.Entities;
-using Statista.Infrastructure.Persistence;
 
 namespace Statista.Infrastructure.Persistence.Repositories;
 

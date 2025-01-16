@@ -5,7 +5,7 @@ using Statista.Application.Features.Report.Commands.UpdateReport;
 
 namespace Statista.Application.Features.Report.Commands.UpdateReport;
 
-public class UpdateReportCommandHandler : IRequestHandler<UpdateReportCommand, ReportRequest>
+public class UpdateReportCommandHandler : IRequestHandler<UpdateReportCommand, ReportResponse>
 {
     private readonly IReportRepository _reportRepository;
     private readonly IReportTypeRepository _reportTypeRepository;
@@ -27,7 +27,7 @@ public class UpdateReportCommandHandler : IRequestHandler<UpdateReportCommand, R
         _mapper = mapper;
     }
 
-    public async Task<ReportRequest> Handle(UpdateReportCommand request, CancellationToken cancellationToken)
+    public async Task<ReportResponse> Handle(UpdateReportCommand request, CancellationToken cancellationToken)
     {
         var report = await _reportRepository.GetReportById(request.Id);
         if (report is null)
@@ -65,6 +65,6 @@ public class UpdateReportCommandHandler : IRequestHandler<UpdateReportCommand, R
             CreatedBy = user,
         };
         var updatedReport = await _reportRepository.Update(newReport);
-        return _mapper.Map<ReportRequest>(updatedReport);
+        return _mapper.Map<ReportResponse>(updatedReport);
     }
 }

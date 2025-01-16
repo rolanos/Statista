@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Statista.Application.Common.Interfaces.Persistence;
 using Statista.Infrastructure.Authentithication;
 using Statista.Infrastructure.Persistence;
+using Statista.Infrastructure.Persistence.Repositories;
 
 public static class DependencyInjection
 {
@@ -23,6 +24,9 @@ public static class DependencyInjection
     public static IServiceCollection AddPersistence(this IServiceCollection services)
     {
         services.AddScoped<IUserRepository, UserRepository>();
+        services.AddScoped<IReportRepository, ReportRepository>();
+        services.AddScoped<IReportTypeRepository, ReportTypeRepository>();
+        services.AddScoped<IQuestionRepository, QuestionRepository>();
         return services;
     }
 

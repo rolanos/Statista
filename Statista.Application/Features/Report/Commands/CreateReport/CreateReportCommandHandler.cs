@@ -4,7 +4,7 @@ using Statista.Application.Common.Interfaces.Persistence;
 
 namespace Statista.Application.Features.Report.Commands.CreateReport;
 
-public class CreateReportCommandHandler : IRequestHandler<CreateReportCommand, ReportRequest>
+public class CreateReportCommandHandler : IRequestHandler<CreateReportCommand, ReportResponse>
 {
     private readonly IReportRepository _reportRepository;
     private readonly IReportTypeRepository _reportTypeRepository;
@@ -26,7 +26,7 @@ public class CreateReportCommandHandler : IRequestHandler<CreateReportCommand, R
         _mapper = mapper;
     }
 
-    public async Task<ReportRequest> Handle(CreateReportCommand request, CancellationToken cancellationToken)
+    public async Task<ReportResponse> Handle(CreateReportCommand request, CancellationToken cancellationToken)
     {
         var type = await _reportTypeRepository.GetReportTypeById(request.ReportTypeId);
         if (type is null)
@@ -55,6 +55,6 @@ public class CreateReportCommandHandler : IRequestHandler<CreateReportCommand, R
             CreatedBy = user,
         };
         var report = await _reportRepository.Add(newReport);
-        return _mapper.Map<ReportRequest>(report);
+        return _mapper.Map<ReportResponse>(report);
     }
 }

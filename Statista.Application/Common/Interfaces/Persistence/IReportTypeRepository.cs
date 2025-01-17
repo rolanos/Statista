@@ -8,4 +8,5 @@ public interface IReportTypeRepository
     Task<ICollection<ReportType>> GetReportTypes();
     Task<ReportType?> GetReportTypeById(Guid id);
     Task<ReportType?> Update(ReportType reportType);
+    bool HasData();
 }

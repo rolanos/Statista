@@ -32,6 +32,11 @@ public class ReportTypeRepository : IReportTypeRepository
         return await _dbContext.ReportTypes.ToListAsync();
     }
 
+    public bool HasData()
+    {
+        return _dbContext.ReportTypes.Any();
+    }
+
     public async Task<ReportType?> Update(ReportType reportType)
     {
         var oldElement = await GetReportTypeById(reportType.Id);

@@ -17,6 +17,7 @@ app.UseMiddleware<ErrorHandlingMiddleware>();
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
+app.AddSeeds().GetAwaiter().GetResult();
 
 if (app.Environment.IsDevelopment()) { }
 app.UseSwagger();

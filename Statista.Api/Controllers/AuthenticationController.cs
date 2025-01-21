@@ -7,7 +7,7 @@ using Statista.Application.Authentication;
 namespace Statista.Api.Controllers;
 
 [ApiController]
-[Route("")]
+[Route("api/")]
 public class AuthenticationController : ControllerBase
 {
     private readonly IMediator _mediator;

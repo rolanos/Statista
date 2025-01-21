@@ -26,6 +26,7 @@ if (app.Environment.IsDevelopment()) { }
 app.UseSwagger();
 app.UseSwaggerUI(c =>
 {
+    c.SwaggerEndpoint("/docs/swagger/v1/swagger.json", "My Cool API V1");
     c.RoutePrefix = "docs";
 });
 

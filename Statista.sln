@@ -11,23 +11,18 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Statista.Infrastructure", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Statista.Api", "Statista.Api\Statista.Api.csproj", "{52548A55-146D-44CF-80D1-D6B7F5840949}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Statista.Tests", "Statista.Tests\Statista.Tests.csproj", "{F49EFC53-5B29-4AE7-A035-3A63C439C300}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
-	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{62121BDF-9639-42D8-BAF7-908CB960AF3C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{62121BDF-9639-42D8-BAF7-908CB960AF3C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{62121BDF-9639-42D8-BAF7-908CB960AF3C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{62121BDF-9639-42D8-BAF7-908CB960AF3C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{0F67E3AB-82FF-4ECE-80ED-59AA6914E886}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0F67E3AB-82FF-4ECE-80ED-59AA6914E886}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{0F67E3AB-82FF-4ECE-80ED-59AA6914E886}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{0F67E3AB-82FF-4ECE-80ED-59AA6914E886}.Release|Any CPU.Build.0 = Release|Any CPU
 		{536B14CA-CD68-4209-8C45-6BA4BA09CC4A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{536B14CA-CD68-4209-8C45-6BA4BA09CC4A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{536B14CA-CD68-4209-8C45-6BA4BA09CC4A}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -40,5 +35,12 @@ Global
 		{52548A55-146D-44CF-80D1-D6B7F5840949}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{52548A55-146D-44CF-80D1-D6B7F5840949}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{52548A55-146D-44CF-80D1-D6B7F5840949}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F49EFC53-5B29-4AE7-A035-3A63C439C300}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F49EFC53-5B29-4AE7-A035-3A63C439C300}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F49EFC53-5B29-4AE7-A035-3A63C439C300}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F49EFC53-5B29-4AE7-A035-3A63C439C300}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
 	EndGlobalSection
 EndGlobal

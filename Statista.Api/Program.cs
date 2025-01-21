@@ -23,13 +23,7 @@ app.ApplyMigrations();
 app.AddSeeds().GetAwaiter().GetResult();
 
 if (app.Environment.IsDevelopment()) { }
-app.UseSwagger(c =>
-{
-    c.PreSerializeFilters.Add((swaggerDoc, httpReq) =>
-    {
-        c.RouteTemplate = "api/swagger/swagger.json";
-    });
-});
+app.UseSwagger();
 app.UseSwaggerUI();
 
 app.ApplyMigrations();

@@ -1,3 +1,4 @@
+using Microsoft.OpenApi.Models;
 using Statista.Infrastructure.Persistence;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -21,7 +22,14 @@ app.ApplyMigrations();
 app.AddSeeds().GetAwaiter().GetResult();
 
 if (app.Environment.IsDevelopment()) { }
-app.UseSwagger();
+var basePath = "/api";
+app.UseSwagger(c =>
+    {
+        c.PreSerializeFilters.Add((swaggerDoc, httpReq) =>
+        {
+            swaggerDoc.Servers = new List<OpenApiServer> { new OpenApiServer { Url = $"{httpReq.Scheme}://{httpReq.Host.Value}{basePath}" } };
+        });
+    });
 app.UseSwaggerUI();
 
 app.ApplyMigrations();

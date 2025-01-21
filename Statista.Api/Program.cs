@@ -24,7 +24,10 @@ app.AddSeeds().GetAwaiter().GetResult();
 
 if (app.Environment.IsDevelopment()) { }
 app.UseSwagger();
-app.UseSwaggerUI();
+app.UseSwaggerUI(c =>
+{
+    c.RoutePrefix = "docs";
+});
 
 app.ApplyMigrations();
 

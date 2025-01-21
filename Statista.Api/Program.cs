@@ -24,12 +24,7 @@ app.AddSeeds().GetAwaiter().GetResult();
 
 if (app.Environment.IsDevelopment()) { }
 app.UseSwagger();
-app.UseSwaggerUI(
-    c =>
-    {
-        c.RoutePrefix = "api";
-    }
-);
+app.UseSwaggerUI();
 
 app.ApplyMigrations();
 

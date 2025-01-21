@@ -15,7 +15,7 @@ public static class DependencyInjection
         var serviceProvider = services.BuildServiceProvider();
         var env = serviceProvider.GetService<IHostingEnvironment>();
         var connectionString = configuration.GetConnectionString("DbConnectionLocal");
-        if (env?.IsProduction() ?? false)
+        if (env?.IsProduction() ?? true)
         {
             connectionString = configuration.GetConnectionString("DbConnection");
         }

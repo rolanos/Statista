@@ -24,7 +24,7 @@ app.AddSeeds().GetAwaiter().GetResult();
 
 if (app.Environment.IsDevelopment()) { }
 app.UseSwagger();
-app.UseSwaggerUI();
+app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "App API V1"));
 
 app.ApplyMigrations();
 

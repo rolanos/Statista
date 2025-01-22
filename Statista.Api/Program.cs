@@ -23,15 +23,15 @@ app.ApplyMigrations();
 app.AddSeeds().GetAwaiter().GetResult();
 
 if (app.Environment.IsDevelopment()) { }
-app.UseSwagger();
+app.UseSwagger(options =>
+{
+    options.RouteTemplate = "/api/swagger/{documentName}/swagger.json";
+});
 
-app.UseSwaggerUI(c =>
-            {
-
-                //  c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
-                c.SwaggerEndpoint("v1/swagger.json", "Route");
-                //c.SwaggerEndpoint("swagger/v1/swagger.json", "My API V1");
-            });
+app.UseSwaggerUI(options =>
+{
+    options.RoutePrefix = "api";
+});
 
 app.ApplyMigrations();
 

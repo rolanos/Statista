@@ -8,7 +8,7 @@ using Statista.Application.Features.Report.Queries.GetReportsByQuestionId;
 namespace Statista.Api.Controllers;
 
 [ApiController]
-[Route("reports")]
+[Route("api/reports")]
 public class ReportController : BaseController
 {
     [HttpGet()]

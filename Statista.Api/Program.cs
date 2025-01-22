@@ -23,9 +23,6 @@ app.ApplyMigrations();
 app.AddSeeds().GetAwaiter().GetResult();
 
 if (app.Environment.IsDevelopment()) { }
-
-app.UsePathBase("/api");
-
 app.UseSwagger();
 
 app.UseSwaggerUI();

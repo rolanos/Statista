@@ -8,7 +8,7 @@ using Statista.Application.Features.ReportTypes.Query.GetReportTypesById;
 namespace Statista.Api.Controllers;
 
 [ApiController]
-[Route("report_types")]
+[Route("api/report_types")]
 public class ReportTypeController : BaseController
 {
     [HttpGet()]

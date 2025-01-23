@@ -8,7 +8,7 @@ using Statista.Application.Users.Queries.GetUsers;
 namespace Statista.Api.Controllers;
 
 [ApiController]
-[Route("api/users")]
+[Route("users")]
 public class UserController : BaseController
 {
     [HttpGet]

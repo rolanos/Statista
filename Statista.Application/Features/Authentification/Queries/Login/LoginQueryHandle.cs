@@ -38,7 +38,7 @@ public class LoginCommandHandler : IRequestHandler<LoginQuery, LoginResult>
             {
                 throw new Exception("Invalid password");
             }
-            var token = _jwtTokenGenerator.GenerateToken(user.Id, user.Name ?? "empty_name", user.Surname ?? "empty_surname");
+            var token = _jwtTokenGenerator.GenerateToken(user.Id);
             return new LoginResult(user!, token);
         }
         else

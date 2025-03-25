@@ -31,19 +31,21 @@ public class UserRepository : IUserRepository
         return null;
     }
 
+    public async Task<ICollection<Permission>> GetPermissions(Guid userId)
+    {
+        var user = await _dbContext.Users.SingleOrDefaultAsync(u => u.Id == userId);
+        return user?.Permissions ?? [];
+    }
+
     public async Task<User?> GetUserByEmail(string email)
     {
-        return await _dbContext.Users.SingleOrDefaultAsync(u => u.Email == email);
+        var a = await _dbContext.Users.SingleOrDefaultAsync(u => u.Email == email);
+        return a;
     }
 
     public async Task<User?> GetUserById(Guid id)
     {
         return await _dbContext.Users.SingleOrDefaultAsync(u => u.Id!.Equals(id));
-    }
-
-    public async Task<User?> GetUserByUsername(string username)
-    {
-        return await _dbContext.Users.SingleOrDefaultAsync(u => u.Username!.Equals(username));
     }
 
     public IReadOnlyCollection<User?> GetUsers()

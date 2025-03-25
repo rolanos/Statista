@@ -20,7 +20,6 @@ public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, User>
     {
         var newUser = new User(
             Guid.NewGuid(),
-            request.Nickname,
             request.Name,
             request.Surname,
             request.Email,

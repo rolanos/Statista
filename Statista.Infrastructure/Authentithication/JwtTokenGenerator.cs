@@ -15,13 +15,11 @@ public class JwtTokenGenerator : IJwtTokenGenerator
         _jwtSettings = jwtOptions.Value;
         _dateTimeProvider = dateTimeProvider;
     }
-    public string GenerateToken(Guid guid, string FirstName, string LastName)
+    public string GenerateToken(Guid guid)
     {
         var signingCredentials = new SigningCredentials(new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtSettings.Secret)), SecurityAlgorithms.HmacSha256);
         var claims = new[]{
             new Claim(JwtRegisteredClaimNames.Sub, guid.ToString()),
-            new Claim(JwtRegisteredClaimNames.GivenName, FirstName),
-            new Claim(JwtRegisteredClaimNames.FamilyName, LastName),
             new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
         };
 

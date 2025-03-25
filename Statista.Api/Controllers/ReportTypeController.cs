@@ -4,6 +4,8 @@ using Statista.Application.Features.ReportTypes.Commands.CreateReportType;
 using Statista.Application.Features.ReportTypes.Commands.UpdateReportType;
 using Statista.Application.Features.ReportTypes.Query.GetReportTypes;
 using Statista.Application.Features.ReportTypes.Query.GetReportTypesById;
+using Microsoft.AspNetCore.Authorization;
+using Statista.Domain.Constants;
 
 namespace Statista.Api.Controllers;
 
@@ -12,6 +14,7 @@ namespace Statista.Api.Controllers;
 public class ReportTypeController : BaseController
 {
     [HttpGet()]
+    [Authorize(Permissions.Read)]
     public async Task<IActionResult> GetReportTypes()
     {
         var result = await mediator.Send(new GetReportTypesQuery());

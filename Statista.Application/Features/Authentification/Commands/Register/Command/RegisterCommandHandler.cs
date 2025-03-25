@@ -19,27 +19,23 @@ public class RegisterCommandHandler : IRequestHandler<RegisterCommand, RegisterR
 
     public async Task<RegisterResult> Handle(RegisterCommand command, CancellationToken cancellationToken)
     {
-        if (_userRepository.GetUserByEmail(command.Email) is not null)
+        if ((await _userRepository.GetUserByEmail(command.Email)) is not null)
         {
             throw new Exception("User with this email already exists");
-        }
-        if (_userRepository.GetUserByUsername(command.Username) is not null)
-        {
-            throw new Exception("User with this Username already exists");
         }
 
         var user = new User(
             Guid.NewGuid(),
-            command.Username,
             command.FirstName,
             command.LastName,
             command.Email,
             command.CreatedDate,
             command.CreatedDate);
+
         var passwordHash = new PasswordHasher<User>().HashPassword(user, command.Password);
         user.PasswordHash = passwordHash;
         await _userRepository.Add(user);
-        var token = _jwtTokenGenerator.GenerateToken(user.Id, command.FirstName ?? command.Username, command.LastName ?? command.Email);
+        var token = _jwtTokenGenerator.GenerateToken(user.Id);
         return new RegisterResult(user, token);
     }
 }

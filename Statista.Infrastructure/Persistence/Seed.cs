@@ -35,6 +35,7 @@ public class DataSeeder
     public async Task Seed()
     {
         await InsertReportTypes();
+        await InsertPerissions();
     }
 
     private async Task InsertReportTypes()
@@ -45,6 +46,18 @@ public class DataSeeder
             foreach (var item in ReportTypeConstant.values)
             {
                 await _reportTypesRepository.Add(item);
+            }
+        }
+    }
+
+    private async Task InsertPerissions()
+    {
+        var _permissionsRepository = _services.GetRequiredService<IPermissionRepository>();
+        if (!_permissionsRepository.HasData())
+        {
+            foreach (var item in PermissionConstant.values)
+            {
+                await _permissionsRepository.Add(item);
             }
         }
     }

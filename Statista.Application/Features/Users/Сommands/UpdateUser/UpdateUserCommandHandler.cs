@@ -23,7 +23,6 @@ public class UpdateUserCommandHandler : IRequestHandler<UpdateUserCommand, User>
         {
             var updatedUser = new User(
             request.Id,
-            request.Nickname,
             request.Name,
             request.Surname,
             request.Email,

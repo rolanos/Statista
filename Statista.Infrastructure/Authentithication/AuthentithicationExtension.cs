@@ -3,6 +3,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using Statista.Domain.Constants;
+using Microsoft.AspNetCore.Authorization;
+
 
 namespace Statista.Infrastructure.Authentithication;
 
@@ -23,7 +26,12 @@ public static class AuthenticationExtension
                         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings.Secret))
                     };
                 });
-
+        services.AddSingleton<IAuthorizationHandler, PermissionRequirementsHandler>();
+        services.AddAuthorizationBuilder()
+            .AddPolicy(Permissions.Read, builder => builder.Requirements.Add(new PermissionRequirements(Permissions.Read)))
+            .AddPolicy(Permissions.Create, builder => builder.Requirements.Add(new PermissionRequirements(Permissions.Create)))
+            .AddPolicy(Permissions.Update, builder => builder.Requirements.Add(new PermissionRequirements(Permissions.Update)))
+            .AddPolicy(Permissions.Delete, builder => builder.Requirements.Add(new PermissionRequirements(Permissions.Delete)));
 
         return services;
     }

@@ -13,7 +13,6 @@ public class UserConfigurations : IEntityTypeConfiguration<User>
 
     private void ConfigureUserTable(EntityTypeBuilder<User> builder)
     {
-
         //Указываем таблицу для конфигурации
         builder.ToTable("User");
         //Указываем какой у нас ключ в таблице
@@ -25,10 +24,12 @@ public class UserConfigurations : IEntityTypeConfiguration<User>
 
         builder.Property(u => u.Surname).HasMaxLength(100);
 
-        builder.Property(u => u.Username).HasMaxLength(100);
-
         builder.Property(u => u.Email).HasMaxLength(100);
 
         builder.Property(u => u.PasswordHash);
+
+        builder.HasMany(u => u.Permissions)
+            .WithMany(p => p.Users)
+            .UsingEntity<UserPermission>(l => l.HasOne<Permission>().WithMany().HasForeignKey(e => e.PermissionId), r => r.HasOne<User>().WithMany().HasForeignKey(e => e.UserId));
     }
 }

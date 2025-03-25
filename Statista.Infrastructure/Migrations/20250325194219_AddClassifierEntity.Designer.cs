@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Statista.Infrastructure.Persistence;
@@ -11,9 +12,11 @@ using Statista.Infrastructure.Persistence;
 namespace Statista.Infrastructure.Migrations
 {
     [DbContext(typeof(PostgresDbContext))]
-    partial class PostgresDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250325194219_AddClassifierEntity")]
+    partial class AddClassifierEntity
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -40,28 +43,6 @@ namespace Statista.Infrastructure.Migrations
                     b.HasIndex("ParentId");
 
                     b.ToTable("Classifier", (string)null);
-                });
-
-            modelBuilder.Entity("EnumPosition", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid>("ClassifierId")
-                        .HasColumnType("uuid");
-
-                    b.Property<string>("ImageLink")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Text")
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ClassifierId");
-
-                    b.ToTable("EnumPosition", (string)null);
                 });
 
             modelBuilder.Entity("Permission", b =>
@@ -279,17 +260,6 @@ namespace Statista.Infrastructure.Migrations
                         .HasForeignKey("ParentId");
 
                     b.Navigation("Parent");
-                });
-
-            modelBuilder.Entity("EnumPosition", b =>
-                {
-                    b.HasOne("Classifier", "Classifier")
-                        .WithMany()
-                        .HasForeignKey("ClassifierId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Classifier");
                 });
 
             modelBuilder.Entity("Statista.Domain.Entities.Form", b =>

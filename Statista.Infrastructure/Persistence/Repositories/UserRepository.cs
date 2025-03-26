@@ -31,12 +31,6 @@ public class UserRepository : IUserRepository
         return null;
     }
 
-    public async Task<ICollection<Permission>> GetPermissions(Guid userId)
-    {
-        var user = await _dbContext.Users.SingleOrDefaultAsync(u => u.Id == userId);
-        return user?.Permissions ?? [];
-    }
-
     public async Task<User?> GetUserByEmail(string email)
     {
         var a = await _dbContext.Users.SingleOrDefaultAsync(u => u.Email == email);

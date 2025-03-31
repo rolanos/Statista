@@ -21,14 +21,15 @@ public class UpdateUserCommandHandler : IRequestHandler<UpdateUserCommand, User>
         var user = await _userRepository.GetUserById(request.Id);
         if (user is not null)
         {
-            var updatedUser = new User(
-            request.Id,
-            request.Nickname,
-            request.Name,
-            request.Surname,
-            request.Email,
-            user.CreatedDate,
-            DateTime.UtcNow);
+            var updatedUser = new User
+            {
+                Id = request.Id,
+                Name = request.Name,
+                Surname = request.Surname,
+                Email = request.Email,
+                CreatedDate = user.CreatedDate,
+                UpdatedDate = DateTime.UtcNow,
+            };
             updatedUser = await _userRepository.UpdateUser(updatedUser);
             if (updatedUser is null)
             {

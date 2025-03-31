@@ -21,7 +21,6 @@ public class AuthenticationController : ControllerBase
     public async Task<IActionResult> Register(RegisterRequest request)
     {
         var command = new RegisterCommand(
-            request.Username,
             request.FirstName,
             request.LastName,
             request.Email,

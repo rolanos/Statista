@@ -13,7 +13,6 @@ public class UserConfigurations : IEntityTypeConfiguration<User>
 
     private void ConfigureUserTable(EntityTypeBuilder<User> builder)
     {
-
         //Указываем таблицу для конфигурации
         builder.ToTable("User");
         //Указываем какой у нас ключ в таблице
@@ -24,8 +23,6 @@ public class UserConfigurations : IEntityTypeConfiguration<User>
         builder.Property(u => u.Name).HasMaxLength(100);
 
         builder.Property(u => u.Surname).HasMaxLength(100);
-
-        builder.Property(u => u.Username).HasMaxLength(100);
 
         builder.Property(u => u.Email).HasMaxLength(100);
 

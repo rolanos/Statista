@@ -14,7 +14,7 @@ public class UserRepository : IUserRepository
     }
     public async Task Add(User user)
     {
-        await _dbContext.AddAsync(user);
+        var a = await _dbContext.AddAsync(user);
 
         await _dbContext.SaveChangesAsync();
     }
@@ -39,11 +39,6 @@ public class UserRepository : IUserRepository
     public async Task<User?> GetUserById(Guid id)
     {
         return await _dbContext.Users.SingleOrDefaultAsync(u => u.Id!.Equals(id));
-    }
-
-    public async Task<User?> GetUserByUsername(string username)
-    {
-        return await _dbContext.Users.SingleOrDefaultAsync(u => u.Username!.Equals(username));
     }
 
     public IReadOnlyCollection<User?> GetUsers()

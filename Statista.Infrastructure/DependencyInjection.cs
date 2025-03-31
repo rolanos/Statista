@@ -31,9 +31,7 @@ public static class DependencyInjection
     public static IServiceCollection AddPersistence(this IServiceCollection services)
     {
         services.AddScoped<IUserRepository, UserRepository>();
-        services.AddScoped<IReportRepository, ReportRepository>();
-        services.AddScoped<IReportTypeRepository, ReportTypeRepository>();
-        services.AddScoped<IQuestionRepository, QuestionRepository>();
+        services.AddScoped<ISurveyRepository, SurveyRepository>();
         return services;
     }
 

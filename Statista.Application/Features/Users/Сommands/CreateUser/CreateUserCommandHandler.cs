@@ -18,14 +18,16 @@ public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, User>
 
     public async Task<User> Handle(CreateUserCommand request, CancellationToken cancellationToken)
     {
-        var newUser = new User(
-            Guid.NewGuid(),
-            request.Nickname,
-            request.Name,
-            request.Surname,
-            request.Email,
-            DateTime.UtcNow,
-            DateTime.UtcNow);
+        var newUser = new User
+        {
+            Id = Guid.NewGuid(),
+            Name = request.Name,
+            Surname = request.Surname,
+            Email = request.Email,
+            CreatedDate = DateTime.UtcNow,
+            UpdatedDate = DateTime.UtcNow,
+        };
+
         await _userRepository.Add(newUser);
         return newUser;
     }

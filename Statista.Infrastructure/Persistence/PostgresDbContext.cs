@@ -10,12 +10,11 @@ public class PostgresDbContext : DbContext
     }
 
     public DbSet<User> Users { get; set; } = null!;
-    public DbSet<Report> Reports { get; set; } = null!;
-    public DbSet<ReportType> ReportTypes { get; set; } = null!;
-    public DbSet<Question> Questions { get; set; } = null!;
-    public DbSet<QuestionCategory> QuestionCategories { get; set; } = null!;
-    public DbSet<QuestionType> QeustionTypes { get; set; } = null!;
+
+    public DbSet<Survey> Surveys { get; set; } = null!;
+
     public DbSet<Form> Forms { get; set; } = null!;
+
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

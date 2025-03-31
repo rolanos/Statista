@@ -22,6 +22,63 @@ namespace Statista.Infrastructure.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
+            modelBuilder.Entity("Classifier", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<Guid?>("ParentId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ParentId");
+
+                    b.ToTable("Classifier", (string)null);
+                });
+
+            modelBuilder.Entity("EnumPosition", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("ClassifierId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("ImageLink")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Text")
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ClassifierId");
+
+                    b.ToTable("EnumPosition", (string)null);
+                });
+
+            modelBuilder.Entity("Permission", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Permission", (string)null);
+                });
+
             modelBuilder.Entity("Statista.Domain.Entities.Form", b =>
                 {
                     b.Property<Guid>("Id")
@@ -195,14 +252,44 @@ namespace Statista.Infrastructure.Migrations
                     b.Property<DateTime>("UpdatedDate")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<string>("Username")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("character varying(100)");
-
                     b.HasKey("Id");
 
                     b.ToTable("User", (string)null);
+                });
+
+            modelBuilder.Entity("Statista.Domain.Entities.UserPermission", b =>
+                {
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("PermissionId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("UserId", "PermissionId");
+
+                    b.HasIndex("PermissionId");
+
+                    b.ToTable("UserPermission", (string)null);
+                });
+
+            modelBuilder.Entity("Classifier", b =>
+                {
+                    b.HasOne("Classifier", "Parent")
+                        .WithMany("Children")
+                        .HasForeignKey("ParentId");
+
+                    b.Navigation("Parent");
+                });
+
+            modelBuilder.Entity("EnumPosition", b =>
+                {
+                    b.HasOne("Classifier", "Classifier")
+                        .WithMany()
+                        .HasForeignKey("ClassifierId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Classifier");
                 });
 
             modelBuilder.Entity("Statista.Domain.Entities.Form", b =>
@@ -260,7 +347,7 @@ namespace Statista.Infrastructure.Migrations
                         .IsRequired();
 
                     b.HasOne("Statista.Domain.Entities.ReportType", "ReportType")
-                        .WithMany("Reports")
+                        .WithMany()
                         .HasForeignKey("ReportTypeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -278,14 +365,29 @@ namespace Statista.Infrastructure.Migrations
                     b.Navigation("ReportedQuestion");
                 });
 
+            modelBuilder.Entity("Statista.Domain.Entities.UserPermission", b =>
+                {
+                    b.HasOne("Permission", null)
+                        .WithMany()
+                        .HasForeignKey("PermissionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Statista.Domain.Entities.User", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Classifier", b =>
+                {
+                    b.Navigation("Children");
+                });
+
             modelBuilder.Entity("Statista.Domain.Entities.Form", b =>
                 {
                     b.Navigation("Questions");
-                });
-
-            modelBuilder.Entity("Statista.Domain.Entities.ReportType", b =>
-                {
-                    b.Navigation("Reports");
                 });
 #pragma warning restore 612, 618
         }

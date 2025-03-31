@@ -1,10 +1,10 @@
 using Statista.Domain.Entities;
 
-public class Survey
+namespace Statista.Application.Features.Surveys.Dto;
+
+public class SurveyResponse
 {
     public Guid Id { get; set; }
-    public Form? form { get; set; }
-    public List<Answer> answers { get; set; } = new();
     public Guid CreatedById { get; set; }
     public User CreatedBy { get; set; }
 }

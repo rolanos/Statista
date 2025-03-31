@@ -1,7 +1,5 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
-using Statista.Application.Common.Interfaces.Persistence;
-using Statista.Domain.Constants;
 
 namespace Statista.Infrastructure.Persistence;
 
@@ -34,31 +32,18 @@ public class DataSeeder
 
     public async Task Seed()
     {
-        await InsertReportTypes();
-        await InsertPerissions();
+        //await InsertPerissions();
     }
 
-    private async Task InsertReportTypes()
-    {
-        var _reportTypesRepository = _services.GetRequiredService<IReportTypeRepository>();
-        if (!_reportTypesRepository.HasData())
-        {
-            foreach (var item in ReportTypeConstant.values)
-            {
-                await _reportTypesRepository.Add(item);
-            }
-        }
-    }
-
-    private async Task InsertPerissions()
-    {
-        var _permissionsRepository = _services.GetRequiredService<IPermissionRepository>();
-        if (!_permissionsRepository.HasData())
-        {
-            foreach (var item in PermissionConstant.values)
-            {
-                await _permissionsRepository.Add(item);
-            }
-        }
-    }
+    // private async Task InsertPerissions()
+    // {
+    //     var _permissionsRepository = _services.GetRequiredService<IPermissionRepository>();
+    //     if (!_permissionsRepository.HasData())
+    //     {
+    //         foreach (var item in PermissionConstant.values)
+    //         {
+    //             await _permissionsRepository.Add(item);
+    //         }
+    //     }
+    // }
 }

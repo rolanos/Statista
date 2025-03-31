@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Statista.Application.Users.CreateUser;
 using Statista.Application.Users.Dto;
-using Statista.Application.Users.Queries.GetUserByEmail;
 using Statista.Application.Users.Queries.GetUserById;
 using Statista.Application.Users.Queries.GetUsers;
 

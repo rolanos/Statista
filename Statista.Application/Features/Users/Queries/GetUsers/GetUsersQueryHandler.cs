@@ -5,13 +5,13 @@ using Statista.Application.Users.Dto;
 
 namespace Statista.Application.Users.Queries.GetUsers;
 
-public class GetUsersQueryHandler : IRequestHandler<GetUsersQuery, ICollection<UserResponse>>
+public class GetSurveysQueryHandler : IRequestHandler<GetUsersQuery, ICollection<UserResponse>>
 {
     private readonly IUserRepository _userRepository;
 
     private readonly IMapper _mapper;
 
-    public GetUsersQueryHandler(IUserRepository userRepository, IMapper mapper)
+    public GetSurveysQueryHandler(IUserRepository userRepository, IMapper mapper)
     {
         _userRepository = userRepository;
         _mapper = mapper;

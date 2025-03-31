@@ -14,7 +14,7 @@ public class UserRepository : IUserRepository
     }
     public async Task Add(User user)
     {
-        await _dbContext.AddAsync(user);
+        var a = await _dbContext.AddAsync(user);
 
         await _dbContext.SaveChangesAsync();
     }
@@ -33,8 +33,7 @@ public class UserRepository : IUserRepository
 
     public async Task<User?> GetUserByEmail(string email)
     {
-        var a = await _dbContext.Users.SingleOrDefaultAsync(u => u.Email == email);
-        return a;
+        return await _dbContext.Users.SingleOrDefaultAsync(u => u.Email == email);
     }
 
     public async Task<User?> GetUserById(Guid id)

@@ -27,9 +27,5 @@ public class UserConfigurations : IEntityTypeConfiguration<User>
         builder.Property(u => u.Email).HasMaxLength(100);
 
         builder.Property(u => u.PasswordHash);
-
-        builder.HasMany(u => u.Permissions)
-            .WithMany(p => p.Users)
-            .UsingEntity<UserPermission>(l => l.HasOne<Permission>().WithMany().HasForeignKey(e => e.PermissionId), r => r.HasOne<User>().WithMany().HasForeignKey(e => e.UserId));
     }
 }

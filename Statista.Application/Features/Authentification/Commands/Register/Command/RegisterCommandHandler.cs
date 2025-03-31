@@ -24,13 +24,14 @@ public class RegisterCommandHandler : IRequestHandler<RegisterCommand, RegisterR
             throw new Exception("User with this email already exists");
         }
 
-        var user = new User(
-            Guid.NewGuid(),
-            command.FirstName,
-            command.LastName,
-            command.Email,
-            command.CreatedDate,
-            command.CreatedDate);
+        var user = new User
+        {
+            Id = Guid.NewGuid(),
+            Name = command.FirstName,
+            Email = command.Email,
+            CreatedDate = DateTime.UtcNow,
+            UpdatedDate = DateTime.UtcNow,
+        };
 
         var passwordHash = new PasswordHasher<User>().HashPassword(user, command.Password);
         user.PasswordHash = passwordHash;

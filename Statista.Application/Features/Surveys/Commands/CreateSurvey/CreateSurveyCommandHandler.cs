@@ -20,6 +20,7 @@ public class CreateSurveyCommandHandler : IRequestHandler<CreateSurveyCommand, S
         var survey = new Survey
         {
             Id = Guid.NewGuid(),
+            CreatedById = request.createdById,
         };
         var newSurvey = await _surveyRepository.CreateSurvey(survey);
         if (newSurvey is null)

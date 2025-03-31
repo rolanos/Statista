@@ -1,4 +1,3 @@
-using System.Xml.XPath;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.OpenApi.Models;
 using Statista.Infrastructure.Persistence;

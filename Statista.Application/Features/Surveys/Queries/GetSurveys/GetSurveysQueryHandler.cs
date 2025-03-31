@@ -19,7 +19,7 @@ public class GetSurveysQueryHandler : IRequestHandler<GetSurveysQuery, ICollecti
 
     public async Task<ICollection<SurveyResponse>> Handle(GetSurveysQuery request, CancellationToken cancellationToken)
     {
-        var surveys = await _surveyRepository.GetSurveys();
+        var surveys = await _surveyRepository.GetAllSurveys();
         var result = new List<SurveyResponse>();
         foreach (var survey in surveys)
         {

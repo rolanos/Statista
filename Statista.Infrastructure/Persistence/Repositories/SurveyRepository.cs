@@ -34,7 +34,7 @@ public class SurveyRepository : ISurveyRepository
         return null;
     }
 
-    public async Task<ICollection<Survey>> GetSurveys()
+    public async Task<ICollection<Survey>> GetAllSurveys()
     {
         return await _dbContext.Surveys.ToListAsync();
     }

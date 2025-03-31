@@ -5,6 +5,6 @@ namespace Statista.Application.Common.Interfaces.Persistence;
 public interface ISurveyRepository
 {
     Task<Survey?> CreateSurvey(Survey survey);
-    Task<ICollection<Survey>> GetSurveys();
+    Task<ICollection<Survey>> GetAllSurveys();
     Task<Survey?> DeleteById(Guid id);
 }

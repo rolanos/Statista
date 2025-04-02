@@ -22,4 +22,11 @@ public class FormController : BaseController
         var result = await mediator.Send(request);
         return Ok(mapper.Map<FormResponse>(result));
     }
+
+    [HttpDelete]
+    public async Task<IActionResult> DeleteForm(DeleteFormByIdCommand request)
+    {
+        var result = await mediator.Send(request);
+        return Ok(mapper.Map<FormResponse>(result));
+    }
 }

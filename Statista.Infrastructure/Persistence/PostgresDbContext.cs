@@ -19,6 +19,10 @@ public class PostgresDbContext : DbContext
 
     public DbSet<Question> Questions { get; set; } = null!;
 
+    public DbSet<AvailableAnswer> AvailableAnswers { get; set; } = null!;
+
+    public DbSet<Answer> Answers { get; set; } = null!;
+
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

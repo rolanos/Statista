@@ -15,6 +15,10 @@ public class PostgresDbContext : DbContext
 
     public DbSet<Form> Forms { get; set; } = null!;
 
+    public DbSet<Section> Sections { get; set; } = null!;
+
+    public DbSet<Question> Questions { get; set; } = null!;
+
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

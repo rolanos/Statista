@@ -33,6 +33,8 @@ public static class DependencyInjection
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<ISurveyRepository, SurveyRepository>();
         services.AddScoped<IFormRepository, FormRepository>();
+        services.AddScoped<ISectionRepository, SectionRepository>();
+        services.AddScoped<IQuestionRepository, QuestionRepository>();
         return services;
     }
 

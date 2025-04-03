@@ -9,7 +9,5 @@ public class QuestionResponse
     public Guid? TypeId { get; set; }
     public Guid FormId { get; set; }
     public Guid SectionId { get; set; }
-    public Guid CreatedById { get; set; }
-    public ICollection<AvailableAnswer> availableAnswers { get; set; } = new List<AvailableAnswer>();
     public DateTime CreatedDate { get; set; }
 }

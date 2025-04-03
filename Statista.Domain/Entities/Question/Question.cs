@@ -10,8 +10,6 @@ public class Question
     public Form Form { get; set; }
     public Guid SectionId { get; set; }
     public Section Section { get; set; }
-    public Guid CreatedById { get; set; }
-    public User CreatedBy { get; set; }
     public ICollection<AvailableAnswer> availableAnswers { get; set; } = new List<AvailableAnswer>();
     public DateTime CreatedDate { get; set; }
 }

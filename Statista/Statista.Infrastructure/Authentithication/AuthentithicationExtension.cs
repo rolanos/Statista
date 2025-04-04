@@ -24,6 +24,15 @@ public static class AuthenticationExtension
                         ValidateIssuerSigningKey = true,
                         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings.Secret))
                     };
+                    opt.Events = new JwtBearerEvents
+                    {
+                        OnMessageReceived = context =>
+                        {
+                            context.Token = context.Request.Cookies["cookies"];
+
+                            return Task.CompletedTask;
+                        }
+                    };
                 });
         // services.AddSingleton<IAuthorizationHandler, PermissionRequirementsHandler>();
         // services.AddAuthorizationBuilder()

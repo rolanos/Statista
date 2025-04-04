@@ -3,6 +3,7 @@ import 'package:statistika_mobile/features/home/home_screen.dart';
 
 import 'core/constants/constants.dart';
 import 'features/authorization/view/authorization_screen.dart';
+import 'features/form/view/forms_screen.dart';
 
 void main() {
   runApp(const MyApp());

@@ -14,7 +14,7 @@ class AppTheme {
   static ThemeData getTheme() {
     return ThemeData(
       brightness: Brightness.light,
-      scaffoldBackgroundColor: const Color(0xFFFFFFFF),
+      scaffoldBackgroundColor: const Color(0xFFF9FAFB),
       textTheme: const TextTheme(
         titleLarge: TextStyle(
           color: Color(0xFF171717),

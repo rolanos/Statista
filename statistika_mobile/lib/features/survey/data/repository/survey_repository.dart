@@ -1,0 +1,31 @@
+import 'dart:developer';
+
+import 'package:dio/dio.dart';
+import 'package:fpdart/fpdart.dart';
+import 'package:statistika_mobile/core/utils/shared_preferences_manager.dart';
+import 'package:statistika_mobile/features/survey/domain/model/survey.dart';
+
+import '../../../../core/constants/routes.dart';
+
+class SurveyRepository {
+  Future<Either<Exception, List<Survey>>> getSurveys() async {
+    try {
+      final list = <Survey>[];
+      final dio = Dio();
+      final result = await dio.post(
+        ApiRoutes.surveys,
+        options: Options(
+          headers: await SharedPreferencesManager.getTokenAsMap(),
+        ),
+      );
+      final data = result.data as List<Map<String, dynamic>>;
+      await for (final element in Stream.fromIterable(data)) {
+        list.add(Survey.fromJson(element));
+      }
+      return Either.right(list);
+    } on Exception catch (e) {
+      log(e.toString());
+      return Either.left(e);
+    }
+  }
+}

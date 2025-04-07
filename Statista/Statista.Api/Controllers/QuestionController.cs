@@ -6,7 +6,7 @@ using Statista.Application.Features.Questions.Queries.GetQuestionsBySectionId;
 namespace Statista.Api.Controllers;
 
 [ApiController]
-[Route("qustions")]
+[Route("questions")]
 public class QuestionController : BaseController
 {
     [HttpPost]

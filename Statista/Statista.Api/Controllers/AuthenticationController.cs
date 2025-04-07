@@ -39,7 +39,7 @@ public class AuthenticationController : ControllerBase
         var query = new LoginQuery(request.Email, request.Password);
         var authResult = await _mediator.Send(query);
 
-        HttpContext.Response.Cookies.Append("cookies", authResult.Token);
+        HttpContext.Response.Headers.Append("Authorization", "Bearer " + authResult.Token);
 
         return Ok(authResult);
     }

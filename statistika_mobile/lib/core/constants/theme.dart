@@ -15,6 +15,7 @@ class AppTheme {
     return ThemeData(
       brightness: Brightness.light,
       scaffoldBackgroundColor: const Color(0xFFF9FAFB),
+      indicatorColor: AppColors.black,
       textTheme: const TextTheme(
         titleLarge: TextStyle(
           color: Color(0xFF171717),
@@ -106,7 +107,7 @@ class AppTheme {
         ),
         hintStyle: TextStyle(
           color: Color(0xFFADAEBC),
-          fontSize: 16,
+          fontSize: 14,
         ),
       ),
       elevatedButtonTheme: ElevatedButtonThemeData(

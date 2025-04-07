@@ -33,10 +33,13 @@ public class AuthenticationController : ControllerBase
     }
 
     [HttpPost("login")]
-    public async Task<IActionResult> Login(LoginRequest request)
+    public async Task<IActionResult> Login(
+        LoginRequest request)
     {
         var query = new LoginQuery(request.Email, request.Password);
         var authResult = await _mediator.Send(query);
+
+        HttpContext.Response.Cookies.Append("cookies", authResult.Token);
 
         return Ok(authResult);
     }

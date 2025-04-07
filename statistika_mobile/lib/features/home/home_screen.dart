@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:statistika_mobile/features/form/view/forms_screen.dart';
 
 import '../../core/constants/constants.dart';
+import '../survey/view/survey_screen.dart' show SurveyScreen;
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -14,7 +15,7 @@ class _HomeScreenState extends State<HomeScreen> {
   int currentIndex = 0;
 
   final _children = [
-    const Placeholder(),
+    const SurveyScreen(),
     const FormsScreen(),
     const Placeholder(),
   ];

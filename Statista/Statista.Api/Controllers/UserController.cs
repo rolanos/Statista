@@ -25,21 +25,6 @@ public class UserController : BaseController
         return Ok(result);
     }
 
-    // [HttpGet("{email:alpha}")]
-    // public async Task<IActionResult> GetUserByEmail(string email)
-    // {
-    //     var createUserResult = await mediator.Send(new GetUserByEmailQuery(email));
-    //     return Ok(createUserResult);
-    // }
-
-    [HttpPost]
-    public async Task<IActionResult> CreateUser(CreateUserRequest request)
-    {
-        var command = mapper.Map<CreateUserCommand>(request);
-        var result = await mediator.Send(command);
-        return Ok(mapper.Map<UserResponse>(result));
-    }
-
     [HttpDelete("{id:guid}")]
     public async Task<IActionResult> DeleteUser(Guid id)
     {

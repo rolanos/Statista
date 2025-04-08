@@ -1,23 +1,31 @@
+using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Statista.Application.Common.Interfaces.Persistence;
+using Statista.Application.Users.Dto;
 using Statista.Domain.Entities;
 
 namespace Statista.Application.Authentification.Commands.Register;
 
-public class RegisterCommandHandler : IRequestHandler<RegisterCommand, RegisterResult>
+public class RegisterCommandHandler : IRequestHandler<RegisterCommand, LoginResponse>
 {
     private readonly IJwtTokenGenerator _jwtTokenGenerator;
 
     private readonly IUserRepository _userRepository;
 
-    public RegisterCommandHandler(IJwtTokenGenerator _jwtTokenGenerator, IUserRepository _userRepository)
+    private readonly IMapper _mapper;
+
+    public RegisterCommandHandler(
+        IJwtTokenGenerator jwtTokenGenerator,
+        IUserRepository userRepository,
+        IMapper mapper)
     {
-        this._jwtTokenGenerator = _jwtTokenGenerator;
-        this._userRepository = _userRepository;
+        _jwtTokenGenerator = jwtTokenGenerator;
+        _userRepository = userRepository;
+        _mapper = mapper;
     }
 
-    public async Task<RegisterResult> Handle(RegisterCommand command, CancellationToken cancellationToken)
+    public async Task<LoginResponse> Handle(RegisterCommand command, CancellationToken cancellationToken)
     {
         if ((await _userRepository.GetUserByEmail(command.Email)) is not null)
         {
@@ -27,7 +35,6 @@ public class RegisterCommandHandler : IRequestHandler<RegisterCommand, RegisterR
         var user = new User
         {
             Id = Guid.NewGuid(),
-            Name = command.FirstName,
             Email = command.Email,
             CreatedDate = DateTime.UtcNow,
             UpdatedDate = DateTime.UtcNow,
@@ -37,6 +44,6 @@ public class RegisterCommandHandler : IRequestHandler<RegisterCommand, RegisterR
         user.PasswordHash = passwordHash;
         await _userRepository.Add(user);
         var token = _jwtTokenGenerator.GenerateToken(user.Id);
-        return new RegisterResult(user, token);
+        return new LoginResponse(_mapper.Map<UserResponse>(user), token);
     }
 }

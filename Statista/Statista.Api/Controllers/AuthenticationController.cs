@@ -2,7 +2,6 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Statista.Application.Authentification.Commands.Register;
 using Statista.Application.Authentification.Queries.Login;
-using Statista.Application.Authentication;
 
 namespace Statista.Api.Controllers;
 
@@ -18,29 +17,21 @@ public class AuthenticationController : ControllerBase
     }
 
     [HttpPost("register")]
-    public async Task<IActionResult> Register(RegisterRequest request)
+    public async Task<IActionResult> Register(RegisterCommand request)
     {
-        var command = new RegisterCommand(
-            request.FirstName,
-            request.LastName,
-            request.Email,
-            request.Password,
-            DateTime.UtcNow);
 
-        var authResult = await _mediator.Send(command);
+        var authResult = await _mediator.Send(request);
 
-        return Ok(authResult);
+        return Ok(authResult.User);
     }
 
     [HttpPost("login")]
-    public async Task<IActionResult> Login(
-        LoginRequest request)
+    public async Task<IActionResult> Login(LoginQuery request)
     {
-        var query = new LoginQuery(request.Email, request.Password);
-        var authResult = await _mediator.Send(query);
+        var authResult = await _mediator.Send(request);
 
         HttpContext.Response.Headers.Append("Authorization", "Bearer " + authResult.Token);
 
-        return Ok(authResult);
+        return Ok(authResult.User);
     }
 }

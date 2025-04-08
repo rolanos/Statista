@@ -24,8 +24,6 @@ public class UpdateUserCommandHandler : IRequestHandler<UpdateUserCommand, User>
             var updatedUser = new User
             {
                 Id = request.Id,
-                Name = request.Name,
-                Surname = request.Surname,
                 Email = request.Email,
                 CreatedDate = user.CreatedDate,
                 UpdatedDate = DateTime.UtcNow,

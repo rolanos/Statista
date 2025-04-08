@@ -19,10 +19,6 @@ public class UserConfigurations : IEntityTypeConfiguration<User>
         builder.HasKey(u => u.Id);
         //Для свойства Id указываем, что оно не должно автоматически генерироваться
         builder.Property(u => u.Id).ValueGeneratedNever();
-        //Устанавливаем у свойств максимальную длину в 100 символов
-        builder.Property(u => u.Name).HasMaxLength(100);
-
-        builder.Property(u => u.Surname).HasMaxLength(100);
 
         builder.Property(u => u.Email).HasMaxLength(100);
 

@@ -1,24 +1,32 @@
+using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Statista.Application.Authentification.Queries.Login;
 using Statista.Application.Common.Interfaces.Persistence;
+using Statista.Application.Users.Dto;
 using Statista.Domain.Entities;
 
 namespace Statista.Application.Authentification.Commands.Login;
 
-public class LoginCommandHandler : IRequestHandler<LoginQuery, LoginResult>
+public class LoginQueryHandler : IRequestHandler<LoginQuery, LoginResponse>
 {
     private readonly IJwtTokenGenerator _jwtTokenGenerator;
 
     private readonly IUserRepository _userRepository;
 
-    public LoginCommandHandler(IJwtTokenGenerator _jwtTokenGenerator, IUserRepository _userRepository)
+    private readonly IMapper _mapper;
+
+    public LoginQueryHandler(
+        IJwtTokenGenerator jwtTokenGenerator,
+        IUserRepository userRepository,
+        IMapper mapper)
     {
-        this._jwtTokenGenerator = _jwtTokenGenerator;
-        this._userRepository = _userRepository;
+        _jwtTokenGenerator = jwtTokenGenerator;
+        _userRepository = userRepository;
+        _mapper = mapper;
     }
 
-    public async Task<LoginResult> Handle(LoginQuery query, CancellationToken cancellationToken)
+    public async Task<LoginResponse> Handle(LoginQuery query, CancellationToken cancellationToken)
     {
         var user = await _userRepository.GetUserByEmail(query.Email);
         if (user is null)
@@ -39,7 +47,7 @@ public class LoginCommandHandler : IRequestHandler<LoginQuery, LoginResult>
                 throw new Exception("Invalid password");
             }
             var token = _jwtTokenGenerator.GenerateToken(user.Id);
-            return new LoginResult(user!, token);
+            return new LoginResponse(_mapper.Map<UserResponse>(user!), token);
         }
         else
         {

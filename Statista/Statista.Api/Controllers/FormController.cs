@@ -10,9 +10,9 @@ namespace Statista.Api.Controllers;
 public class FormController : BaseController
 {
     [HttpGet]
-    public async Task<IActionResult> GetAllForms()
+    public async Task<IActionResult> GetAllForms([FromQuery] GetAllFormsQuery request)
     {
-        var result = await mediator.Send(new GetAllFormsQuery());
+        var result = await mediator.Send(request);
         return Ok(result);
     }
 

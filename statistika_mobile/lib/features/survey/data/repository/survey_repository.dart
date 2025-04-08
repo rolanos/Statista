@@ -12,13 +12,13 @@ class SurveyRepository {
     try {
       final list = <Survey>[];
       final dio = Dio();
-      final result = await dio.post(
+      final result = await dio.get(
         ApiRoutes.surveys,
         options: Options(
           headers: await SharedPreferencesManager.getTokenAsMap(),
         ),
       );
-      final data = result.data as List<Map<String, dynamic>>;
+      final data = result.data as List;
       await for (final element in Stream.fromIterable(data)) {
         list.add(Survey.fromJson(element));
       }

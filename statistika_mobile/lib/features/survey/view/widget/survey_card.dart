@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:statistika_mobile/core/constants/constants.dart';
+import 'package:statistika_mobile/core/constants/routes.dart';
 import 'package:statistika_mobile/features/survey/domain/model/survey.dart';
 
 class SurveyCard extends StatelessWidget {
@@ -12,30 +14,36 @@ class SurveyCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(AppConstants.mediumPadding),
-      decoration: BoxDecoration(
-        color: AppColors.white,
-        boxShadow: AppTheme.smallShadows,
-        borderRadius: BorderRadius.circular(
-          AppConstants.smallPadding,
-        ),
+    return GestureDetector(
+      onTap: () => context.goNamed(
+        NavigationRoutes.forms,
+        pathParameters: {'surveyId': survey.id},
       ),
-      child: const Column(
-        spacing: AppConstants.smallPadding,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              Spacer(),
-              Icon(
-                Icons.arrow_forward,
-              ),
-            ],
+      child: Container(
+        padding: const EdgeInsets.all(AppConstants.mediumPadding),
+        decoration: BoxDecoration(
+          color: AppColors.white,
+          boxShadow: AppTheme.smallShadows,
+          borderRadius: BorderRadius.circular(
+            AppConstants.smallPadding,
           ),
-          Text('Customer Experience Survey'),
-          Text('Share your feedback about our service quality'),
-        ],
+        ),
+        child: Column(
+          spacing: AppConstants.smallPadding,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                Spacer(),
+                Icon(
+                  Icons.arrow_forward,
+                ),
+              ],
+            ),
+            Text("Опрос"),
+            Text(survey.id),
+          ],
+        ),
       ),
     );
   }

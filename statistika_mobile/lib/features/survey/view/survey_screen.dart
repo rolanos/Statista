@@ -46,7 +46,7 @@ class _SurveyScreenState extends State<SurveyScreen> {
                   if (state is SurveyInitial) {
                     return ListView.separated(
                       shrinkWrap: true,
-                      itemCount: 10,
+                      itemCount: state.surveys.length,
                       padding: const EdgeInsets.symmetric(
                         horizontal: AppConstants.mediumPadding,
                         vertical: AppConstants.mediumPadding,

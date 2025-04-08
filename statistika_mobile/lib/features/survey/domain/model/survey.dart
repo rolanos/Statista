@@ -11,8 +11,8 @@ class Survey {
   });
 
   final String id;
-  final String createdById;
-  final String createdByName;
+  final String? createdById;
+  final String? createdByName;
 
   factory Survey.fromJson(Map<String, dynamic> json) => _$SurveyFromJson(json);
 

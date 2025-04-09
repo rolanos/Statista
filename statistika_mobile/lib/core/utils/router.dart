@@ -1,7 +1,12 @@
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:statistika_mobile/core/constants/routes.dart';
 import 'package:statistika_mobile/features/authorization/view/authorization_screen.dart';
+import 'package:statistika_mobile/features/form/view/cubit/fill_form_cubit.dart';
+import 'package:statistika_mobile/features/form/view/end_form_screen.dart';
+import 'package:statistika_mobile/features/form/view/fill_form_screen.dart';
 import 'package:statistika_mobile/features/form/view/forms_screen.dart';
+import 'package:statistika_mobile/features/form/view/welcome_form_screen.dart';
 import 'package:statistika_mobile/features/home/home_screen.dart';
 import 'package:statistika_mobile/features/survey/view/survey_screen.dart';
 
@@ -26,11 +31,31 @@ GoRouter get router {
                 builder: (context, state) => const SurveyScreen(),
                 routes: [
                   GoRoute(
-                    path: '/${NavigationRoutes.forms}/:surveyId',
+                    path: '/${NavigationRoutes.forms}',
                     name: NavigationRoutes.forms,
                     builder: (context, state) => FormsScreen(
-                      surveyId: state.pathParameters['surveyId'],
+                      surveyId: state.uri.queryParameters['surveyId'],
                     ),
+                    routes: [
+                      GoRoute(
+                        path: NavigationRoutes.welcomeForm,
+                        name: NavigationRoutes.welcomeForm,
+                        builder: (context, state) => const WelcomeFormScreen(),
+                      ),
+                      GoRoute(
+                        path: NavigationRoutes.fillForm,
+                        name: NavigationRoutes.fillForm,
+                        builder: (context, state) => BlocProvider.value(
+                          value: state.extra as FillFormCubit,
+                          child: const FillFormScreen(),
+                        ),
+                      ),
+                      GoRoute(
+                        path: NavigationRoutes.endForm,
+                        name: NavigationRoutes.endForm,
+                        builder: (context, state) => const EndFormScreen(),
+                      ),
+                    ],
                   ),
                 ],
               ),

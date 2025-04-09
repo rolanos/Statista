@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:statistika_mobile/core/utils/router.dart';
 import 'package:statistika_mobile/features/authorization/view/cubit/authorization_cubit.dart';
+import 'package:statistika_mobile/features/form/view/cubit/active_form_cubit.dart';
 import 'package:statistika_mobile/features/form/view/cubit/form_cubit.dart';
 import 'package:statistika_mobile/features/survey/view/cubit/survey_cubit.dart';
 
@@ -34,6 +35,9 @@ class _MyAppState extends State<MyApp> {
         ),
         BlocProvider(
           create: (context) => FormsCubit(),
+        ),
+        BlocProvider(
+          create: (context) => ActiveFormCubit(),
         ),
       ],
       child: MaterialApp.router(

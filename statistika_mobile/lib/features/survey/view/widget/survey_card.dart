@@ -17,7 +17,7 @@ class SurveyCard extends StatelessWidget {
     return GestureDetector(
       onTap: () => context.goNamed(
         NavigationRoutes.forms,
-        pathParameters: {'surveyId': survey.id},
+        queryParameters: {'surveyId': survey.id},
       ),
       child: Container(
         padding: const EdgeInsets.all(AppConstants.mediumPadding),

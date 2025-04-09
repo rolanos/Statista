@@ -38,12 +38,16 @@ public class UserRepository : IUserRepository
 
     public async Task<User?> GetUserById(Guid id)
     {
-        return await _dbContext.Users.SingleOrDefaultAsync(u => u.Id!.Equals(id));
+        return await _dbContext.Users.AsNoTracking()
+                                     .Include(u => u.UserInfo)
+                                     .SingleOrDefaultAsync(u => u.Id!.Equals(id));
     }
 
     public IReadOnlyCollection<User?> GetUsers()
     {
-        return _dbContext.Users.ToList().AsReadOnly();
+        return _dbContext.Users.AsNoTracking()
+                               .ToList()
+                               .AsReadOnly();
     }
 
     public async Task<User?> UpdateUser(User user)

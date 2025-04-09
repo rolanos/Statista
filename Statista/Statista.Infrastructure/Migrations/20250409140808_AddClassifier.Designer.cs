@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Statista.Infrastructure.Persistence;
@@ -11,9 +12,11 @@ using Statista.Infrastructure.Persistence;
 namespace Statista.Infrastructure.Migrations
 {
     [DbContext(typeof(PostgresDbContext))]
-    partial class PostgresDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250409140808_AddClassifier")]
+    partial class AddClassifier
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -233,35 +236,9 @@ namespace Statista.Infrastructure.Migrations
                     b.Property<DateTime>("UpdatedDate")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<Guid>("UserInfoId")
-                        .HasColumnType("uuid");
-
                     b.HasKey("Id");
 
                     b.ToTable("User", (string)null);
-                });
-
-            modelBuilder.Entity("Statista.Domain.Entities.UserInfo", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<DateTime?>("Birthday")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<bool?>("IsMan")
-                        .HasColumnType("boolean");
-
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uuid");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserId")
-                        .IsUnique();
-
-                    b.ToTable("UserInfo");
                 });
 
             modelBuilder.Entity("Survey", b =>
@@ -420,17 +397,6 @@ namespace Statista.Infrastructure.Migrations
                     b.Navigation("ParentSecton");
                 });
 
-            modelBuilder.Entity("Statista.Domain.Entities.UserInfo", b =>
-                {
-                    b.HasOne("Statista.Domain.Entities.User", "User")
-                        .WithOne("UserInfo")
-                        .HasForeignKey("Statista.Domain.Entities.UserInfo", "UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("Survey", b =>
                 {
                     b.HasOne("Statista.Domain.Entities.User", "CreatedBy")
@@ -462,12 +428,6 @@ namespace Statista.Infrastructure.Migrations
                     b.Navigation("ChildrenSections");
 
                     b.Navigation("Questions");
-                });
-
-            modelBuilder.Entity("Statista.Domain.Entities.User", b =>
-                {
-                    b.Navigation("UserInfo")
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("Survey", b =>

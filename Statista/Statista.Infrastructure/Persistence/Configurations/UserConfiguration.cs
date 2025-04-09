@@ -20,6 +20,8 @@ public class UserConfigurations : IEntityTypeConfiguration<User>
         //Для свойства Id указываем, что оно не должно автоматически генерироваться
         builder.Property(u => u.Id).ValueGeneratedNever();
 
+        builder.HasOne(u => u.UserInfo).WithOne(i => i.User).HasForeignKey<UserInfo>(i => i.UserId);
+
         builder.Property(u => u.Email).HasMaxLength(100);
 
         builder.Property(u => u.PasswordHash);

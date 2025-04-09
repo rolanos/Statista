@@ -9,12 +9,14 @@ import '../../../../core/utils/shared_preferences_manager.dart';
 
 class FormRepository {
   Future<Either<Exception, List<Form>>> getFormsBySurveyId(
-      String surveyId) async {
+    String surveyId,
+  ) async {
     try {
       final list = <Form>[];
       final dio = Dio();
       final result = await dio.get(
         ApiRoutes.forms,
+        queryParameters: {'surveyId': surveyId},
         options: Options(
           headers: await SharedPreferencesManager.getTokenAsMap(),
         ),

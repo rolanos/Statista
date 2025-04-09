@@ -59,14 +59,16 @@ class _FormsScreenState extends State<FormsScreen> {
                   if (state is FormsInitial) {
                     return ListView.separated(
                       shrinkWrap: true,
-                      itemCount: 10,
+                      itemCount: state.forms.length,
                       padding: const EdgeInsets.symmetric(
                         horizontal: AppConstants.mediumPadding,
                         vertical: AppConstants.mediumPadding,
                       ),
                       separatorBuilder: (context, index) =>
                           const SizedBox(height: AppConstants.mediumPadding),
-                      itemBuilder: (context, index) => const FormCard(),
+                      itemBuilder: (context, index) => FormCard(
+                        form: state.forms[index],
+                      ),
                     );
                   }
                   return const SizedBox();

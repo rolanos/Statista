@@ -1,8 +1,16 @@
 import 'package:flutter/material.dart';
+
 import 'package:statistika_mobile/core/constants/constants.dart';
 
+import '../../domain/model/form.dart' as f;
+
 class FormCard extends StatelessWidget {
-  const FormCard({super.key});
+  const FormCard({
+    super.key,
+    required this.form,
+  });
+
+  final f.Form form;
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +23,7 @@ class FormCard extends StatelessWidget {
           AppConstants.smallPadding,
         ),
       ),
-      child: const Column(
+      child: Column(
         spacing: AppConstants.smallPadding,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -27,8 +35,8 @@ class FormCard extends StatelessWidget {
               ),
             ],
           ),
-          Text('Customer Experience Survey'),
-          Text('Share your feedback about our service quality'),
+          Text(form.id),
+          Text(form.name),
         ],
       ),
     );

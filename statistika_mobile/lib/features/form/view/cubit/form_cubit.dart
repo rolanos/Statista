@@ -1,6 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta/meta.dart';
-import 'package:statistika_mobile/features/form/domain/model/form_repository.dart';
+import 'package:statistika_mobile/features/form/data/repository/form_repository.dart';
 
 import '../../domain/model/form.dart';
 

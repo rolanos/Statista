@@ -13,15 +13,19 @@ public class RegisterCommandHandler : IRequestHandler<RegisterCommand, LoginResp
 
     private readonly IUserRepository _userRepository;
 
+    private readonly IUserInfoRepository _userInfoRepository;
+
     private readonly IMapper _mapper;
 
     public RegisterCommandHandler(
         IJwtTokenGenerator jwtTokenGenerator,
         IUserRepository userRepository,
+        IUserInfoRepository userInfoRepository,
         IMapper mapper)
     {
         _jwtTokenGenerator = jwtTokenGenerator;
         _userRepository = userRepository;
+        _userInfoRepository = userInfoRepository;
         _mapper = mapper;
     }
 
@@ -32,10 +36,14 @@ public class RegisterCommandHandler : IRequestHandler<RegisterCommand, LoginResp
             throw new Exception("User with this email already exists");
         }
 
+        var userId = Guid.NewGuid();
+        var userInfoId = Guid.NewGuid();
+
         var user = new User
         {
-            Id = Guid.NewGuid(),
+            Id = userId,
             Email = command.Email,
+            UserInfoId = userInfoId,
             CreatedDate = DateTime.UtcNow,
             UpdatedDate = DateTime.UtcNow,
         };
@@ -43,7 +51,16 @@ public class RegisterCommandHandler : IRequestHandler<RegisterCommand, LoginResp
         var passwordHash = new PasswordHasher<User>().HashPassword(user, command.Password);
         user.PasswordHash = passwordHash;
         await _userRepository.Add(user);
+
+        var userInfo = new UserInfo
+        {
+            Id = Guid.NewGuid(),
+            UserId = user.Id,
+        };
+        await _userInfoRepository.CreateUserInfo(userInfo);
+
+        var createdUser = await _userRepository.GetUserById(user.Id);
         var token = _jwtTokenGenerator.GenerateToken(user.Id);
-        return new LoginResponse(_mapper.Map<UserResponse>(user), token);
+        return new LoginResponse(_mapper.Map<UserResponse>(createdUser), token);
     }
 }

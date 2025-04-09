@@ -29,6 +29,7 @@ public class PostgresDbContext : DbContext
 
     public DbSet<Classifier> Classifiers { get; set; } = null!;
 
+    public DbSet<UserInfo> UserInfo { get; set; } = null!;
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

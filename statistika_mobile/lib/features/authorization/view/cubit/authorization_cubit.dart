@@ -13,6 +13,13 @@ class AuthorizationCubit extends Cubit<AuthorizationState> {
 
     emit(AuthorizationLoading());
 
+    if (email.isEmpty) {
+      email = 'ivankson@gmail.com';
+    }
+    if (password.isEmpty) {
+      password = '123123';
+    }
+
     final result =
         await AuthorizationRepository().login(email.trim(), password.trim());
 

@@ -26,14 +26,14 @@ class AuthorizationRepository {
         }
       }
       final data = result.data as Map<String, dynamic>;
-      if (data.containsKey('user')) {
-        return Either.right(User.fromJson(data['user']));
-      } else {
-        throw Exception('Ошибка, попробуйте позже');
-      }
-    } on Exception catch (e) {
+
+      return Either.right(User.fromJson(data));
+    } on DioException catch (e) {
       log(e.toString());
       return Either.left(e);
+    } catch (e) {
+      log(e.toString());
+      return Either.left(Exception("Что-то пошло не так, попробуйте позже"));
     }
   }
 }

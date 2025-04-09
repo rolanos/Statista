@@ -12,3 +12,13 @@ abstract class ApiRoutes {
 
   static const questions = '$baseUrl/questions';
 }
+
+abstract class NavigationRoutes {
+  static const auth = 'auth';
+  static const surveys = 'surveys';
+  static const forms = 'forms';
+
+  static const welcomeForm = 'welcome_form';
+  static const fillForm = 'fill_form';
+  static const endForm = 'end_form';
+}

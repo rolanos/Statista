@@ -1,18 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:statistika_mobile/core/utils/router.dart';
 import 'package:statistika_mobile/features/authorization/view/cubit/authorization_cubit.dart';
-import 'package:statistika_mobile/features/home/home_screen.dart';
+import 'package:statistika_mobile/features/form/view/cubit/active_form_cubit.dart';
+import 'package:statistika_mobile/features/form/view/cubit/form_cubit.dart';
 import 'package:statistika_mobile/features/survey/view/cubit/survey_cubit.dart';
 
 import 'core/constants/constants.dart';
-import 'features/authorization/view/authorization_screen.dart';
 
 void main() {
   runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  final _router = router;
 
   // This widget is the root of your application.
   @override
@@ -25,15 +33,17 @@ class MyApp extends StatelessWidget {
         BlocProvider(
           create: (context) => SurveyCubit(),
         ),
+        BlocProvider(
+          create: (context) => FormsCubit(),
+        ),
+        BlocProvider(
+          create: (context) => ActiveFormCubit(),
+        ),
       ],
-      child: MaterialApp(
+      child: MaterialApp.router(
         debugShowCheckedModeBanner: false,
         theme: AppTheme.getTheme(),
-        initialRoute: '/auth',
-        routes: {
-          '/auth': (context) => const AuthorizationScreen(),
-          '/home': (context) => const HomeScreen(),
-        },
+        routerConfig: _router,
       ),
     );
   }

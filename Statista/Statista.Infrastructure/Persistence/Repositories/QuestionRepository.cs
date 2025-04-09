@@ -25,6 +25,7 @@ public class QuestionRepository : IQuestionRepository
     public async Task<ICollection<Question>> GetQuestionsBySectionId(Guid sectionId)
     {
         return await _dbContext.Questions.AsNoTracking()
+                                        .Include(q => q.AvailableAnswers)
                                         .Where(u => u.SectionId == sectionId).ToListAsync();
     }
 

@@ -8,6 +8,7 @@ internal sealed class AutoMapperProfile : Profile
 {
     public AutoMapperProfile()
     {
-        CreateMap<Question, QuestionResponse>().ReverseMap();
+        CreateMap<Question, QuestionResponse>().ReverseMap()
+             .ForMember(dest => dest.AvailableAnswers, opt => opt.MapFrom(src => src.AvailableAnswers));
     }
 }

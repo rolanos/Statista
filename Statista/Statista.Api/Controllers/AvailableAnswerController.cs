@@ -17,7 +17,7 @@ public class AvaliableAnswerController : BaseController
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetSectionsByFormId([FromQuery] GetSectionsByFormIdQuery request)
+    public async Task<IActionResult> GetSectionsByFormId([FromQuery] GetAvailableAnswersByQuestionIdQuery request)
     {
         var result = await mediator.Send(request);
         return Ok(result);

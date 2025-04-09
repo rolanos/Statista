@@ -8,7 +8,7 @@ public class Section
     public Form Form { get; set; }
     public Guid? ParentSection;
     public Section? ParentSecton { get; set; }
-    public ICollection<Section> childrenSections { get; set; } = new List<Section>();
-    public ICollection<Question> questions { get; set; }
-    public int? order { get; set; }
+    public ICollection<Section> ChildrenSections { get; set; } = new List<Section>();
+    public ICollection<Question> Questions { get; set; }
+    public int? Order { get; set; }
 }

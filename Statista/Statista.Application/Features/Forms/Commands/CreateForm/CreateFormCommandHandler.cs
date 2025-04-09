@@ -33,7 +33,7 @@ public class CreateFormCommandHandler : IRequestHandler<CreateFormCommand, Form>
             Id = Guid.NewGuid(),
             Title = "Пустой заголовок",
             FormId = formId,
-            order = 1,
+            Order = 1,
         };
 
         var newSurvey = await _formRepository.CreateForm(survey);

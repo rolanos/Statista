@@ -20,9 +20,27 @@ final class FillFormInitial extends FillFormState {
     required this.sections,
     required this.currentSection,
     required this.currentQuestion,
+    this.answers = const [],
   });
 
   final List<Section> sections;
+
   final Section currentSection;
   final Question currentQuestion;
+
+  final List<CreateAnswerRequest> answers;
+
+  FillFormInitial copyWith({
+    List<Section>? sections,
+    Section? currentSection,
+    Question? currentQuestion,
+    List<CreateAnswerRequest>? answers,
+  }) {
+    return FillFormInitial(
+      sections: sections ?? this.sections,
+      currentSection: currentSection ?? this.currentSection,
+      currentQuestion: currentQuestion ?? this.currentQuestion,
+      answers: answers ?? this.answers,
+    );
+  }
 }

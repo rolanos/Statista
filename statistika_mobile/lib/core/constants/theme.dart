@@ -23,7 +23,7 @@ class AppTheme {
         ),
         bodyLarge: TextStyle(
           color: Color(0xFF404040),
-          fontSize: 24,
+          fontSize: 18,
         ),
         bodyMedium: TextStyle(
           color: Color(0xFF404040),

@@ -6,5 +6,5 @@ namespace Statista.Application.Features.Forms.Commands.CreateForm;
 
 public record CreateQuestionCommand(
     string Title,
-    Guid FormId,
+    Guid TypeId,
     Guid SectionId) : IRequest<Question>;

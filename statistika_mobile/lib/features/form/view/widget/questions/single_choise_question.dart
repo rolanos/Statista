@@ -8,12 +8,15 @@ class SingleChoiseQuestion extends StatefulWidget {
   const SingleChoiseQuestion({
     super.key,
     required this.question,
+    required this.onSelected,
     this.availableAnswer,
   });
 
   final Question question;
 
   final AvailableAnswer? availableAnswer;
+
+  final Function(AvailableAnswer?) onSelected;
 
   @override
   State<SingleChoiseQuestion> createState() => _SingleChoiseQuestionState();
@@ -74,7 +77,10 @@ class _SingleChoiseQuestionState extends State<SingleChoiseQuestion> {
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              onChanged: (value) => setState(() => availableAnswer = value),
+              onChanged: (value) {
+                widget.onSelected(value);
+                setState(() => availableAnswer = value);
+              },
             ),
           ),
         ),

@@ -1,6 +1,8 @@
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 import 'package:statistika_mobile/features/form/data/model/create_answer_request.dart';
+import 'package:statistika_mobile/features/form/data/model/create_answers_to_form_request.dart';
+import 'package:statistika_mobile/features/form/data/repository/answer_repository.dart';
 import 'package:statistika_mobile/features/form/data/repository/section_repository.dart';
 import 'package:statistika_mobile/features/form/domain/model/available_answer.dart';
 import 'package:statistika_mobile/features/form/domain/model/question.dart';
@@ -20,7 +22,11 @@ class FillFormCubit extends Cubit<FillFormState> {
     final sections = await SectionRepository().getSections(formId);
     sections.match(
       (e) => emit(FillFormError(message: e.toString())),
-      (list) {
+      (list) async {
+        var countQuestions = 0;
+        await for (var section in Stream.fromIterable(list)) {
+          countQuestions += section.questions.length;
+        }
         if (list.isEmpty) {
           emit(FillFormError(message: 'Ошибка, анкета пуста'));
           return;
@@ -28,9 +34,12 @@ class FillFormCubit extends Cubit<FillFormState> {
         if (list.first.questions.isNotEmpty) {
           emit(
             FillFormInitial(
+              formId: formId,
               sections: list,
               currentSection: list.first,
               currentQuestion: list.first.questions.first,
+              countQuestions: countQuestions,
+              currentQuestionIndex: 0,
             ),
           );
         } else {
@@ -40,10 +49,10 @@ class FillFormCubit extends Cubit<FillFormState> {
     );
   }
 
-  void nextQuestion(CreateAnswerRequest answer) {
+  ///Следующий вопрос
+  void nextQuestion() {
     final state = this.state;
     if (state is FillFormInitial) {
-      updateAnswer(answer);
       final currentIndex = state.currentSection.questions
           .indexWhere((q) => q.id == state.currentQuestion.id);
       if (currentIndex != -1 &&
@@ -51,12 +60,14 @@ class FillFormCubit extends Cubit<FillFormState> {
         emit(
           state.copyWith(
             currentQuestion: state.currentSection.questions[currentIndex + 1],
+            currentQuestionIndex: state.currentQuestionIndex + 1,
           ),
         );
       }
     }
   }
 
+  ///Прошлый вопрос
   void pastQuestion() {
     final state = this.state;
     if (state is FillFormInitial) {
@@ -66,27 +77,14 @@ class FillFormCubit extends Cubit<FillFormState> {
         emit(
           state.copyWith(
             currentQuestion: state.currentSection.questions[currentIndex - 1],
+            currentQuestionIndex: state.currentQuestionIndex - 1,
           ),
         );
       }
     }
   }
 
-  void updateAnswer(CreateAnswerRequest answer) {
-    final state = this.state;
-    if (state is FillFormInitial) {
-      final answersCopy = List<CreateAnswerRequest>.from(state.answers);
-      for (var value in answersCopy) {
-        if (answer.questionId == value.questionId) {
-          answersCopy.removeWhere((a) => answer.questionId == value.questionId);
-          answersCopy.add(answer);
-          emit(state.copyWith(answers: answersCopy));
-          break;
-        }
-      }
-    }
-  }
-
+  ///Получить сделанный ответ синхронно
   AvailableAnswer? getAnswer(Question question) {
     final state = this.state;
     if (state is FillFormInitial) {
@@ -101,6 +99,42 @@ class FillFormCubit extends Cubit<FillFormState> {
           }
         }
       }
+    }
+    return null;
+  }
+
+  ///Обновляем если поменялся ответ
+  void updateAnswer(CreateAnswerRequest answer) {
+    final state = this.state;
+    if (state is FillFormInitial) {
+      final answersCopy = List<CreateAnswerRequest>.from(state.answers);
+      for (var value in answersCopy) {
+        if (answer.questionId == value.questionId) {
+          answersCopy.removeWhere((a) => answer.questionId == value.questionId);
+          answersCopy.add(answer);
+          break;
+        }
+      }
+      answersCopy.add(answer);
+      emit(state.copyWith(answers: answersCopy));
+    }
+  }
+
+  //Отправляем форму
+  Future<void> sendForm() async {
+    final state = this.state;
+    if (state is FillFormInitial) {
+      final request = CreateAnswersToFormRequest(
+        formId: state.formId,
+        answers: state.answers,
+      );
+      final result = await AnswerRepository().sendFormAnswers(request);
+      result.match(
+        (e) {},
+        (str) => emit(
+          FillFormSended(),
+        ),
+      );
     }
   }
 }

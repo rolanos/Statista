@@ -3,6 +3,7 @@ abstract class ApiRoutes {
 
   static const register = '$baseUrl/auth/register';
   static const login = '$baseUrl/auth/login';
+  static const userInfo = '$baseUrl/user_info';
 
   static const surveys = '$baseUrl/surveys';
 
@@ -15,6 +16,9 @@ abstract class ApiRoutes {
 
 abstract class NavigationRoutes {
   static const auth = 'auth';
+
+  static const generalQuestions = 'general_questions';
+
   static const surveys = 'surveys';
   static const forms = 'forms';
 

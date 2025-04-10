@@ -5,6 +5,7 @@ import 'package:statistika_mobile/core/constants/app_constants.dart';
 import 'package:statistika_mobile/core/constants/routes.dart';
 import 'package:statistika_mobile/core/utils/extensions.dart';
 import 'package:statistika_mobile/features/authorization/view/cubit/authorization_cubit.dart';
+import 'package:statistika_mobile/features/authorization/view/cubit/user_profile_cubit.dart';
 
 class AuthorizationScreen extends StatefulWidget {
   const AuthorizationScreen({super.key});
@@ -23,7 +24,8 @@ class _AuthorizationScreenState extends State<AuthorizationScreen> {
     return BlocListener<AuthorizationCubit, AuthorizationState>(
       listener: (context, state) {
         if (state is AuthorizationInited) {
-          context.goNamed(NavigationRoutes.surveys);
+          context.read<UserProfileCubit>().init(state.user);
+          context.goNamed(NavigationRoutes.generalQuestions);
         }
       },
       child: Scaffold(

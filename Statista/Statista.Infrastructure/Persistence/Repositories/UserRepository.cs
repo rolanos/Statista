@@ -33,7 +33,9 @@ public class UserRepository : IUserRepository
 
     public async Task<User?> GetUserByEmail(string email)
     {
-        return await _dbContext.Users.SingleOrDefaultAsync(u => u.Email == email);
+        return await _dbContext.Users.AsNoTracking()
+                                     .Include(u => u.UserInfo)
+                                     .SingleOrDefaultAsync(u => u.Email == email);
     }
 
     public async Task<User?> GetUserById(Guid id)

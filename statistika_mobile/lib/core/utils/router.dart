@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:statistika_mobile/core/constants/routes.dart';
@@ -24,6 +25,15 @@ GoRouter get router {
         builder: (context, state, navigationShell) =>
             HomeScreen(navigationShell: navigationShell),
         branches: [
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
+                path: '/${NavigationRoutes.generalQuestions}',
+                name: NavigationRoutes.generalQuestions,
+                builder: (context, state) => const Placeholder(),
+              ),
+            ],
+          ),
           StatefulShellBranch(
             routes: [
               GoRoute(

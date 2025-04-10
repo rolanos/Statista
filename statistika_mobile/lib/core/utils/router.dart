@@ -2,6 +2,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:statistika_mobile/core/constants/routes.dart';
 import 'package:statistika_mobile/features/authorization/view/authorization_screen.dart';
+import 'package:statistika_mobile/features/authorization/view/profile_screen.dart';
 import 'package:statistika_mobile/features/form/view/cubit/fill_form_cubit.dart';
 import 'package:statistika_mobile/features/form/view/end_form_screen.dart';
 import 'package:statistika_mobile/features/form/view/fill_form_screen.dart';
@@ -58,6 +59,15 @@ GoRouter get router {
                     ],
                   ),
                 ],
+              ),
+            ],
+          ),
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
+                path: '/${NavigationRoutes.profile}',
+                name: NavigationRoutes.profile,
+                builder: (context, state) => const ProfileScreen(),
               ),
             ],
           ),

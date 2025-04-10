@@ -21,4 +21,6 @@ abstract class NavigationRoutes {
   static const welcomeForm = 'welcome_form';
   static const fillForm = 'fill_form';
   static const endForm = 'end_form';
+
+  static const profile = 'profile';
 }

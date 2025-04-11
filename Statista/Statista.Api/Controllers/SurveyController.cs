@@ -16,11 +16,4 @@ public class SurveyController : BaseController
         var result = await mediator.Send(new GetSurveysQuery());
         return Ok(result);
     }
-
-    [HttpPost]
-    public async Task<IActionResult> CreateSurvey(CreateSurveyCommand request)
-    {
-        var result = await mediator.Send(request);
-        return Ok(mapper.Map<SurveyResponse>(result));
-    }
 }

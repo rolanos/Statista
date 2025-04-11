@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Statista.Infrastructure.Persistence;
@@ -11,9 +12,11 @@ using Statista.Infrastructure.Persistence;
 namespace Statista.Infrastructure.Migrations
 {
     [DbContext(typeof(PostgresDbContext))]
-    partial class PostgresDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250411131542_UpdateSurvey")]
+    partial class UpdateSurvey
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -146,9 +149,6 @@ namespace Statista.Infrastructure.Migrations
 
                     b.HasIndex("CreatedById");
 
-                    b.HasIndex("SurveyId")
-                        .IsUnique();
-
                     b.ToTable("Form", (string)null);
                 });
 
@@ -261,6 +261,7 @@ namespace Statista.Infrastructure.Migrations
             modelBuilder.Entity("Survey", b =>
                 {
                     b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
                     b.Property<Guid>("CreatedById")
@@ -276,7 +277,10 @@ namespace Statista.Infrastructure.Migrations
 
                     b.HasIndex("CreatedById");
 
-                    b.ToTable("Survey", (string)null);
+                    b.HasIndex("FormId")
+                        .IsUnique();
+
+                    b.ToTable("Surveys");
                 });
 
             modelBuilder.Entity("AdminGroup", b =>
@@ -366,15 +370,7 @@ namespace Statista.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Survey", "Survey")
-                        .WithOne("Form")
-                        .HasForeignKey("Statista.Domain.Entities.Form", "SurveyId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("CreatedBy");
-
-                    b.Navigation("Survey");
                 });
 
             modelBuilder.Entity("Statista.Domain.Entities.Question", b =>
@@ -430,7 +426,15 @@ namespace Statista.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("Statista.Domain.Entities.Form", "Form")
+                        .WithOne("Survey")
+                        .HasForeignKey("Survey", "FormId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("CreatedBy");
+
+                    b.Navigation("Form");
                 });
 
             modelBuilder.Entity("Classifier", b =>
@@ -441,6 +445,9 @@ namespace Statista.Infrastructure.Migrations
             modelBuilder.Entity("Statista.Domain.Entities.Form", b =>
                 {
                     b.Navigation("Sections");
+
+                    b.Navigation("Survey")
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Statista.Domain.Entities.Question", b =>
@@ -463,9 +470,6 @@ namespace Statista.Infrastructure.Migrations
 
             modelBuilder.Entity("Survey", b =>
                 {
-                    b.Navigation("Form")
-                        .IsRequired();
-
                     b.Navigation("answers");
                 });
 #pragma warning restore 612, 618

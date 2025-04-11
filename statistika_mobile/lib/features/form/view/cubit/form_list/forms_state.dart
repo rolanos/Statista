@@ -1,4 +1,4 @@
-part of 'form_cubit.dart';
+part of 'forms_cubit.dart';
 
 @immutable
 sealed class FormsState {}

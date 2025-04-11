@@ -25,6 +25,7 @@ abstract class NavigationRoutes {
 
   static const surveys = 'surveys';
   static const forms = 'forms';
+  static const createForm = 'create_form';
 
   static const welcomeForm = 'welcome_form';
   static const fillForm = 'fill_form';

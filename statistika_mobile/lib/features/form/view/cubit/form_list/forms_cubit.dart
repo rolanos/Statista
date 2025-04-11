@@ -2,9 +2,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta/meta.dart';
 import 'package:statistika_mobile/features/form/data/repository/form_repository.dart';
 
-import '../../domain/model/form.dart';
+import '../../../domain/model/form.dart';
 
-part 'form_state.dart';
+part 'forms_state.dart';
 
 class FormsCubit extends Cubit<FormsState> {
   FormsCubit() : super(FormsLoading());

@@ -4,7 +4,7 @@ import 'package:statistika_mobile/core/utils/router.dart';
 import 'package:statistika_mobile/features/authorization/view/cubit/authorization_cubit.dart';
 import 'package:statistika_mobile/features/authorization/view/cubit/user_profile_cubit.dart';
 import 'package:statistika_mobile/features/form/view/cubit/active_form_cubit.dart';
-import 'package:statistika_mobile/features/form/view/cubit/form_cubit.dart';
+import 'package:statistika_mobile/features/form/view/cubit/form_list/forms_cubit.dart';
 import 'package:statistika_mobile/features/survey/view/cubit/survey_cubit.dart';
 
 import 'core/constants/constants.dart';

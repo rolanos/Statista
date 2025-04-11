@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:statistika_mobile/core/constants/constants.dart';
-import 'package:statistika_mobile/features/form/view/cubit/form_cubit.dart';
+import 'package:statistika_mobile/core/constants/routes.dart';
+import 'package:statistika_mobile/features/form/view/cubit/form_list/forms_cubit.dart';
 
 import 'widget/form_card.dart';
 
@@ -39,6 +41,17 @@ class _FormsScreenState extends State<FormsScreen> {
         child: Column(
           spacing: AppConstants.mediumPadding,
           children: [
+            Row(
+              children: [
+                const Spacer(),
+                IconButton(
+                  onPressed: () {
+                    context.goNamed(NavigationRoutes.createForm);
+                  },
+                  icon: const Icon(Icons.add),
+                ),
+              ],
+            ),
             Container(
               color: AppColors.white,
               padding: const EdgeInsets.symmetric(

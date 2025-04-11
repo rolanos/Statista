@@ -4,8 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:statistika_mobile/core/constants/app_constants.dart';
 import 'package:statistika_mobile/core/utils/extensions.dart';
 import 'package:statistika_mobile/features/form/view/cubit/active_form_cubit.dart';
-import 'package:statistika_mobile/features/form/view/cubit/fill_form_cubit.dart';
-import 'package:statistika_mobile/features/form/view/fill_form_screen.dart';
+import 'package:statistika_mobile/features/form/view/cubit/fill_form/fill_form_cubit.dart';
 
 import '../../../core/constants/routes.dart';
 

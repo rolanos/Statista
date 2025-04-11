@@ -22,69 +22,85 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Widget build(BuildContext context) {
     return BlocBuilder<AuthorizationCubit, AuthorizationState>(
       builder: (context, state) {
-        return Padding(
-          padding: const EdgeInsets.all(AppConstants.mediumPadding),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
+        return BlocBuilder<UserProfileCubit, UserProfileState>(
+          builder: (context, userState) {
+            return Padding(
+              padding: const EdgeInsets.all(AppConstants.mediumPadding),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  Row(
+                    children: [
+                      const Spacer(),
+                      ElevatedButton(
+                        onPressed: () {
+                          context
+                              .read<UserProfileCubit>()
+                              .updateUserProfileInfo(genderValue, birthday);
+                        },
+                        child: Text('Сохранить',
+                            style: context.textTheme.bodySmall
+                                ?.copyWith(color: AppColors.white)),
+                      ),
+                    ],
+                  ),
                   const Spacer(),
-                  ElevatedButton(
-                    onPressed: () {
-                      context
-                          .read<UserProfileCubit>()
-                          .updateUserProfileInfo(genderValue, birthday);
+                  DropdownButton<Gender>(
+                    isExpanded: true,
+                    value: genderValue,
+                    hint: const Text('Пол'),
+                    style: context.textTheme.bodySmall,
+                    items: [
+                      DropdownMenuItem(
+                        value: Gender.male,
+                        child: Row(
+                          children: [Text(Gender.male.name)],
+                        ),
+                      ),
+                      DropdownMenuItem(
+                        value: Gender.female,
+                        child: Row(
+                          children: [
+                            Text(
+                              Gender.female.name,
+                            )
+                          ],
+                        ),
+                      ),
+                    ],
+                    onChanged: (value) => setState(
+                      () => genderValue = value,
+                    ),
+                  ),
+                  ListTile(
+                    contentPadding: EdgeInsets.zero,
+                    onTap: () async {
+                      birthday = await showDatePicker(
+                        context: context,
+                        firstDate: DateTime(1920),
+                        lastDate: DateTime(2020),
+                      );
+                      setState(() {});
                     },
-                    child: Text('Сохранить',
-                        style: context.textTheme.bodySmall
-                            ?.copyWith(color: AppColors.white)),
-                  ),
-                ],
-              ),
-              const Spacer(),
-              DropdownButton<Gender>(
-                value: genderValue,
-                hint: const Text('Пол'),
-                items: [
-                  DropdownMenuItem(
-                    value: Gender.male,
-                    child: Row(
-                      children: [Text(Gender.male.name)],
+                    title: Text(
+                      birthday != null
+                          ? birthday.toString()
+                          : 'Выбрать дату рождения',
+                      style: context.textTheme.bodySmall,
+                    ),
+                    trailing: Text(
+                      userState is UserProfileInitial &&
+                              userState.user.userInfo?.birthday != null
+                          ? userState.user.userInfo!.birthday.toString()
+                          : 'Укажите',
+                      style: context.textTheme.bodySmall,
                     ),
                   ),
-                  DropdownMenuItem(
-                    value: Gender.female,
-                    child: Row(
-                      children: [Text(Gender.female.name)],
-                    ),
-                  ),
+                  const Spacer(),
                 ],
-                onChanged: (value) => setState(
-                  () => genderValue = value,
-                ),
               ),
-              ElevatedButton(
-                onPressed: () async {
-                  birthday = await showDatePicker(
-                    context: context,
-                    firstDate: DateTime(1920),
-                    lastDate: DateTime(2020),
-                  );
-                  setState(() {});
-                },
-                child: Text(
-                  birthday != null
-                      ? birthday.toString()
-                      : 'Выбрать дату рождения',
-                  style: context.textTheme.bodySmall?.copyWith(
-                    color: AppColors.white,
-                  ),
-                ),
-              ),
-              const Spacer(),
-            ],
-          ),
+            );
+          },
         );
       },
     );

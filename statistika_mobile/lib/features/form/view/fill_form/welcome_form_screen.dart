@@ -3,10 +3,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:statistika_mobile/core/constants/app_constants.dart';
 import 'package:statistika_mobile/core/utils/extensions.dart';
-import 'package:statistika_mobile/features/form/view/cubit/active_form_cubit.dart';
-import 'package:statistika_mobile/features/form/view/cubit/fill_form/fill_form_cubit.dart';
+import 'package:statistika_mobile/features/form/view/fill_form/cubit/fill_form/active_form_cubit.dart';
+import 'package:statistika_mobile/features/form/view/fill_form/cubit/fill_form/fill_form_cubit.dart';
 
-import '../../../core/constants/routes.dart';
+import '../../../../core/constants/routes.dart';
 
 class WelcomeFormScreen extends StatefulWidget {
   const WelcomeFormScreen({super.key});

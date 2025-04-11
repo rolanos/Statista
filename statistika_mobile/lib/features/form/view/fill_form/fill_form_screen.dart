@@ -5,9 +5,9 @@ import 'package:statistika_mobile/core/constants/app_constants.dart';
 import 'package:statistika_mobile/core/constants/routes.dart';
 import 'package:statistika_mobile/core/utils/extensions.dart';
 import 'package:statistika_mobile/features/form/data/model/create_answer_request.dart';
-import 'package:statistika_mobile/features/form/view/cubit/active_form_cubit.dart';
-import 'package:statistika_mobile/features/form/view/cubit/fill_form/fill_form_cubit.dart';
-import 'package:statistika_mobile/features/form/view/widget/questions/single_choise_question.dart';
+import 'package:statistika_mobile/features/form/view/fill_form/cubit/fill_form/active_form_cubit.dart';
+import 'package:statistika_mobile/features/form/view/fill_form/cubit/fill_form/fill_form_cubit.dart';
+import 'package:statistika_mobile/features/form/view/fill_form/widget/questions/single_choise_question.dart';
 
 class FillFormScreen extends StatelessWidget {
   const FillFormScreen({super.key});

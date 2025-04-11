@@ -4,7 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:statistika_mobile/core/constants/constants.dart';
 import 'package:statistika_mobile/core/utils/extensions.dart';
 import 'package:statistika_mobile/features/authorization/view/cubit/user_profile_cubit.dart';
-import 'package:statistika_mobile/features/form/view/cubit/create_form/create_form_cubit.dart';
+import 'package:statistika_mobile/features/form/view/create_form/cubit/create_form_cubit.dart';
 
 class CreateFormScreen extends StatefulWidget {
   const CreateFormScreen({super.key});

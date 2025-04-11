@@ -4,9 +4,9 @@ import 'package:go_router/go_router.dart';
 
 import 'package:statistika_mobile/core/constants/constants.dart';
 import 'package:statistika_mobile/core/constants/routes.dart';
-import 'package:statistika_mobile/features/form/view/cubit/active_form_cubit.dart';
+import 'package:statistika_mobile/features/form/view/fill_form/cubit/fill_form/active_form_cubit.dart';
 
-import '../../domain/model/form.dart' as f;
+import '../../../domain/model/form.dart' as f;
 
 class FormCard extends StatelessWidget {
   const FormCard({

@@ -38,6 +38,13 @@ public class FormRepository : IFormRepository
                                      .SingleOrDefaultAsync(u => u.SurveyId == surveyId);
     }
 
+
+    public async Task<Form?> GetFormById(Guid id)
+    {
+        return await _dbContext.Forms.AsNoTracking()
+                                     .SingleOrDefaultAsync(u => u.Id == id);
+    }
+
     public async Task<Form?> DeleteById(Guid id)
     {
         var form = await _dbContext.Forms.AsNoTracking()

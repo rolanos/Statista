@@ -11,6 +11,8 @@ abstract class ApiRoutes {
 
   static const forms = '$baseUrl/forms';
 
+  static const formsByFormId = '$forms/formId';
+
   static const answers = '$baseUrl/answers';
 
   static const answersForForm = '$answers/form';

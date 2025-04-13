@@ -33,6 +33,23 @@ class FormRepository {
     }
   }
 
+  Future<Either<Exception, Form>> getFormById(String id) async {
+    try {
+      final dio = Dio();
+      final result = await dio.get(
+        ApiRoutes.formsByFormId,
+        queryParameters: {'id': id},
+        options: Options(
+          headers: await SharedPreferencesManager.getTokenAsMap(),
+        ),
+      );
+      return Either.right(Form.fromJson(result.data));
+    } on Exception catch (e) {
+      log(e.toString());
+      return Either.left(e);
+    }
+  }
+
   Future<Either<Exception, Form>> createForm(
     CreateFormRequest request,
   ) async {

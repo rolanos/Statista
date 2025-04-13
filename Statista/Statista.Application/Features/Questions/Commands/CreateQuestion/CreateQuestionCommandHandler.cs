@@ -19,6 +19,8 @@ public class CreateQuestionCommandHandler : IRequestHandler<CreateQuestionComman
         {
             Id = Guid.NewGuid(),
             Title = request.Title,
+            PastQuestionId = request.PastQuestion,
+            NextQuestionId = request.NextQuestion,
             TypeId = request.TypeId,
             SectionId = request.SectionId,
             CreatedDate = DateTime.UtcNow,

@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Statista.Application.Features.Forms.Commands.CreateForm;
 using Statista.Application.Features.Forms.Dto;
 using Statista.Application.Features.Forms.Queries.GetAllForms;
+using Statista.Application.Features.Forms.Queries.GetFormById;
 
 namespace Statista.Api.Controllers;
 
@@ -11,6 +12,14 @@ public class FormController : BaseController
 {
     [HttpGet]
     public async Task<IActionResult> GetAllForms([FromQuery] GetAllFormsQuery request)
+    {
+        var result = await mediator.Send(request);
+        return Ok(result);
+    }
+
+    [HttpGet]
+    [Route("formId")]
+    public async Task<IActionResult> GetFormById([FromQuery] GetFormByIdQuery request)
     {
         var result = await mediator.Send(request);
         return Ok(result);

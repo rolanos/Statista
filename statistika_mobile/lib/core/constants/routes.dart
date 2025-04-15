@@ -15,6 +15,8 @@ abstract class ApiRoutes {
 
   static const answers = '$baseUrl/answers';
 
+  static const availableAnswer = '$baseUrl/avaliable_answer';
+
   static const answersForForm = '$answers/form';
 
   static const questions = '$baseUrl/questions';
@@ -28,6 +30,7 @@ abstract class NavigationRoutes {
   static const surveys = 'surveys';
   static const forms = 'forms';
   static const createForm = 'create_form';
+  static const formEditer = 'form_editer_screen';
 
   static const welcomeForm = 'welcome_form';
   static const fillForm = 'fill_form';

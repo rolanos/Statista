@@ -13,4 +13,8 @@ final class CreateFormError extends CreateFormState {
 
 final class CreateFormLoading extends CreateFormState {}
 
-final class CreateFormCreated extends CreateFormState {}
+final class CreateFormCreated extends CreateFormState {
+  CreateFormCreated({required this.form});
+
+  final Form form;
+}

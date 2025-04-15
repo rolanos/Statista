@@ -2,6 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 import 'package:statistika_mobile/features/form/data/model/create_form_request.dart';
 import 'package:statistika_mobile/features/form/data/repository/form_repository.dart';
+import 'package:statistika_mobile/features/form/domain/model/form.dart';
 
 part 'create_form_state.dart';
 
@@ -21,7 +22,7 @@ class CreateFormCubit extends Cubit<CreateFormState> {
     final result = await FormRepository().createForm(request);
     result.match(
       (e) => emit(CreateFormError(message: e.toString())),
-      (f) => emit(CreateFormCreated()),
+      (f) => emit(CreateFormCreated(form: f)),
     );
   }
 }

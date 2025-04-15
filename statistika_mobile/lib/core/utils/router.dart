@@ -8,6 +8,7 @@ import 'package:statistika_mobile/features/form/view/create_form/create_form_scr
 import 'package:statistika_mobile/features/form/view/fill_form/cubit/fill_form/fill_form_cubit.dart';
 import 'package:statistika_mobile/features/form/view/fill_form/end_form_screen.dart';
 import 'package:statistika_mobile/features/form/view/fill_form/fill_form_screen.dart';
+import 'package:statistika_mobile/features/form/view/form_editer/form_editer_screen.dart';
 import 'package:statistika_mobile/features/form/view/forms/forms_screen.dart';
 import 'package:statistika_mobile/features/form/view/fill_form/welcome_form_screen.dart';
 import 'package:statistika_mobile/features/home/home_screen.dart';
@@ -53,6 +54,13 @@ GoRouter get router {
                         path: NavigationRoutes.createForm,
                         name: NavigationRoutes.createForm,
                         builder: (context, state) => const CreateFormScreen(),
+                      ),
+                      GoRoute(
+                        path: NavigationRoutes.formEditer,
+                        name: NavigationRoutes.formEditer,
+                        builder: (context, state) => FormEditerScreen(
+                          formId: state.uri.queryParameters['formId'],
+                        ),
                       ),
                       GoRoute(
                         path: NavigationRoutes.welcomeForm,

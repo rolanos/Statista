@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:statistika_mobile/core/constants/constants.dart';
+import 'package:statistika_mobile/core/constants/routes.dart';
 import 'package:statistika_mobile/core/utils/extensions.dart';
 import 'package:statistika_mobile/features/authorization/view/cubit/user_profile_cubit.dart';
 import 'package:statistika_mobile/features/form/view/create_form/cubit/create_form_cubit.dart';
@@ -27,7 +28,14 @@ class _CreateFormScreenState extends State<CreateFormScreen> {
       child: BlocListener<CreateFormCubit, CreateFormState>(
         bloc: createFormCubit,
         listener: (context, state) {
-          if (state is CreateFormCreated) context.pop();
+          if (state is CreateFormCreated) {
+            context.goNamed(
+              NavigationRoutes.formEditer,
+              queryParameters: {
+                'formId': state.form.id,
+              },
+            );
+          }
         },
         child: Padding(
           padding: const EdgeInsets.all(AppConstants.mediumPadding),

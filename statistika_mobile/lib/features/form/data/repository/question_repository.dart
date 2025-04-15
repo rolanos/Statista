@@ -15,7 +15,7 @@ class QuestionRepository {
     try {
       final dio = Dio();
       final result = await dio.post(
-        ApiRoutes.sections,
+        ApiRoutes.questions,
         data: createRequest.toJson(),
         options: Options(
           headers: await SharedPreferencesManager.getTokenAsMap(),

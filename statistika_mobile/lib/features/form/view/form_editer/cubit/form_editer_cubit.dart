@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
 import 'package:statistika_mobile/features/form/data/model/create_question_request.dart';
 import 'package:statistika_mobile/features/form/data/model/update_question_request.dart';
@@ -46,7 +47,6 @@ class FormEditerCubit extends Cubit<FormEditerState> {
     form.match(
       (e) => emit(FormEditerError(message: e.toString())),
       (f) async {
-        emit(FormEditerInitial(form: f));
         final sectionsResult = await SectionRepository().getSections(f.id);
         sectionsResult.match(
           (e) => emit(FormEditerError(message: e.toString())),

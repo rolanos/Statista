@@ -1,7 +1,7 @@
 part of 'form_editer_cubit.dart';
 
 @immutable
-sealed class FormEditerState {
+sealed class FormEditerState extends Equatable {
   abstract final Form? form;
   abstract final List<Section>? sections;
 }
@@ -12,6 +12,9 @@ final class FormEditerLoading extends FormEditerState {
 
   @override
   List<Section>? get sections => null;
+
+  @override
+  List<Object?> get props => [form, sections];
 }
 
 final class FormEditerError extends FormEditerState {
@@ -24,6 +27,9 @@ final class FormEditerError extends FormEditerState {
 
   @override
   List<Section>? get sections => null;
+
+  @override
+  List<Object?> get props => [message];
 }
 
 final class FormEditerInitial extends FormEditerState {
@@ -37,6 +43,9 @@ final class FormEditerInitial extends FormEditerState {
 
   @override
   final List<Section> sections;
+
+  @override
+  List<Object?> get props => [form, sections];
 }
 
 final class FormEditerInitialLoading extends FormEditerInitial {

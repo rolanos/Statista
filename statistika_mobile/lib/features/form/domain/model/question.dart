@@ -1,11 +1,12 @@
+import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:statistika_mobile/features/form/domain/model/available_answer.dart';
 
 part 'question.g.dart';
 
 @JsonSerializable()
-class Question {
-  Question({
+class Question extends Equatable {
+  const Question({
     required this.id,
     required this.title,
     required this.typeId,
@@ -27,4 +28,15 @@ class Question {
       _$QuestionFromJson(json);
 
   Map<String, dynamic> toJson() => _$QuestionToJson(this);
+
+  @override
+  List<Object?> get props => [
+        id,
+        title,
+        typeId,
+        formId,
+        sectionId,
+        createdDate,
+        availableAnswers,
+      ];
 }

@@ -1,9 +1,10 @@
+import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'form.g.dart';
 
 @JsonSerializable()
-class Form {
+class Form extends Equatable {
   Form({
     required this.id,
     required this.name,
@@ -23,4 +24,14 @@ class Form {
   factory Form.fromJson(Map<String, dynamic> json) => _$FormFromJson(json);
 
   Map<String, dynamic> toJson() => _$FormToJson(this);
+
+  @override
+  List<Object?> get props => [
+        id,
+        name,
+        description,
+        surveyId,
+        createdById,
+        createdDate,
+      ];
 }

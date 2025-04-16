@@ -59,62 +59,64 @@ class _SingleChoiseCreateWidgetState extends State<SingleChoiseCreateWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      spacing: AppConstants.smallPadding,
-      children: [
-        Row(
-          children: [
-            Flexible(
-              child: TextFormField(
-                controller: titleController,
+    return Builder(builder: (context) {
+      return Column(
+        spacing: AppConstants.smallPadding,
+        children: [
+          Row(
+            children: [
+              Flexible(
+                child: TextFormField(
+                  controller: titleController,
+                  decoration: const InputDecoration(hintText: 'Текст вопроса'),
+                ),
+              ),
+              IconButton(
+                onPressed: () {
+                  if (widget.onDeleteQuestion != null) {
+                    widget.onDeleteQuestion!(widget.question);
+                  }
+                },
+                icon: const Icon(Icons.delete),
+              ),
+            ],
+          ),
+          ReorderableListView.builder(
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            itemCount: widget.question.availableAnswers.length,
+            onReorder: (int oldIndex, int newIndex) {},
+            itemBuilder: (BuildContext context, int index) => ListTile(
+              key: ValueKey(widget.question.availableAnswers[index].id),
+              leading: const Text('•'),
+              title: TextFormField(
+                controller: TextEditingController(),
                 decoration: const InputDecoration(hintText: 'Текст вопроса'),
               ),
-            ),
-            IconButton(
-              onPressed: () {
-                if (widget.onDeleteQuestion != null) {
-                  widget.onDeleteQuestion!(widget.question);
-                }
-              },
-              icon: const Icon(Icons.delete),
-            ),
-          ],
-        ),
-        ReorderableListView.builder(
-          shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
-          itemCount: widget.question.availableAnswers.length,
-          onReorder: (int oldIndex, int newIndex) {},
-          itemBuilder: (BuildContext context, int index) => ListTile(
-            key: ValueKey(widget.question.availableAnswers[index].id),
-            leading: const Text('•'),
-            title: TextFormField(
-              controller: availableControllers[index],
-              decoration: const InputDecoration(hintText: 'Текст вопроса'),
-            ),
-            contentPadding: EdgeInsets.zero,
-            trailing: IconButton(
-              onPressed: () {
-                if (widget.onDeleteAvailableAnswer != null) {
-                  widget.onDeleteAvailableAnswer!(
-                    widget.question.availableAnswers[index],
-                  );
-                }
-              },
-              icon: const Icon(Icons.delete),
+              contentPadding: EdgeInsets.zero,
+              trailing: IconButton(
+                onPressed: () {
+                  if (widget.onDeleteAvailableAnswer != null) {
+                    widget.onDeleteAvailableAnswer!(
+                      widget.question.availableAnswers[index],
+                    );
+                  }
+                },
+                icon: const Icon(Icons.delete),
+              ),
             ),
           ),
-        ),
-        Row(
-          children: [
-            const Spacer(),
-            ElevatedButton(
-              onPressed: widget.onAddAnswer,
-              child: const Icon(Icons.add, color: AppColors.white),
-            ),
-          ],
-        ),
-      ],
-    );
+          Row(
+            children: [
+              const Spacer(),
+              ElevatedButton(
+                onPressed: widget.onAddAnswer,
+                child: const Icon(Icons.add, color: AppColors.white),
+              ),
+            ],
+          ),
+        ],
+      );
+    });
   }
 }

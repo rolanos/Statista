@@ -1,10 +1,11 @@
+import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'available_answer.g.dart';
 
 @JsonSerializable()
-class AvailableAnswer {
-  AvailableAnswer({
+class AvailableAnswer extends Equatable {
+  const AvailableAnswer({
     required this.id,
     required this.text,
     required this.imageLink,
@@ -20,4 +21,12 @@ class AvailableAnswer {
       _$AvailableAnswerFromJson(json);
 
   Map<String, dynamic> toJson() => _$AvailableAnswerToJson(this);
+
+  @override
+  List<Object?> get props => [
+        id,
+        text,
+        imageLink,
+        questionId,
+      ];
 }

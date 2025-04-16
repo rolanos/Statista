@@ -34,6 +34,11 @@ class SectionContent extends StatelessWidget {
                 ),
         onDeleteAvailableAnswer: (available) async =>
             context.read<FormEditerCubit>().deleteAvailableAnswer(available),
+        onUpdateAvailableAnswer: (q, text) =>
+            context.read<FormEditerCubit>().updateAvailableAnswer(
+                  q,
+                  text: text,
+                ),
         question: section.questions[index],
       ),
     );

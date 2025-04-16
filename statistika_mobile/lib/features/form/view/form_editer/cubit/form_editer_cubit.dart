@@ -2,6 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
 import 'package:statistika_mobile/features/form/data/model/create_question_request.dart';
+import 'package:statistika_mobile/features/form/data/model/update_available_answer_request.dart';
 import 'package:statistika_mobile/features/form/data/model/update_question_request.dart';
 import 'package:statistika_mobile/features/form/data/repository/available_answer_repository.dart';
 import 'package:statistika_mobile/features/form/data/repository/form_repository.dart';
@@ -115,6 +116,27 @@ class FormEditerCubit extends Cubit<FormEditerState> {
 
     final result =
         await AvailableAnswerRepository().createAnswer(createRequest);
+
+    result.match(
+      (e) => emit(FormEditerError(message: e.toString())),
+      (f) async => update(),
+    );
+  }
+
+  //Обновление варианта ответа
+  Future<void> updateAvailableAnswer(
+    AvailableAnswer availableAnswer, {
+    String? text,
+    String? imageUrl,
+  }) async {
+    final createRequest = UpdateAvailableAnswerRequest(
+      id: availableAnswer.id,
+      text: text,
+      imageLink: imageUrl,
+    );
+
+    final result =
+        await AvailableAnswerRepository().updateAnswer(createRequest);
 
     result.match(
       (e) => emit(FormEditerError(message: e.toString())),

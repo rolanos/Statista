@@ -1,7 +1,11 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:statistika_mobile/core/constants/app_constants.dart';
 import 'package:statistika_mobile/features/form/domain/model/available_answer.dart';
 import 'package:statistika_mobile/features/form/domain/model/question.dart';
+
+import '../../utils/text_editing_controller_bind.dart';
 
 class SingleChoiseCreateWidget extends StatefulWidget {
   const SingleChoiseCreateWidget({
@@ -34,25 +38,31 @@ class SingleChoiseCreateWidget extends StatefulWidget {
 class _SingleChoiseCreateWidgetState extends State<SingleChoiseCreateWidget> {
   final titleController = TextEditingController();
 
-  final availableControllers = <TextEditingController>[];
+  Timer? _debounceTimer; // Таймер для задержки
 
+  late final TextEditingControllerBindList<AvailableAnswer>
+      availableControllers;
   @override
   void initState() {
     super.initState();
+    availableControllers = TextEditingControllerBindList<AvailableAnswer>();
+
     if (widget.question.title.isNotEmpty) {
       titleController.text = widget.question.title;
-      titleController.addListener(() {
-        if (widget.onUpdateTitle != null) {
-          if (titleController.text != widget.question.title) {
-            widget.onUpdateTitle!(titleController.text);
-          }
-        } else {}
-      });
+      titleController.addListener(_onTextChanged);
     }
     if (widget.question.availableAnswers.isNotEmpty) {
       for (var available in widget.question.availableAnswers) {
-        var controller = TextEditingController(text: available.text);
-        availableControllers.add(controller);
+        availableControllers.add(
+          available.id,
+          available,
+          initialValue: available.text,
+          onChanged: (v, s) {
+            if (widget.onUpdateAvailableAnswer != null) {
+              widget.onUpdateAvailableAnswer!(v, s);
+            }
+          },
+        );
       }
     }
   }
@@ -60,6 +70,18 @@ class _SingleChoiseCreateWidgetState extends State<SingleChoiseCreateWidget> {
   @override
   Widget build(BuildContext context) {
     return Builder(builder: (context) {
+      for (var available in widget.question.availableAnswers) {
+        availableControllers.add(
+          available.id,
+          available,
+          initialValue: available.text,
+          onChanged: (v, s) {
+            if (widget.onUpdateAvailableAnswer != null) {
+              widget.onUpdateAvailableAnswer!(v, s);
+            }
+          },
+        );
+      }
       return Column(
         spacing: AppConstants.smallPadding,
         children: [
@@ -90,7 +112,9 @@ class _SingleChoiseCreateWidgetState extends State<SingleChoiseCreateWidget> {
               key: ValueKey(widget.question.availableAnswers[index].id),
               leading: const Text('•'),
               title: TextFormField(
-                controller: TextEditingController(),
+                controller: availableControllers
+                    .find(widget.question.availableAnswers[index].id)
+                    ?.controller,
                 decoration: const InputDecoration(hintText: 'Текст вопроса'),
               ),
               contentPadding: EdgeInsets.zero,
@@ -117,6 +141,19 @@ class _SingleChoiseCreateWidgetState extends State<SingleChoiseCreateWidget> {
           ),
         ],
       );
+    });
+  }
+
+  void _onTextChanged() {
+    // Отменяем предыдущий таймер, если он был
+    _debounceTimer?.cancel();
+
+    // Запускаем новый таймер на 3 секунды
+    _debounceTimer = Timer(const Duration(milliseconds: 1500), () {
+      // Действие, которое выполнится через 3 секунды после последнего изменения
+      if (widget.onUpdateTitle != null) {
+        widget.onUpdateTitle!(titleController.text);
+      }
     });
   }
 }

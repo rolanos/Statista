@@ -27,4 +27,21 @@ class AvailableAnswerRepository {
       return Either.left(e);
     }
   }
+
+  Future<Either<Exception, AvailableAnswer>> deleteAnswer(String id) async {
+    try {
+      final dio = Dio();
+      final result = await dio.delete(
+        ApiRoutes.availableAnswer,
+        data: {"id": id},
+        options: Options(
+          headers: await SharedPreferencesManager.getTokenAsMap(),
+        ),
+      );
+      return Either.right(AvailableAnswer.fromJson(result.data));
+    } on Exception catch (e) {
+      log(e.toString());
+      return Either.left(e);
+    }
+  }
 }

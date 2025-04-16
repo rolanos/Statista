@@ -1,11 +1,13 @@
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 import 'package:statistika_mobile/features/form/data/model/create_question_request.dart';
+import 'package:statistika_mobile/features/form/data/model/update_question_request.dart';
 import 'package:statistika_mobile/features/form/data/repository/available_answer_repository.dart';
 import 'package:statistika_mobile/features/form/data/repository/form_repository.dart';
 import 'package:statistika_mobile/features/form/data/repository/question_repository.dart';
 import 'package:statistika_mobile/features/form/data/repository/section_repository.dart';
 import 'package:statistika_mobile/features/form/domain/enum/question_types.dart';
+import 'package:statistika_mobile/features/form/domain/model/available_answer.dart';
 import 'package:statistika_mobile/features/form/domain/model/form.dart';
 import 'package:statistika_mobile/features/form/domain/model/question.dart';
 import 'package:statistika_mobile/features/form/domain/model/section.dart';
@@ -27,6 +29,16 @@ class FormEditerCubit extends Cubit<FormEditerState> {
         emit(FormEditerError(message: 'Ошибка'));
         return;
       }
+    }
+
+    final stateSnap = state;
+    if (stateSnap is FormEditerInitial) {
+      emit(
+        FormEditerInitialLoading(
+          form: stateSnap.form,
+          sections: stateSnap.sections,
+        ),
+      );
     }
 
     final form = await FormRepository().getFormById(formId);
@@ -61,9 +73,39 @@ class FormEditerCubit extends Cubit<FormEditerState> {
     );
   }
 
-  //TODO обновляем вопрос
-  Future<void> updateQuestion() async {}
+  //Добавляем новый вопрос в список вопросов
+  Future<void> deleteQuestion(Question question) async {
+    final result = await QuestionRepository().deleteQuestion(question.id);
 
+    result.match(
+      (e) => emit(FormEditerError(message: e.toString())),
+      (f) async => update(),
+    );
+  }
+
+  //Обновляем вопрос
+  Future<void> updateQuestion(
+    Question question, {
+    String? title,
+    String? nextQuestion,
+    String? pastQuestion,
+  }) async {
+    final request = UpdateQuestionRequest(
+      id: question.id,
+      title: title,
+      nextQuestion: nextQuestion,
+      pastQuestion: pastQuestion,
+    );
+
+    final result = await QuestionRepository().updateQuestion(request);
+
+    result.match(
+      (e) => emit(FormEditerError(message: e.toString())),
+      (f) async => update(),
+    );
+  }
+
+  //Добавление варианта вопроса
   Future<void> addAvailableAnswer(Question question) async {
     final createRequest = CreateAvailableAnswerRequest(
       questionId: question.id,
@@ -80,6 +122,15 @@ class FormEditerCubit extends Cubit<FormEditerState> {
     );
   }
 
-  //TODO удаляем вопрос
-  Future<void> deleteQuestion() async {}
+  //Удаление варианта вопроса
+  Future<void> deleteAvailableAnswer(AvailableAnswer availableAnswer) async {
+    final result = await AvailableAnswerRepository().deleteAnswer(
+      availableAnswer.id,
+    );
+
+    result.match(
+      (e) => emit(FormEditerError(message: e.toString())),
+      (f) async => update(),
+    );
+  }
 }

@@ -41,4 +41,19 @@ public class QuestionRepository : IQuestionRepository
         }
         return null;
     }
+
+    public async Task<Question?> GetQuestionsById(Guid id)
+    {
+        return await _dbContext.Questions.AsNoTracking()
+                                         .SingleOrDefaultAsync(u => u.Id == id);
+    }
+
+    public async Task<Question?> UpdateQuestion(Question question)
+    {
+        _dbContext.Questions.Update(question);
+
+        await _dbContext.SaveChangesAsync();
+
+        return await GetQuestionsById(question.Id);
+    }
 }

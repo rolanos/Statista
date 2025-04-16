@@ -36,16 +36,34 @@ class FormCard extends StatelessWidget {
           spacing: AppConstants.smallPadding,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Row(
+            Row(
               children: [
-                Spacer(),
-                Icon(
+                ElevatedButton(
+                  onPressed: () {
+                    context.goNamed(
+                      NavigationRoutes.formEditer,
+                      queryParameters: {'formId': form.id},
+                    );
+                  },
+                  child: const Icon(
+                    Icons.edit,
+                    color: AppColors.white,
+                  ),
+                ),
+                const Spacer(),
+                const Icon(
                   Icons.arrow_forward,
                 ),
               ],
             ),
-            Text(form.id),
             Text(form.name),
+            Text(form.description),
+            Row(
+              children: [
+                Flexible(child: Text(form.createdById)),
+                Flexible(child: Text(form.createdDate.toString())),
+              ],
+            )
           ],
         ),
       ),

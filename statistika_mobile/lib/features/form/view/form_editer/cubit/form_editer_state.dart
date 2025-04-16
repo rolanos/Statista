@@ -38,3 +38,7 @@ final class FormEditerInitial extends FormEditerState {
   @override
   final List<Section> sections;
 }
+
+final class FormEditerInitialLoading extends FormEditerInitial {
+  FormEditerInitialLoading({required super.form, super.sections});
+}

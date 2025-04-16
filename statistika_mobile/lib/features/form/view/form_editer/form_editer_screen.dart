@@ -59,6 +59,12 @@ class _FormEditerScreenState extends State<FormEditerScreen> {
                                 style: context.textTheme.bodyMedium
                                     ?.copyWith(color: AppColors.black),
                               ),
+                              if (state is FormEditerInitialLoading)
+                                Text(
+                                  'Сохранение..',
+                                  style: context.textTheme.bodyMedium
+                                      ?.copyWith(color: AppColors.black),
+                                ),
                               IconButton(
                                 onPressed: () {
                                   formEditerCubit.addNewQuestion(

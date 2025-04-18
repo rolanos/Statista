@@ -24,10 +24,16 @@ public class CreateFormCommandHandler : IRequestHandler<CreateFormCommand, Form>
     {
         var surveyId = Guid.NewGuid();
         var formId = Guid.NewGuid();
+        var adminGroup = new AdminGroup
+        {
+            SurveyId = surveyId,
+            UserId = request.CreatedById,
+        };
         var survey = new Survey
         {
             Id = surveyId,
             FormId = formId,
+            AdminGroup = [adminGroup],
             CreatedById = request.CreatedById,
             CreatedDate = DateTime.UtcNow,
         };

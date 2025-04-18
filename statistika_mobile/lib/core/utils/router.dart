@@ -11,6 +11,7 @@ import 'package:statistika_mobile/features/form/view/fill_form/fill_form_screen.
 import 'package:statistika_mobile/features/form/view/form_editer/form_editer_screen.dart';
 import 'package:statistika_mobile/features/form/view/forms/forms_screen.dart';
 import 'package:statistika_mobile/features/form/view/fill_form/welcome_form_screen.dart';
+import 'package:statistika_mobile/features/general_question/view/general_question_screen.dart';
 import 'package:statistika_mobile/features/home/home_screen.dart';
 import 'package:statistika_mobile/features/survey/view/survey_screen.dart';
 
@@ -32,55 +33,46 @@ GoRouter get router {
               GoRoute(
                 path: '/${NavigationRoutes.generalQuestions}',
                 name: NavigationRoutes.generalQuestions,
-                builder: (context, state) => const Placeholder(),
+                builder: (context, state) => const GeneralQuestionScreen(),
               ),
             ],
           ),
           StatefulShellBranch(
             routes: [
               GoRoute(
-                path: '/${NavigationRoutes.surveys}',
-                name: NavigationRoutes.surveys,
-                builder: (context, state) => const SurveyScreen(),
+                path: '/${NavigationRoutes.forms}',
+                name: NavigationRoutes.forms,
+                builder: (context, state) => FormsScreen(),
                 routes: [
                   GoRoute(
-                    path: '/${NavigationRoutes.forms}',
-                    name: NavigationRoutes.forms,
-                    builder: (context, state) => FormsScreen(
-                      surveyId: state.uri.queryParameters['surveyId'],
+                    path: NavigationRoutes.createForm,
+                    name: NavigationRoutes.createForm,
+                    builder: (context, state) => const CreateFormScreen(),
+                  ),
+                  GoRoute(
+                    path: NavigationRoutes.formEditer,
+                    name: NavigationRoutes.formEditer,
+                    builder: (context, state) => FormEditerScreen(
+                      formId: state.uri.queryParameters['formId'],
                     ),
-                    routes: [
-                      GoRoute(
-                        path: NavigationRoutes.createForm,
-                        name: NavigationRoutes.createForm,
-                        builder: (context, state) => const CreateFormScreen(),
-                      ),
-                      GoRoute(
-                        path: NavigationRoutes.formEditer,
-                        name: NavigationRoutes.formEditer,
-                        builder: (context, state) => FormEditerScreen(
-                          formId: state.uri.queryParameters['formId'],
-                        ),
-                      ),
-                      GoRoute(
-                        path: NavigationRoutes.welcomeForm,
-                        name: NavigationRoutes.welcomeForm,
-                        builder: (context, state) => const WelcomeFormScreen(),
-                      ),
-                      GoRoute(
-                        path: NavigationRoutes.fillForm,
-                        name: NavigationRoutes.fillForm,
-                        builder: (context, state) => BlocProvider.value(
-                          value: state.extra as FillFormCubit,
-                          child: const FillFormScreen(),
-                        ),
-                      ),
-                      GoRoute(
-                        path: NavigationRoutes.endForm,
-                        name: NavigationRoutes.endForm,
-                        builder: (context, state) => const EndFormScreen(),
-                      ),
-                    ],
+                  ),
+                  GoRoute(
+                    path: NavigationRoutes.welcomeForm,
+                    name: NavigationRoutes.welcomeForm,
+                    builder: (context, state) => const WelcomeFormScreen(),
+                  ),
+                  GoRoute(
+                    path: NavigationRoutes.fillForm,
+                    name: NavigationRoutes.fillForm,
+                    builder: (context, state) => BlocProvider.value(
+                      value: state.extra as FillFormCubit,
+                      child: const FillFormScreen(),
+                    ),
+                  ),
+                  GoRoute(
+                    path: NavigationRoutes.endForm,
+                    name: NavigationRoutes.endForm,
+                    builder: (context, state) => const EndFormScreen(),
                   ),
                 ],
               ),

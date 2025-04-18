@@ -16,6 +16,7 @@ class AppTheme {
       brightness: Brightness.light,
       scaffoldBackgroundColor: const Color(0xFFF9FAFB),
       indicatorColor: AppColors.black,
+      primaryColor: Colors.black,
       textTheme: const TextTheme(
         titleLarge: TextStyle(
           color: Color(0xFF171717),

@@ -12,11 +12,8 @@ class FormsCubit extends Cubit<FormsState> {
   void emitRouteArgError() =>
       emit(FormsError(message: 'Ошибка, попробуйте позже'));
 
-  Future<void> getFormsBySurvey(String surveyId) async {
-    if (surveyId.isEmpty) {
-      emit(FormsInitial());
-    }
-    final result = await FormRepository().getFormsBySurveyId(surveyId);
+  Future<void> getForms() async {
+    final result = await FormRepository().getForms();
     result.match(
       (e) => emit(FormsError(message: e.toString())),
       (list) => emit(

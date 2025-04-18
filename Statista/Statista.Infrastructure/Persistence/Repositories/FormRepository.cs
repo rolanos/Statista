@@ -23,12 +23,11 @@ public class FormRepository : IFormRepository
         return await _dbContext.Forms.SingleOrDefaultAsync(u => u.Id == form.Id);
     }
 
-    public async Task<ICollection<Form>> GetAllForms(Guid SurveyId)
+    public async Task<ICollection<Form>> GetAllForms()
     {
         return await _dbContext.Forms.AsNoTracking()
                                      .Include(f => f.Survey)
                                      .Include(f => f.CreatedBy)
-                                     .Where(f => f.SurveyId == SurveyId)
                                      .ToListAsync();
     }
 

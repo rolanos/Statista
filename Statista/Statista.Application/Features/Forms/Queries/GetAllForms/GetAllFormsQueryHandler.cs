@@ -19,7 +19,7 @@ public class GetAllFormsQueryHandler : IRequestHandler<GetAllFormsQuery, ICollec
 
     public async Task<ICollection<FormResponse>> Handle(GetAllFormsQuery request, CancellationToken cancellationToken)
     {
-        var forms = await _formRepository.GetAllForms(request.SurveyId);
+        var forms = await _formRepository.GetAllForms();
         var result = new List<FormResponse>();
         foreach (var form in forms)
         {

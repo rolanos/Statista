@@ -10,10 +10,7 @@ import 'widget/form_card.dart';
 class FormsScreen extends StatefulWidget {
   const FormsScreen({
     super.key,
-    this.surveyId,
   });
-
-  final String? surveyId;
 
   @override
   State<FormsScreen> createState() => _FormsScreenState();
@@ -25,24 +22,24 @@ class _FormsScreenState extends State<FormsScreen> {
   @override
   void initState() {
     super.initState();
-    if (widget.surveyId != null) {
-      formsCubit.getFormsBySurvey(widget.surveyId as String);
-    } else {
-      formsCubit.emitRouteArgError();
-    }
+    formsCubit.getForms();
   }
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => formsCubit,
-      child: Padding(
-        padding: const EdgeInsets.only(top: AppConstants.mediumPadding),
-        child: Column(
-          spacing: AppConstants.mediumPadding,
-          children: [
-            Row(
-              children: [
+      child: RefreshIndicator(
+        onRefresh: () async => formsCubit.getForms(),
+        child: CustomScrollView(
+          slivers: [
+            SliverAppBar(
+              snap: false,
+              pinned: true,
+              floating: false,
+              backgroundColor: AppColors.white,
+              surfaceTintColor: AppColors.white,
+              actions: [
                 const Spacer(),
                 IconButton(
                   onPressed: () {
@@ -52,40 +49,35 @@ class _FormsScreenState extends State<FormsScreen> {
                 ),
               ],
             ),
-            Container(
-              color: AppColors.white,
-              padding: const EdgeInsets.symmetric(
-                horizontal: AppConstants.mediumPadding,
-              ),
-              child: TextFormField(
-                decoration: const InputDecoration(
-                  hintText: 'Поиск',
-                ),
-              ),
-            ),
-            Expanded(
-              child: BlocBuilder<FormsCubit, FormsState>(
-                builder: (context, state) {
-                  if (state is FormsLoading) {
-                    return const Center(child: CircularProgressIndicator());
-                  }
-                  if (state is FormsInitial) {
-                    return ListView.separated(
-                      shrinkWrap: true,
-                      itemCount: state.forms.length,
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: AppConstants.mediumPadding,
-                        vertical: AppConstants.mediumPadding,
-                      ),
-                      separatorBuilder: (context, index) =>
-                          const SizedBox(height: AppConstants.mediumPadding),
-                      itemBuilder: (context, index) => FormCard(
-                        form: state.forms[index],
-                      ),
-                    );
-                  }
-                  return const SizedBox();
-                },
+            SliverToBoxAdapter(
+              child: Column(
+                spacing: AppConstants.mediumPadding,
+                children: [
+                  BlocBuilder<FormsCubit, FormsState>(
+                    builder: (context, state) {
+                      if (state is FormsLoading) {
+                        return const Center(child: CircularProgressIndicator());
+                      }
+                      if (state is FormsInitial) {
+                        return ListView.separated(
+                          shrinkWrap: true,
+                          itemCount: state.forms.length,
+                          physics: const NeverScrollableScrollPhysics(),
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: AppConstants.mediumPadding,
+                            vertical: AppConstants.mediumPadding,
+                          ),
+                          separatorBuilder: (context, index) => const SizedBox(
+                              height: AppConstants.mediumPadding),
+                          itemBuilder: (context, index) => FormCard(
+                            form: state.forms[index],
+                          ),
+                        );
+                      }
+                      return const SizedBox();
+                    },
+                  ),
+                ],
               ),
             ),
           ],

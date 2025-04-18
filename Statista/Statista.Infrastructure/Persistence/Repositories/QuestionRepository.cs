@@ -56,4 +56,17 @@ public class QuestionRepository : IQuestionRepository
 
         return await GetQuestionsById(question.Id);
     }
+
+    public async Task<Question?> GetGeneralQuestion()
+    {
+        var list = await _dbContext.Questions.AsNoTracking()
+                                             .Include(q => q.AvailableAnswers)
+                                             .Where(q => q.IsGeneral)
+                                             .ToListAsync();
+        if (list.Count != 0)
+        {
+            return list[Random.Shared.Next(list.Count)];
+        }
+        return null;
+    }
 }

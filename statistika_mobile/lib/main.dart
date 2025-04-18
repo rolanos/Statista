@@ -5,6 +5,7 @@ import 'package:statistika_mobile/features/authorization/view/cubit/authorizatio
 import 'package:statistika_mobile/features/authorization/view/cubit/user_profile_cubit.dart';
 import 'package:statistika_mobile/features/form/view/fill_form/cubit/fill_form/active_form_cubit.dart';
 import 'package:statistika_mobile/features/form/view/forms/cubit/forms_cubit.dart';
+import 'package:statistika_mobile/features/general_question/view/cubit/general_question_cubit.dart';
 import 'package:statistika_mobile/features/survey/view/cubit/survey_cubit.dart';
 
 import 'core/constants/constants.dart';
@@ -42,6 +43,9 @@ class _MyAppState extends State<MyApp> {
         ),
         BlocProvider(
           create: (context) => UserProfileCubit(),
+        ),
+        BlocProvider(
+          create: (context) => GeneralQuestionCubit(),
         ),
       ],
       child: MaterialApp.router(

@@ -20,15 +20,16 @@ class SingleChoiseCreateWidget extends StatefulWidget {
 
   final Question question;
 
-  final Function(Question)? onDeleteQuestion;
+  final FutureOr<void> Function(Question)? onDeleteQuestion;
 
-  final Function()? onAddAnswer;
+  final FutureOr<void> Function()? onAddAnswer;
 
-  final Function(String)? onUpdateTitle;
+  final FutureOr<void> Function(String)? onUpdateTitle;
 
-  final Function(AvailableAnswer)? onDeleteAvailableAnswer;
+  final FutureOr<void> Function(AvailableAnswer)? onDeleteAvailableAnswer;
 
-  final Function(AvailableAnswer, String)? onUpdateAvailableAnswer;
+  final FutureOr<void> Function(AvailableAnswer, String)?
+      onUpdateAvailableAnswer;
 
   @override
   State<SingleChoiseCreateWidget> createState() =>
@@ -93,14 +94,15 @@ class _SingleChoiseCreateWidgetState extends State<SingleChoiseCreateWidget> {
                   decoration: const InputDecoration(hintText: 'Текст вопроса'),
                 ),
               ),
-              IconButton(
-                onPressed: () {
-                  if (widget.onDeleteQuestion != null) {
-                    widget.onDeleteQuestion!(widget.question);
-                  }
-                },
-                icon: const Icon(Icons.delete),
-              ),
+              if (widget.onDeleteQuestion != null)
+                IconButton(
+                  onPressed: () {
+                    if (widget.onDeleteQuestion != null) {
+                      widget.onDeleteQuestion!(widget.question);
+                    }
+                  },
+                  icon: const Icon(Icons.delete),
+                ),
             ],
           ),
           ReorderableListView.builder(

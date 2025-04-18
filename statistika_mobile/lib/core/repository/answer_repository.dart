@@ -2,10 +2,10 @@ import 'dart:developer';
 
 import 'package:dio/dio.dart';
 import 'package:fpdart/fpdart.dart';
-import 'package:statistika_mobile/features/form/data/model/create_answers_to_form_request.dart';
+import 'package:statistika_mobile/core/dto/create_answer/create_answers_to_form_request.dart';
 
-import '../../../../core/constants/routes.dart';
-import '../../../../core/utils/shared_preferences_manager.dart';
+import '../constants/routes.dart';
+import '../utils/shared_preferences_manager.dart';
 
 class AnswerRepository {
   Future<Either<Exception, String>> sendFormAnswers(

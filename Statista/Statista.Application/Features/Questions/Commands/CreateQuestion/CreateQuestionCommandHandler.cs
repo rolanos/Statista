@@ -24,6 +24,7 @@ public class CreateQuestionCommandHandler : IRequestHandler<CreateQuestionComman
             TypeId = request.TypeId,
             SectionId = request.SectionId,
             CreatedDate = DateTime.UtcNow,
+            IsGeneral = request.isGeneral
         };
         var newQuestion = await _questionRepository.CreateQuestion(question);
         if (newQuestion is null)

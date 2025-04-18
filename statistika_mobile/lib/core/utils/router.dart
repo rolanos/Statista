@@ -11,6 +11,7 @@ import 'package:statistika_mobile/features/form/view/fill_form/fill_form_screen.
 import 'package:statistika_mobile/features/form/view/form_editer/form_editer_screen.dart';
 import 'package:statistika_mobile/features/form/view/forms/forms_screen.dart';
 import 'package:statistika_mobile/features/form/view/fill_form/welcome_form_screen.dart';
+import 'package:statistika_mobile/features/general_question/view/create_question_screen.dart';
 import 'package:statistika_mobile/features/general_question/view/general_question_screen.dart';
 import 'package:statistika_mobile/features/home/home_screen.dart';
 import 'package:statistika_mobile/features/survey/view/survey_screen.dart';
@@ -34,6 +35,13 @@ GoRouter get router {
                 path: '/${NavigationRoutes.generalQuestions}',
                 name: NavigationRoutes.generalQuestions,
                 builder: (context, state) => const GeneralQuestionScreen(),
+                routes: [
+                  GoRoute(
+                    path: NavigationRoutes.createGeneralQuestion,
+                    name: NavigationRoutes.createGeneralQuestion,
+                    builder: (context, state) => const CreateQuestionScreen(),
+                  ),
+                ],
               ),
             ],
           ),

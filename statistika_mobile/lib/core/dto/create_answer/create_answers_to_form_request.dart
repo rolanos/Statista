@@ -1,5 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:statistika_mobile/features/form/data/model/create_answer_request.dart';
+import 'package:statistika_mobile/core/dto/create_answer/create_answer_request.dart';
 
 part 'create_answers_to_form_request.g.dart';
 

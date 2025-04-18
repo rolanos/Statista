@@ -9,4 +9,5 @@ public record CreateQuestionCommand(
     Guid? PastQuestion,
     Guid? NextQuestion,
     Guid TypeId,
-    Guid? SectionId) : IRequest<Question>;
+    Guid? SectionId,
+    bool isGeneral = false) : IRequest<Question>;

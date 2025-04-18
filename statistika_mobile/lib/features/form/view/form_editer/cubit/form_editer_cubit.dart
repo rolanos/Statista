@@ -1,12 +1,12 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
-import 'package:statistika_mobile/features/form/data/model/create_question_request.dart';
-import 'package:statistika_mobile/features/form/data/model/update_available_answer_request.dart';
+import 'package:statistika_mobile/core/dto/create_question/create_question_request.dart';
+import 'package:statistika_mobile/core/dto/update_available_answer/update_available_answer_request.dart';
 import 'package:statistika_mobile/features/form/data/model/update_question_request.dart';
-import 'package:statistika_mobile/features/form/data/repository/available_answer_repository.dart';
+import 'package:statistika_mobile/core/repository/available_answer_repository.dart';
 import 'package:statistika_mobile/features/form/data/repository/form_repository.dart';
-import 'package:statistika_mobile/features/form/data/repository/question_repository.dart';
+import 'package:statistika_mobile/core/repository/question_repository.dart';
 import 'package:statistika_mobile/features/form/data/repository/section_repository.dart';
 import 'package:statistika_mobile/features/form/domain/enum/question_types.dart';
 import 'package:statistika_mobile/features/form/domain/model/available_answer.dart';
@@ -14,7 +14,7 @@ import 'package:statistika_mobile/features/form/domain/model/form.dart';
 import 'package:statistika_mobile/features/form/domain/model/question.dart';
 import 'package:statistika_mobile/features/form/domain/model/section.dart';
 
-import '../../../data/model/create_available_answer_request.dart';
+import '../../../../../core/dto/create_available_answer/create_available_answer_request.dart';
 
 part 'form_editer_state.dart';
 

@@ -3,11 +3,11 @@ import 'dart:developer';
 import 'package:dio/dio.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:statistika_mobile/core/constants/routes.dart';
-import 'package:statistika_mobile/features/form/data/model/create_available_answer_request.dart';
-import 'package:statistika_mobile/features/form/data/model/update_available_answer_request.dart';
+import 'package:statistika_mobile/core/dto/create_available_answer/create_available_answer_request.dart';
+import 'package:statistika_mobile/core/dto/update_available_answer/update_available_answer_request.dart';
 import 'package:statistika_mobile/features/form/domain/model/available_answer.dart';
 
-import '../../../../core/utils/shared_preferences_manager.dart';
+import '../utils/shared_preferences_manager.dart';
 
 class AvailableAnswerRepository {
   Future<Either<Exception, AvailableAnswer>> createAnswer(

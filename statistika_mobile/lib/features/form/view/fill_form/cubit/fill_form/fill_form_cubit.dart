@@ -1,8 +1,8 @@
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
-import 'package:statistika_mobile/features/form/data/model/create_answer_request.dart';
-import 'package:statistika_mobile/features/form/data/model/create_answers_to_form_request.dart';
-import 'package:statistika_mobile/features/form/data/repository/answer_repository.dart';
+import 'package:statistika_mobile/core/dto/create_answer/create_answer_request.dart';
+import 'package:statistika_mobile/core/dto/create_answer/create_answers_to_form_request.dart';
+import 'package:statistika_mobile/core/repository/answer_repository.dart';
 import 'package:statistika_mobile/features/form/data/repository/section_repository.dart';
 import 'package:statistika_mobile/features/form/domain/model/available_answer.dart';
 import 'package:statistika_mobile/features/form/domain/model/question.dart';

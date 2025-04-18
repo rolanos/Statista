@@ -1,3 +1,4 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:statistika_mobile/features/form/domain/model/available_answer.dart';
@@ -24,6 +25,16 @@ class Question extends Equatable {
   final DateTime createdDate;
   final List<AvailableAnswer> availableAnswers;
 
+  factory Question.empty() => Question(
+        id: '',
+        title: '',
+        typeId: '',
+        formId: '',
+        sectionId: '',
+        createdDate: DateTime.now(),
+        availableAnswers: const [],
+      );
+
   factory Question.fromJson(Map<String, dynamic> json) =>
       _$QuestionFromJson(json);
 
@@ -39,4 +50,24 @@ class Question extends Equatable {
         createdDate,
         availableAnswers,
       ];
+
+  Question copyWith({
+    String? id,
+    String? title,
+    String? typeId,
+    String? formId,
+    String? sectionId,
+    DateTime? createdDate,
+    List<AvailableAnswer>? availableAnswers,
+  }) {
+    return Question(
+      id: id ?? this.id,
+      title: title ?? this.title,
+      typeId: typeId ?? this.typeId,
+      formId: formId ?? this.formId,
+      sectionId: sectionId ?? this.sectionId,
+      createdDate: createdDate ?? this.createdDate,
+      availableAnswers: availableAnswers ?? this.availableAnswers,
+    );
+  }
 }

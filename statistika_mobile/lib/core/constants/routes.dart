@@ -20,12 +20,15 @@ abstract class ApiRoutes {
   static const answersForForm = '$answers/form';
 
   static const questions = '$baseUrl/questions';
+
+  static const generalQuestion = '$questions/general';
 }
 
 abstract class NavigationRoutes {
   static const auth = 'auth';
 
   static const generalQuestions = 'general_questions';
+  static const createGeneralQuestion = 'create_general_question';
 
   static const surveys = 'surveys';
   static const forms = 'forms';

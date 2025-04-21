@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Statista.Infrastructure.Persistence;
@@ -11,9 +12,11 @@ using Statista.Infrastructure.Persistence;
 namespace Statista.Infrastructure.Migrations
 {
     [DbContext(typeof(PostgresDbContext))]
-    partial class PostgresDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250421115144_UpdateAnswer")]
+    partial class UpdateAnswer
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -96,34 +99,6 @@ namespace Statista.Infrastructure.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("RespondentGroup", (string)null);
-                });
-
-            modelBuilder.Entity("Statista.Domain.Entities.AnaliticalFact", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<DateTime>("AnswerTime")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<string>("AnswerValue")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<Guid>("QuestionId")
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid?>("UserInfoId")
-                        .HasColumnType("uuid");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("QuestionId");
-
-                    b.HasIndex("UserInfoId");
-
-                    b.ToTable("AnaliticalFacts");
                 });
 
             modelBuilder.Entity("Statista.Domain.Entities.AvailableAnswer", b =>
@@ -382,23 +357,6 @@ namespace Statista.Infrastructure.Migrations
                     b.Navigation("Survey");
 
                     b.Navigation("User");
-                });
-
-            modelBuilder.Entity("Statista.Domain.Entities.AnaliticalFact", b =>
-                {
-                    b.HasOne("Statista.Domain.Entities.Question", "Question")
-                        .WithMany()
-                        .HasForeignKey("QuestionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Statista.Domain.Entities.UserInfo", "UserInfo")
-                        .WithMany()
-                        .HasForeignKey("UserInfoId");
-
-                    b.Navigation("Question");
-
-                    b.Navigation("UserInfo");
                 });
 
             modelBuilder.Entity("Statista.Domain.Entities.AvailableAnswer", b =>

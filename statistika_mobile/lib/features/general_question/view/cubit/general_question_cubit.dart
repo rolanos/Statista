@@ -1,7 +1,10 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
+import 'package:statistika_mobile/core/dto/create_answer/create_answer_request.dart';
+import 'package:statistika_mobile/core/repository/answer_repository.dart';
 import 'package:statistika_mobile/core/repository/question_repository.dart';
+import 'package:statistika_mobile/features/form/domain/model/available_answer.dart';
 
 import '../../../form/domain/model/question.dart';
 
@@ -17,5 +20,23 @@ class GeneralQuestionCubit extends Cubit<GeneralQuestionState> {
       (e) => emit(GeneralQuestionError(message: e.toString())),
       (q) => emit(GeneralQuestionInitial(question: q)),
     );
+  }
+
+  Future<void> answerQuestion(AvailableAnswer? answer) async {
+    final state = this.state;
+
+    if (state is GeneralQuestionInitial && answer != null) {
+      final request = CreateAnswerRequest(
+        questionId: state.question.id,
+        answerValueId: answer.id,
+      );
+
+      final result = await AnswerRepository().sendAnswer(request);
+
+      result.match(
+        (e) => emit(GeneralQuestionError(message: e.toString())),
+        (q) => getGeneralQuestion(),
+      );
+    }
   }
 }

@@ -10,6 +10,7 @@ class CreateQuestionRequest {
     required this.nextQuestion,
     required this.typeId,
     required this.sectionId,
+    required this.isGeneral,
   });
 
   final String title;
@@ -17,6 +18,7 @@ class CreateQuestionRequest {
   final String? nextQuestion;
   final String typeId;
   final String? sectionId;
+  final bool? isGeneral;
 
   factory CreateQuestionRequest.fromJson(Map<String, dynamic> json) =>
       _$CreateQuestionRequestFromJson(json);

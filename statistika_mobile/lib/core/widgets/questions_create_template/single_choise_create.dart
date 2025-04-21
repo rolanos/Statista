@@ -5,6 +5,7 @@ import 'package:statistika_mobile/core/constants/app_constants.dart';
 import 'package:statistika_mobile/features/form/domain/model/available_answer.dart';
 import 'package:statistika_mobile/features/form/domain/model/question.dart';
 
+import '../../constants/theme.dart';
 import '../../utils/text_editing_controller_bind.dart';
 
 class SingleChoiseCreateWidget extends StatefulWidget {
@@ -50,8 +51,8 @@ class _SingleChoiseCreateWidgetState extends State<SingleChoiseCreateWidget> {
 
     if (widget.question.title.isNotEmpty) {
       titleController.text = widget.question.title;
-      titleController.addListener(_onTextChanged);
     }
+    titleController.addListener(_onTextChanged);
     if (widget.question.availableAnswers.isNotEmpty) {
       for (var available in widget.question.availableAnswers) {
         availableControllers.add(
@@ -70,80 +71,89 @@ class _SingleChoiseCreateWidgetState extends State<SingleChoiseCreateWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Builder(builder: (context) {
-      for (var available in widget.question.availableAnswers) {
-        availableControllers.add(
-          available.id,
-          available,
-          initialValue: available.text,
-          onChanged: (v, s) {
-            if (widget.onUpdateAvailableAnswer != null) {
-              widget.onUpdateAvailableAnswer!(v, s);
-            }
-          },
-        );
-      }
-      return Column(
-        spacing: AppConstants.smallPadding,
-        children: [
-          Row(
-            children: [
-              Flexible(
-                child: TextFormField(
-                  controller: titleController,
+    return Container(
+      padding: const EdgeInsets.all(AppConstants.mediumPadding),
+      decoration: BoxDecoration(
+        color: AppColors.white,
+        boxShadow: AppTheme.smallShadows,
+        borderRadius: BorderRadius.circular(AppConstants.mediumPadding),
+      ),
+      child: Builder(builder: (context) {
+        for (var available in widget.question.availableAnswers) {
+          availableControllers.add(
+            available.id,
+            available,
+            initialValue: available.text,
+            onChanged: (v, s) {
+              if (widget.onUpdateAvailableAnswer != null) {
+                widget.onUpdateAvailableAnswer!(v, s);
+              }
+            },
+          );
+        }
+        return Column(
+          spacing: AppConstants.smallPadding,
+          children: [
+            Row(
+              children: [
+                Flexible(
+                  child: TextFormField(
+                    controller: titleController,
+                    decoration:
+                        const InputDecoration(hintText: 'Текст вопроса'),
+                  ),
+                ),
+                if (widget.onDeleteQuestion != null)
+                  IconButton(
+                    onPressed: () {
+                      if (widget.onDeleteQuestion != null) {
+                        widget.onDeleteQuestion!(widget.question);
+                      }
+                    },
+                    icon: const Icon(Icons.delete),
+                  ),
+              ],
+            ),
+            ReorderableListView.builder(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              itemCount: widget.question.availableAnswers.length,
+              onReorder: (int oldIndex, int newIndex) {},
+              itemBuilder: (BuildContext context, int index) => ListTile(
+                key: ValueKey(widget.question.availableAnswers[index].id),
+                leading: const Text('•'),
+                title: TextFormField(
+                  controller: availableControllers
+                      .find(widget.question.availableAnswers[index].id)
+                      ?.controller,
                   decoration: const InputDecoration(hintText: 'Текст вопроса'),
                 ),
-              ),
-              if (widget.onDeleteQuestion != null)
-                IconButton(
+                contentPadding: EdgeInsets.zero,
+                trailing: IconButton(
                   onPressed: () {
-                    if (widget.onDeleteQuestion != null) {
-                      widget.onDeleteQuestion!(widget.question);
+                    if (widget.onDeleteAvailableAnswer != null) {
+                      widget.onDeleteAvailableAnswer!(
+                        widget.question.availableAnswers[index],
+                      );
                     }
                   },
                   icon: const Icon(Icons.delete),
                 ),
-            ],
-          ),
-          ReorderableListView.builder(
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            itemCount: widget.question.availableAnswers.length,
-            onReorder: (int oldIndex, int newIndex) {},
-            itemBuilder: (BuildContext context, int index) => ListTile(
-              key: ValueKey(widget.question.availableAnswers[index].id),
-              leading: const Text('•'),
-              title: TextFormField(
-                controller: availableControllers
-                    .find(widget.question.availableAnswers[index].id)
-                    ?.controller,
-                decoration: const InputDecoration(hintText: 'Текст вопроса'),
-              ),
-              contentPadding: EdgeInsets.zero,
-              trailing: IconButton(
-                onPressed: () {
-                  if (widget.onDeleteAvailableAnswer != null) {
-                    widget.onDeleteAvailableAnswer!(
-                      widget.question.availableAnswers[index],
-                    );
-                  }
-                },
-                icon: const Icon(Icons.delete),
               ),
             ),
-          ),
-          Row(
-            children: [
-              const Spacer(),
-              ElevatedButton(
-                onPressed: widget.onAddAnswer,
-                child: const Icon(Icons.add, color: AppColors.white),
-              ),
-            ],
-          ),
-        ],
-      );
-    });
+            Row(
+              children: [
+                const Spacer(),
+                ElevatedButton(
+                  onPressed: widget.onAddAnswer,
+                  child: const Icon(Icons.add, color: AppColors.white),
+                ),
+              ],
+            ),
+          ],
+        );
+      }),
+    );
   }
 
   void _onTextChanged() {

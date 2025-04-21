@@ -1,3 +1,4 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 
@@ -22,6 +23,13 @@ class AvailableAnswer extends Equatable {
 
   Map<String, dynamic> toJson() => _$AvailableAnswerToJson(this);
 
+  factory AvailableAnswer.empty() => const AvailableAnswer(
+        id: '',
+        text: null,
+        imageLink: null,
+        questionId: '',
+      );
+
   @override
   List<Object?> get props => [
         id,
@@ -29,4 +37,18 @@ class AvailableAnswer extends Equatable {
         imageLink,
         questionId,
       ];
+
+  AvailableAnswer copyWith({
+    String? id,
+    String? text,
+    String? imageLink,
+    String? questionId,
+  }) {
+    return AvailableAnswer(
+      id: id ?? this.id,
+      text: text ?? this.text,
+      imageLink: imageLink ?? this.imageLink,
+      questionId: questionId ?? this.questionId,
+    );
+  }
 }

@@ -4,6 +4,8 @@ import 'package:statistika_mobile/core/utils/extensions.dart';
 import 'package:statistika_mobile/features/form/domain/model/available_answer.dart';
 import 'package:statistika_mobile/features/form/domain/model/question.dart';
 
+import '../../constants/theme.dart';
+
 class SingleChoiseQuestion extends StatefulWidget {
   const SingleChoiseQuestion({
     super.key,
@@ -33,58 +35,70 @@ class _SingleChoiseQuestionState extends State<SingleChoiseQuestion> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      spacing: AppConstants.largePadding,
-      children: [
-        Container(
-          padding: const EdgeInsets.all(
-            AppConstants.mediumPadding,
-          ),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(
-              AppConstants.mediumPadding,
-            ),
-          ),
-          child: Text(
-            widget.question.title,
-            style: context.textTheme.titleLarge?.copyWith(
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-        ),
-        ListView.separated(
-          shrinkWrap: true,
-          itemCount: widget.question.availableAnswers.length,
-          separatorBuilder: (BuildContext context, int index) =>
-              const SizedBox(height: AppConstants.mediumPadding),
-          itemBuilder: (context, index) => Container(
+    return Container(
+      margin: const EdgeInsets.all(AppConstants.mediumPadding),
+      padding: const EdgeInsets.all(AppConstants.mediumPadding),
+      decoration: BoxDecoration(
+        color: AppColors.white,
+        boxShadow: AppTheme.smallShadows,
+        borderRadius: BorderRadius.circular(AppConstants.mediumPadding),
+      ),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.center,
+        spacing: AppConstants.largePadding,
+        children: [
+          Container(
             padding: const EdgeInsets.all(
-              AppConstants.smallPadding,
+              AppConstants.mediumPadding,
             ),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(
                 AppConstants.mediumPadding,
               ),
             ),
-            child: RadioListTile(
-              contentPadding: EdgeInsets.zero,
-              value: widget.question.availableAnswers[index],
-              groupValue: availableAnswer,
-              title: Text(
-                widget.question.availableAnswers[index].text ?? 'Пустой ответ',
-                style: context.textTheme.bodyLarge?.copyWith(
-                  fontWeight: FontWeight.bold,
-                ),
+            child: Text(
+              widget.question.title,
+              style: context.textTheme.titleLarge?.copyWith(
+                fontWeight: FontWeight.bold,
               ),
-              onChanged: (value) {
-                widget.onSelected(value);
-                setState(() => availableAnswer = value);
-              },
             ),
           ),
-        ),
-      ],
+          ListView.separated(
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            itemCount: widget.question.availableAnswers.length,
+            separatorBuilder: (BuildContext context, int index) =>
+                const SizedBox(height: AppConstants.mediumPadding),
+            itemBuilder: (context, index) => Container(
+              padding: const EdgeInsets.all(
+                AppConstants.smallPadding,
+              ),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(
+                  AppConstants.mediumPadding,
+                ),
+              ),
+              child: RadioListTile(
+                contentPadding: EdgeInsets.zero,
+                value: widget.question.availableAnswers[index],
+                groupValue: availableAnswer,
+                title: Text(
+                  widget.question.availableAnswers[index].text ??
+                      'Пустой ответ',
+                  style: context.textTheme.bodyLarge?.copyWith(
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                onChanged: (value) {
+                  widget.onSelected(value);
+                  setState(() => availableAnswer = value);
+                },
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

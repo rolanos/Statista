@@ -65,6 +65,7 @@ class FormEditerCubit extends Cubit<FormEditerState> {
       nextQuestion: null,
       typeId: QuestionTypes.singleChoise.id,
       sectionId: section.id,
+      isGeneral: false,
     );
     final result = await QuestionRepository().createQuestion(createRequest);
 

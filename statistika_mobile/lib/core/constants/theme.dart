@@ -5,9 +5,9 @@ import 'app_constants.dart';
 class AppTheme {
   static List<BoxShadow> get smallShadows => [
         const BoxShadow(
-          color: Color.fromRGBO(0, 0, 0, 0.1),
+          color: Color.fromRGBO(0, 0, 0, 0.07),
           spreadRadius: 3,
-          blurRadius: 3,
+          blurRadius: 6,
         ),
       ];
 

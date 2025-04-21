@@ -14,6 +14,7 @@ CreateQuestionRequest _$CreateQuestionRequestFromJson(
       nextQuestion: json['nextQuestion'] as String?,
       typeId: json['typeId'] as String,
       sectionId: json['sectionId'] as String?,
+      isGeneral: json['isGeneral'] as bool?,
     );
 
 Map<String, dynamic> _$CreateQuestionRequestToJson(
@@ -24,4 +25,5 @@ Map<String, dynamic> _$CreateQuestionRequestToJson(
       'nextQuestion': instance.nextQuestion,
       'typeId': instance.typeId,
       'sectionId': instance.sectionId,
+      'isGeneral': instance.isGeneral,
     };

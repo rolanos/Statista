@@ -14,10 +14,11 @@ public class AnaliticalRepository : IAnaliticalRepository
         _dbContext = dbContext;
     }
 
-    public async Task<ICollection<AnaliticalResult>> Analyse(AnaliticalParameters parameters)
+    public async Task<AnaliticalComplexResult> Analyse(AnaliticalParameters parameters)
     {
         Guid _;
-        var results = await _dbContext.AnaliticalFacts
+        var complex = new AnaliticalComplexResult();
+        complex.AnaliticalResults = await _dbContext.AnaliticalFacts
             .Where(f => f.QuestionId == parameters.QuestionId)
             .GroupBy(f => f.AnswerValue)
             .Select(g => new AnaliticalResult
@@ -28,7 +29,7 @@ public class AnaliticalRepository : IAnaliticalRepository
                 Count = g.Count()
             })
             .ToListAsync();
-
-        return results;
+        complex.TotalCount = complex.AnaliticalResults.Sum(r => r.Count);
+        return complex;
     }
 }

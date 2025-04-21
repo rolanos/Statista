@@ -2,6 +2,8 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
 import 'package:statistika_mobile/core/dto/create_answer/create_answer_request.dart';
+import 'package:statistika_mobile/core/model/analitical_complex.dart';
+import 'package:statistika_mobile/core/repository/analitical_repository.dart';
 import 'package:statistika_mobile/core/repository/answer_repository.dart';
 import 'package:statistika_mobile/core/repository/question_repository.dart';
 import 'package:statistika_mobile/features/form/domain/model/available_answer.dart';
@@ -26,6 +28,7 @@ class GeneralQuestionCubit extends Cubit<GeneralQuestionState> {
     final state = this.state;
 
     if (state is GeneralQuestionInitial && answer != null) {
+      emit(GeneralQuestionInitialAnswerLoading(question: state.question));
       final request = CreateAnswerRequest(
         questionId: state.question.id,
         answerValueId: answer.id,
@@ -35,7 +38,20 @@ class GeneralQuestionCubit extends Cubit<GeneralQuestionState> {
 
       result.match(
         (e) => emit(GeneralQuestionError(message: e.toString())),
-        (q) => getGeneralQuestion(),
+        (_) async {
+          final analiticResult =
+              await AnaliticalRepository().getAnalitic(state.question.id);
+
+          analiticResult.match(
+            (e) => emit(GeneralQuestionError(message: e.toString())),
+            (a) => emit(
+              GeneralQuestionInitialShowAnalitic(
+                question: state.question,
+                analitic: a,
+              ),
+            ),
+          );
+        },
       );
     }
   }

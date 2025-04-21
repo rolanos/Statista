@@ -1,6 +1,6 @@
 namespace Statista.Application.Features.Analitical.Dto;
 
-public class AnaliticResponse
+public class AnaliticalResponse
 {
     public Guid? AnswerId { get; set; }
     public string? AnswerValue { get; set; }

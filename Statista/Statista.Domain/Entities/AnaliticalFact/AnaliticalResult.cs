@@ -2,6 +2,13 @@ using Statista.Domain.Entities;
 
 namespace Statista.Application.Features.Analitical.Dto;
 
+
+public class AnaliticalComplexResult
+{
+    public int TotalCount { get; set; } = 0;
+    public ICollection<AnaliticalResult> AnaliticalResults { get; set; }
+}
+
 public class AnaliticalResult
 {
     public Guid? AnswerId { get; set; }

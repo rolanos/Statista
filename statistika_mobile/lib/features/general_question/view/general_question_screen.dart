@@ -69,6 +69,10 @@ class _GeneralQuestionScreenState extends State<GeneralQuestionScreen> {
                             SingleChoiseQuestion(
                               question: state.question,
                               onSelected: (a) => answer = a,
+                              analitic:
+                                  state is GeneralQuestionInitialShowAnalitic
+                                      ? state.analitic
+                                      : null,
                             ),
                             Align(
                               alignment: Alignment.centerRight,

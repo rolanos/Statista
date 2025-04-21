@@ -1,6 +1,7 @@
 namespace Statista.Application.Features.Analitical.Dto;
 
-public class AnaliticComplexResponse
+public class AnaliticalComplexResponse
 {
-    public ICollection<AnaliticResponse> Data { get; set; } = new List<AnaliticResponse>();
+    public int TotalCount { get; set; } = 0;
+    public ICollection<AnaliticalResponse> Data { get; set; } = new List<AnaliticalResponse>();
 }

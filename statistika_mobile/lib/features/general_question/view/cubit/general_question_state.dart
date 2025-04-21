@@ -27,3 +27,18 @@ final class GeneralQuestionInitial extends GeneralQuestionState {
   @override
   List<Object?> get props => [question];
 }
+
+final class GeneralQuestionInitialAnswerLoading extends GeneralQuestionInitial {
+  GeneralQuestionInitialAnswerLoading({
+    required super.question,
+  });
+}
+
+final class GeneralQuestionInitialShowAnalitic extends GeneralQuestionInitial {
+  GeneralQuestionInitialShowAnalitic({
+    required super.question,
+    required this.analitic,
+  });
+
+  final AnaliticComplexResult analitic;
+}

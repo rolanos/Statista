@@ -5,5 +5,5 @@ namespace Statista.Application.Common.Interfaces.Persistence;
 
 public interface IAnaliticalRepository
 {
-    Task<ICollection<AnaliticalResult>> Analyse(AnaliticalParameters parameters);
+    Task<AnaliticalComplexResult> Analyse(AnaliticalParameters parameters);
 }

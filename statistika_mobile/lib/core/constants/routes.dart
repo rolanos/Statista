@@ -22,6 +22,8 @@ abstract class ApiRoutes {
   static const questions = '$baseUrl/questions';
 
   static const generalQuestion = '$questions/general';
+
+  static const analitical = '$baseUrl/analitical';
 }
 
 abstract class NavigationRoutes {

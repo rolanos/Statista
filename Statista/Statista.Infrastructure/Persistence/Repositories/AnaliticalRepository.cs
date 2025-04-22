@@ -17,7 +17,10 @@ public class AnaliticalRepository : IAnaliticalRepository
     public async Task<AnaliticalComplexResult> Analyse(AnaliticalParameters parameters)
     {
         Guid _;
-        var complex = new AnaliticalComplexResult();
+        var complex = new AnaliticalComplexResult()
+        {
+            QuestionId = parameters.QuestionId,
+        };
         complex.AnaliticalResults = await _dbContext.AnaliticalFacts
             .Where(f => f.QuestionId == parameters.QuestionId)
             .GroupBy(f => f.AnswerValue)

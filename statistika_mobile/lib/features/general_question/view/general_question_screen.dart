@@ -54,7 +54,20 @@ class _GeneralQuestionScreenState extends State<GeneralQuestionScreen> {
               children: [
                 Expanded(
                   child:
-                      BlocBuilder<GeneralQuestionCubit, GeneralQuestionState>(
+                      BlocConsumer<GeneralQuestionCubit, GeneralQuestionState>(
+                    listenWhen: (previous, current) {
+                      if (previous is GeneralQuestionInitial &&
+                          current is GeneralQuestionInitial) {
+                        return previous.question != current.question;
+                      }
+                      return false;
+                    },
+                    listener: (context, state) {
+                      if (state is GeneralQuestionInitial) {
+                        answer = null;
+                        setState(() {});
+                      }
+                    },
                     builder: (context, state) {
                       if (state is GeneralQuestionLoading) {
                         return const Center(
@@ -82,17 +95,32 @@ class _GeneralQuestionScreenState extends State<GeneralQuestionScreen> {
                                 ),
                                 child: ElevatedButton(
                                   onPressed: () async {
-                                    await context
-                                        .read<GeneralQuestionCubit>()
-                                        .answerQuestion(answer);
+                                    if (state
+                                        is GeneralQuestionInitialAnswerLoading) {
+                                      return;
+                                    } else if (state
+                                        is GeneralQuestionInitialShowAnalitic) {
+                                      await context
+                                          .read<GeneralQuestionCubit>()
+                                          .getGeneralQuestion();
+                                    } else if (answer != null) {
+                                      await context
+                                          .read<GeneralQuestionCubit>()
+                                          .answerQuestion(answer);
+                                    }
                                   },
-                                  child: Text(
-                                    'Ответить',
-                                    style:
-                                        context.textTheme.bodyMedium?.copyWith(
-                                      color: AppColors.white,
-                                    ),
-                                  ),
+                                  child: state
+                                          is GeneralQuestionInitialAnswerLoading
+                                      ? const CircularProgressIndicator()
+                                      : Text(
+                                          state is GeneralQuestionInitialShowAnalitic
+                                              ? 'Следующий вопрос'
+                                              : 'Ответить',
+                                          style: context.textTheme.bodyMedium
+                                              ?.copyWith(
+                                            color: AppColors.white,
+                                          ),
+                                        ),
                                 ),
                               ),
                             ),

@@ -26,7 +26,10 @@ public class GetAnaliticDataByQuestionQueryHandler : IRequestHandler<GetAnalitic
             QuestionId = request.QuestionId,
         };
         var result = await _analiticalRepository.Analyse(parameters);
-        var analiticResult = new AnaliticalComplexResponse();
+        var analiticResult = new AnaliticalComplexResponse()
+        {
+            QuestionId = request.QuestionId,
+        };
         if (result != null)
         {
             analiticResult.TotalCount = result.TotalCount;

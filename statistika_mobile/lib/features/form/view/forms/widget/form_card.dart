@@ -51,6 +51,19 @@ class FormCard extends StatelessWidget {
                   ),
                 ),
                 const Spacer(),
+                ElevatedButton(
+                  onPressed: () {
+                    context.goNamed(
+                      NavigationRoutes.formAnalitic,
+                      queryParameters: {'formId': form.id},
+                    );
+                  },
+                  child: const Icon(
+                    Icons.analytics,
+                    color: AppColors.white,
+                  ),
+                ),
+                const Spacer(),
                 const Icon(
                   Icons.arrow_forward,
                 ),

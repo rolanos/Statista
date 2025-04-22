@@ -36,6 +36,7 @@ abstract class NavigationRoutes {
   static const forms = 'forms';
   static const createForm = 'create_form';
   static const formEditer = 'form_editer_screen';
+  static const formAnalitic = 'form_analitic';
 
   static const welcomeForm = 'welcome_form';
   static const fillForm = 'fill_form';

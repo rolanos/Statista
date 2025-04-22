@@ -6,6 +6,7 @@ namespace Statista.Application.Features.Analitical.Dto;
 public class AnaliticalComplexResult
 {
     public int TotalCount { get; set; } = 0;
+    public Guid QuestionId { get; set; }
     public ICollection<AnaliticalResult> AnaliticalResults { get; set; }
 }
 

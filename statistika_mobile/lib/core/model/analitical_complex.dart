@@ -8,10 +8,12 @@ part 'analitical_complex.g.dart';
 class AnaliticComplexResult {
   AnaliticComplexResult({
     required this.totalCount,
+    required this.questionId,
     required this.data,
   });
 
   final int totalCount;
+  final String questionId;
   final List<AnaliticalResult> data;
 
   factory AnaliticComplexResult.fromJson(Map<String, dynamic> json) =>

@@ -12,7 +12,11 @@ final class FormsError extends FormsState {
 }
 
 final class FormsInitial extends FormsState {
-  FormsInitial({this.forms = const []});
+  FormsInitial({
+    this.allForms = const [],
+    this.userForms = const [],
+  });
 
-  final List<Form> forms;
+  final List<Form> allForms;
+  final List<Form> userForms;
 }

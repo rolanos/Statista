@@ -13,12 +13,19 @@ class FormsCubit extends Cubit<FormsState> {
       emit(FormsError(message: 'Ошибка, попробуйте позже'));
 
   Future<void> getForms() async {
-    final result = await FormRepository().getForms();
-    result.match(
-      (e) => emit(FormsError(message: e.toString())),
-      (list) => emit(
-        FormsInitial(forms: list),
-      ),
-    );
+    final result = await FormRepository().getAllForms();
+    result.match((e) => emit(FormsError(message: e.toString())),
+        (allForms) async {
+      final userForms = await FormRepository().getUserForms();
+      userForms.match(
+        (e) => emit(FormsError(message: e.toString())),
+        (userForms) => emit(
+          FormsInitial(
+            allForms: allForms,
+            userForms: userForms,
+          ),
+        ),
+      );
+    });
   }
 }

@@ -28,64 +28,100 @@ class _FormsScreenState extends State<FormsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => formsCubit,
-      child: RefreshIndicator(
-        onRefresh: () async => formsCubit.getForms(),
-        child: CustomScrollView(
-          slivers: [
-            SliverAppBar(
-              snap: false,
-              pinned: true,
-              floating: false,
-              backgroundColor: AppColors.white,
-              surfaceTintColor: AppColors.white,
-              title: Text(
-                'Опросы',
-                style: context.textTheme.bodyMedium
-                    ?.copyWith(color: AppColors.black),
+    return DefaultTabController(
+      length: 2,
+      child: BlocProvider(
+        create: (context) => formsCubit,
+        child: RefreshIndicator(
+          notificationPredicate: (notification) {
+            return notification.depth == 2;
+          },
+          onRefresh: () async => formsCubit.getForms(),
+          child: NestedScrollView(
+            headerSliverBuilder: (context, innerBoxIsScrolled) => [
+              SliverAppBar(
+                snap: false,
+                pinned: true,
+                floating: true,
+                backgroundColor: AppColors.white,
+                surfaceTintColor: AppColors.white,
+                title: Text(
+                  'Опросы',
+                  style: context.textTheme.bodyMedium
+                      ?.copyWith(color: AppColors.black),
+                ),
+                actions: [
+                  IconButton(
+                    onPressed: () {
+                      context.goNamed(NavigationRoutes.createForm);
+                    },
+                    icon: const Icon(Icons.add),
+                  ),
+                ],
+                bottom: const TabBar(
+                  dividerColor: Colors.transparent,
+                  tabs: [
+                    Tab(
+                      text: 'Все опросы',
+                    ),
+                    Tab(
+                      text: 'Мои опросы',
+                    ),
+                  ],
+                ),
               ),
-              actions: [
-                IconButton(
-                  onPressed: () {
-                    context.goNamed(NavigationRoutes.createForm);
+            ],
+            body: TabBarView(
+              children: [
+                BlocBuilder<FormsCubit, FormsState>(
+                  builder: (context, state) {
+                    if (state is FormsLoading) {
+                      return const Center(child: CircularProgressIndicator());
+                    }
+                    if (state is FormsInitial) {
+                      return ListView.separated(
+                        shrinkWrap: true,
+                        itemCount: state.allForms.length,
+                        physics: const NeverScrollableScrollPhysics(),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: AppConstants.mediumPadding,
+                          vertical: AppConstants.mediumPadding,
+                        ),
+                        separatorBuilder: (context, index) =>
+                            const SizedBox(height: AppConstants.mediumPadding),
+                        itemBuilder: (context, index) => FormCard(
+                          form: state.allForms[index],
+                        ),
+                      );
+                    }
+                    return const SizedBox();
                   },
-                  icon: const Icon(Icons.add),
+                ),
+                BlocBuilder<FormsCubit, FormsState>(
+                  builder: (context, state) {
+                    if (state is FormsInitial) {
+                      return ListView.separated(
+                        shrinkWrap: true,
+                        itemCount: state.userForms.length,
+                        physics: const NeverScrollableScrollPhysics(),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: AppConstants.mediumPadding,
+                          vertical: AppConstants.mediumPadding,
+                        ),
+                        separatorBuilder: (context, index) =>
+                            const SizedBox(height: AppConstants.mediumPadding),
+                        itemBuilder: (context, index) => FormCard(
+                          form: state.userForms[index],
+                          mode: FormCardViewMode.admin,
+                        ),
+                      );
+                    }
+                    return const SizedBox();
+                  },
                 ),
               ],
             ),
-            SliverToBoxAdapter(
-              child: Column(
-                spacing: AppConstants.mediumPadding,
-                children: [
-                  BlocBuilder<FormsCubit, FormsState>(
-                    builder: (context, state) {
-                      if (state is FormsLoading) {
-                        return const Center(child: CircularProgressIndicator());
-                      }
-                      if (state is FormsInitial) {
-                        return ListView.separated(
-                          shrinkWrap: true,
-                          itemCount: state.forms.length,
-                          physics: const NeverScrollableScrollPhysics(),
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: AppConstants.mediumPadding,
-                            vertical: AppConstants.mediumPadding,
-                          ),
-                          separatorBuilder: (context, index) => const SizedBox(
-                              height: AppConstants.mediumPadding),
-                          itemBuilder: (context, index) => FormCard(
-                            form: state.forms[index],
-                          ),
-                        );
-                      }
-                      return const SizedBox();
-                    },
-                  ),
-                ],
-              ),
-            ),
-          ],
+          ),
         ),
       ),
     );

@@ -17,6 +17,17 @@ class AppTheme {
       scaffoldBackgroundColor: const Color(0xFFF9FAFB),
       indicatorColor: AppColors.black,
       primaryColor: Colors.black,
+      colorScheme: const ColorScheme(
+        brightness: Brightness.light,
+        primary: Colors.black,
+        onPrimary: Colors.black,
+        secondary: AppColors.black,
+        onSecondary: AppColors.white,
+        error: Color.fromARGB(255, 205, 135, 135),
+        onError: Color.fromARGB(255, 205, 135, 135),
+        surface: AppColors.white,
+        onSurface: AppColors.black,
+      ),
       textTheme: const TextTheme(
         titleLarge: TextStyle(
           color: Color(0xFF171717),

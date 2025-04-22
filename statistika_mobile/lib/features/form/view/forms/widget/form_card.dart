@@ -9,13 +9,21 @@ import 'package:statistika_mobile/features/form/view/fill_form/cubit/fill_form/a
 
 import '../../../domain/model/form.dart' as f;
 
+enum FormCardViewMode {
+  respondent,
+  admin,
+}
+
 class FormCard extends StatelessWidget {
   const FormCard({
     super.key,
     required this.form,
+    this.mode = FormCardViewMode.respondent,
   });
 
   final f.Form form;
+
+  final FormCardViewMode mode;
 
   @override
   Widget build(BuildContext context) {
@@ -53,73 +61,74 @@ class FormCard extends StatelessWidget {
                 Flexible(child: Text(form.createdDate.toString())),
               ],
             ),
-            Row(
-              spacing: AppConstants.smallPadding,
-              children: [
-                Expanded(
-                  child: ElevatedButton(
-                    style: const ButtonStyle(
-                      backgroundColor: WidgetStatePropertyAll(
-                        AppColors.gray,
-                      ),
-                    ),
-                    onPressed: () {
-                      context.goNamed(
-                        NavigationRoutes.formEditer,
-                        queryParameters: {'formId': form.id},
-                      );
-                    },
-                    child: Row(
-                      spacing: AppConstants.smallPadding,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const Icon(
-                          Icons.edit,
-                          color: AppColors.white,
+            if (mode == FormCardViewMode.admin)
+              Row(
+                spacing: AppConstants.smallPadding,
+                children: [
+                  Expanded(
+                    child: ElevatedButton(
+                      style: const ButtonStyle(
+                        backgroundColor: WidgetStatePropertyAll(
+                          AppColors.gray,
                         ),
-                        Text(
-                          'Редактировать',
-                          style: context.textTheme.bodySmall?.copyWith(
+                      ),
+                      onPressed: () {
+                        context.goNamed(
+                          NavigationRoutes.formEditer,
+                          queryParameters: {'formId': form.id},
+                        );
+                      },
+                      child: Row(
+                        spacing: AppConstants.smallPadding,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Icon(
+                            Icons.edit,
                             color: AppColors.white,
                           ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                Expanded(
-                  child: ElevatedButton(
-                    style: const ButtonStyle(
-                      backgroundColor: WidgetStatePropertyAll(
-                        AppColors.gray,
+                          Text(
+                            'Редактировать',
+                            style: context.textTheme.bodySmall?.copyWith(
+                              color: AppColors.white,
+                            ),
+                          ),
+                        ],
                       ),
                     ),
-                    onPressed: () {
-                      context.goNamed(
-                        NavigationRoutes.formAnalitic,
-                        queryParameters: {'formId': form.id},
-                      );
-                    },
-                    child: Row(
-                      spacing: AppConstants.smallPadding,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const Icon(
-                          Icons.analytics,
-                          color: AppColors.white,
+                  ),
+                  Expanded(
+                    child: ElevatedButton(
+                      style: const ButtonStyle(
+                        backgroundColor: WidgetStatePropertyAll(
+                          AppColors.gray,
                         ),
-                        Text(
-                          'Аналитика',
-                          style: context.textTheme.bodySmall?.copyWith(
+                      ),
+                      onPressed: () {
+                        context.goNamed(
+                          NavigationRoutes.formAnalitic,
+                          queryParameters: {'formId': form.id},
+                        );
+                      },
+                      child: Row(
+                        spacing: AppConstants.smallPadding,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Icon(
+                            Icons.analytics,
                             color: AppColors.white,
                           ),
-                        ),
-                      ],
+                          Text(
+                            'Аналитика',
+                            style: context.textTheme.bodySmall?.copyWith(
+                              color: AppColors.white,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
-                ),
-              ],
-            ),
+                ],
+              ),
           ],
         ),
       ),

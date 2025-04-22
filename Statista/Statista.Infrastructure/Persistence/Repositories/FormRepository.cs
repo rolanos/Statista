@@ -56,4 +56,13 @@ public class FormRepository : IFormRepository
         }
         return null;
     }
+
+    public async Task<ICollection<Form>> GetFormsByUserId(Guid userId)
+    {
+        return await _dbContext.Forms.AsNoTracking()
+                                     .Where(f => f.CreatedById == userId)
+                                     .Include(f => f.Survey)
+                                     .Include(f => f.CreatedBy)
+                                     .ToListAsync();
+    }
 }

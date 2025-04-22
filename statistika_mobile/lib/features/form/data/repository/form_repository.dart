@@ -9,12 +9,35 @@ import 'package:statistika_mobile/features/form/domain/model/form.dart';
 import '../../../../core/utils/shared_preferences_manager.dart';
 
 class FormRepository {
-  Future<Either<Exception, List<Form>>> getForms() async {
+  Future<Either<Exception, List<Form>>> getAllForms() async {
     try {
       final list = <Form>[];
       final dio = Dio();
       final result = await dio.get(
         ApiRoutes.forms,
+        options: Options(
+          headers: await SharedPreferencesManager.getTokenAsMap(),
+        ),
+      );
+      final data = result.data as List;
+      await for (final element in Stream.fromIterable(data)) {
+        list.add(Form.fromJson(element));
+      }
+      return Either.right(list);
+    } on Exception catch (e) {
+      log(e.toString());
+      return Either.left(e);
+    }
+  }
+
+  Future<Either<Exception, List<Form>>> getUserForms() async {
+    try {
+      final list = <Form>[];
+      final dio = Dio();
+      final userId = await SharedPreferencesManager.getUserId();
+      final result = await dio.get(
+        ApiRoutes.formsByUserId,
+        queryParameters: {"userId": userId},
         options: Options(
           headers: await SharedPreferencesManager.getTokenAsMap(),
         ),

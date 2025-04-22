@@ -38,6 +38,11 @@ class _GeneralQuestionScreenState extends State<GeneralQuestionScreen> {
             floating: true,
             backgroundColor: AppColors.white,
             surfaceTintColor: AppColors.white,
+            title: Text(
+              'Вопросы',
+              style: context.textTheme.bodyMedium
+                  ?.copyWith(color: AppColors.black),
+            ),
             actions: [
               IconButton(
                 onPressed: () {

@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:statistika_mobile/core/constants/constants.dart';
 import 'package:statistika_mobile/core/constants/routes.dart';
+import 'package:statistika_mobile/core/utils/utils.dart';
 import 'package:statistika_mobile/features/form/view/forms/cubit/forms_cubit.dart';
 
 import 'widget/form_card.dart';
@@ -39,8 +40,12 @@ class _FormsScreenState extends State<FormsScreen> {
               floating: false,
               backgroundColor: AppColors.white,
               surfaceTintColor: AppColors.white,
+              title: Text(
+                'Опросы',
+                style: context.textTheme.bodyMedium
+                    ?.copyWith(color: AppColors.black),
+              ),
               actions: [
-                const Spacer(),
                 IconButton(
                   onPressed: () {
                     context.goNamed(NavigationRoutes.createForm);

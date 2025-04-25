@@ -3,7 +3,7 @@ namespace Statista.Domain.Entities;
 public class Question
 {
     public Guid Id { get; set; }
-    public string Title { get; set; }
+    public string Title { get; set; } = string.Empty;
     public Guid? TypeId { get; set; }
     public Classifier? Type { get; set; }
     public Guid? SectionId { get; set; }

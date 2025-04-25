@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Statista.Infrastructure.Persistence;
@@ -11,9 +12,11 @@ using Statista.Infrastructure.Persistence;
 namespace Statista.Infrastructure.Migrations
 {
     [DbContext(typeof(PostgresDbContext))]
-    partial class PostgresDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250425093133_RefactorTables1")]
+    partial class RefactorTables1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -65,7 +68,7 @@ namespace Statista.Infrastructure.Migrations
 
                     b.HasIndex("SurveyId");
 
-                    b.ToTable("Answer", (string)null);
+                    b.ToTable("Answers");
                 });
 
             modelBuilder.Entity("Classifier", b =>
@@ -128,7 +131,7 @@ namespace Statista.Infrastructure.Migrations
 
                     b.HasIndex("UserInfoId");
 
-                    b.ToTable("AnaliticalFact", (string)null);
+                    b.ToTable("AnaliticalFacts");
                 });
 
             modelBuilder.Entity("Statista.Domain.Entities.AvailableAnswer", b =>
@@ -150,7 +153,7 @@ namespace Statista.Infrastructure.Migrations
 
                     b.HasIndex("QuestionId");
 
-                    b.ToTable("AvailableAnswer", (string)null);
+                    b.ToTable("AvailableAnswers");
                 });
 
             modelBuilder.Entity("Statista.Domain.Entities.Form", b =>
@@ -247,7 +250,7 @@ namespace Statista.Infrastructure.Migrations
 
                     b.HasIndex("SectionTypeId");
 
-                    b.ToTable("Section", (string)null);
+                    b.ToTable("Sections");
                 });
 
             modelBuilder.Entity("Statista.Domain.Entities.User", b =>

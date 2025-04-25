@@ -27,7 +27,6 @@ public class FormRepository : IFormRepository
     {
         return await _dbContext.Forms.AsNoTracking()
                                      .Include(f => f.Survey)
-                                     .Include(f => f.CreatedBy)
                                      .ToListAsync();
     }
 
@@ -60,9 +59,7 @@ public class FormRepository : IFormRepository
     public async Task<ICollection<Form>> GetFormsByUserId(Guid userId)
     {
         return await _dbContext.Forms.AsNoTracking()
-                                     .Where(f => f.CreatedById == userId)
                                      .Include(f => f.Survey)
-                                     .Include(f => f.CreatedBy)
                                      .ToListAsync();
     }
 }

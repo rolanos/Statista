@@ -34,7 +34,6 @@ public class CreateFormCommandHandler : IRequestHandler<CreateFormCommand, Form>
             Id = surveyId,
             FormId = formId,
             AdminGroup = [adminGroup],
-            CreatedById = request.CreatedById,
             CreatedDate = DateTime.UtcNow,
         };
         var form = new Form
@@ -43,7 +42,6 @@ public class CreateFormCommandHandler : IRequestHandler<CreateFormCommand, Form>
             Name = request.Name,
             Description = request.Description,
             CreatedDate = DateTime.UtcNow,
-            CreatedById = request.CreatedById,
             SurveyId = surveyId,
         };
         var emptySection = new Section

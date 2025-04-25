@@ -113,6 +113,7 @@ class _SingleChoiseQuestionState extends State<SingleChoiseQuestion> {
                       LinearProgressIndicator(
                         value: analiticResult.count /
                             (widget.analitic?.totalCount ?? 1),
+                        backgroundColor: AppColors.whiteSecondary,
                         borderRadius: BorderRadius.circular(
                           AppConstants.miniPadding,
                         ),

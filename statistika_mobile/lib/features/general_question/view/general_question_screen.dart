@@ -116,7 +116,9 @@ class _GeneralQuestionScreenState extends State<GeneralQuestionScreen> {
                                   },
                                   child: state
                                           is GeneralQuestionInitialAnswerLoading
-                                      ? const CircularProgressIndicator()
+                                      ? const CircularProgressIndicator(
+                                          color: AppColors.white,
+                                        )
                                       : Text(
                                           state is GeneralQuestionInitialShowAnalitic
                                               ? 'Следующий вопрос'

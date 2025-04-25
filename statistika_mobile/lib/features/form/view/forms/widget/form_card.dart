@@ -56,9 +56,23 @@ class FormCard extends StatelessWidget {
             ),
             Text(form.description),
             Row(
+              crossAxisAlignment: CrossAxisAlignment.end,
               children: [
-                Flexible(child: Text(form.createdById)),
-                Flexible(child: Text(form.createdDate.toString())),
+                Flexible(
+                  child: Text(
+                    form.createdById,
+                    style: context.textTheme.bodyMedium?.copyWith(
+                      color: AppColors.black,
+                    ),
+                  ),
+                ),
+                const Spacer(),
+                Text(
+                  form.createdDate.toFormattedString(),
+                  style: context.textTheme.bodyMedium?.copyWith(
+                    color: AppColors.black,
+                  ),
+                ),
               ],
             ),
             if (mode == FormCardViewMode.admin)

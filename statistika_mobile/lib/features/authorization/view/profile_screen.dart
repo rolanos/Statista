@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:statistika_mobile/core/constants/app_constants.dart';
+import 'package:statistika_mobile/core/constants/constants.dart';
 import 'package:statistika_mobile/core/utils/extensions.dart';
 import 'package:statistika_mobile/features/authorization/domain/enum/gender.dart';
 import 'package:statistika_mobile/features/authorization/view/cubit/authorization_cubit.dart';
@@ -81,55 +82,71 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             ],
                           ),
                           const Spacer(),
-                          DropdownButton<Gender>(
-                            isExpanded: true,
-                            value: genderValue,
-                            hint: const Text('Пол'),
-                            style: context.textTheme.bodySmall,
-                            items: [
-                              DropdownMenuItem(
-                                value: Gender.male,
-                                child: Row(
-                                  children: [Text(Gender.male.name)],
-                                ),
+                          Container(
+                            padding: EdgeInsets.all(AppConstants.mediumPadding),
+                            decoration: BoxDecoration(
+                              color: AppColors.white,
+                              boxShadow: AppTheme.smallShadows,
+                              borderRadius: BorderRadius.circular(
+                                AppConstants.mediumPadding,
                               ),
-                              DropdownMenuItem(
-                                value: Gender.female,
-                                child: Row(
-                                  children: [
-                                    Text(
-                                      Gender.female.name,
-                                    )
+                            ),
+                            child: Column(
+                              children: [
+                                DropdownButton<Gender>(
+                                  isExpanded: true,
+                                  value: genderValue,
+                                  hint: const Text('Пол'),
+                                  style: context.textTheme.bodySmall,
+                                  items: [
+                                    DropdownMenuItem(
+                                      value: Gender.male,
+                                      child: Row(
+                                        children: [Text(Gender.male.name)],
+                                      ),
+                                    ),
+                                    DropdownMenuItem(
+                                      value: Gender.female,
+                                      child: Row(
+                                        children: [
+                                          Text(
+                                            Gender.female.name,
+                                          )
+                                        ],
+                                      ),
+                                    ),
                                   ],
+                                  onChanged: (value) => setState(
+                                    () => genderValue = value,
+                                  ),
                                 ),
-                              ),
-                            ],
-                            onChanged: (value) => setState(
-                              () => genderValue = value,
-                            ),
-                          ),
-                          ListTile(
-                            contentPadding: EdgeInsets.zero,
-                            onTap: () async {
-                              birthday = await showDatePicker(
-                                context: context,
-                                firstDate: DateTime(1920),
-                                lastDate: DateTime(2020),
-                              );
-                              setState(() {});
-                            },
-                            title: Text(
-                              birthday != null
-                                  ? birthday.toString()
-                                  : 'Выбрать дату рождения',
-                              style: context.textTheme.bodySmall,
-                            ),
-                            trailing: Text(
-                              userState is UserProfileInitial &&
-                                      userState.user.userInfo?.birthday != null
-                                  ? userState.user.userInfo!.birthday.toString()
-                                  : 'Укажите',
-                              style: context.textTheme.bodySmall,
+                                ListTile(
+                                  contentPadding: EdgeInsets.zero,
+                                  onTap: () async {
+                                    birthday = await showDatePicker(
+                                      context: context,
+                                      firstDate: DateTime(1920),
+                                      lastDate: DateTime(2020),
+                                    );
+                                    setState(() {});
+                                  },
+                                  title: Text(
+                                    birthday != null
+                                        ? birthday.toString()
+                                        : 'Выбрать дату рождения',
+                                    style: context.textTheme.bodySmall,
+                                  ),
+                                  trailing: Text(
+                                    userState is UserProfileInitial &&
+                                            userState.user.userInfo?.birthday !=
+                                                null
+                                        ? userState.user.userInfo!.birthday
+                                            .toString()
+                                        : 'Укажите',
+                                    style: context.textTheme.bodySmall,
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
                           const Spacer(),

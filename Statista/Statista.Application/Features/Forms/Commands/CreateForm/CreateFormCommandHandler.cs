@@ -6,27 +6,45 @@ namespace Statista.Application.Features.Forms.Commands.CreateForm;
 
 public class CreateFormCommandHandler : IRequestHandler<CreateFormCommand, Form>
 {
+    private readonly ISurveyRepository _surveyRepository;
     private readonly IFormRepository _formRepository;
 
     private readonly ISectionRepository _sectionRepository;
 
-    public CreateFormCommandHandler(IFormRepository formRepository, ISectionRepository sectionRepository)
+    public CreateFormCommandHandler(ISurveyRepository surveyRepository,
+                                    IFormRepository formRepository,
+                                    ISectionRepository sectionRepository)
     {
+        _surveyRepository = surveyRepository;
         _formRepository = formRepository;
         _sectionRepository = sectionRepository;
     }
 
     public async Task<Form> Handle(CreateFormCommand request, CancellationToken cancellationToken)
     {
+        var surveyId = Guid.NewGuid();
         var formId = Guid.NewGuid();
-        var survey = new Form
+        var adminGroup = new AdminGroup
+        {
+            SurveyId = surveyId,
+            UserId = request.CreatedById,
+        };
+        var survey = new Survey
+        {
+            Id = surveyId,
+            FormId = formId,
+            AdminGroup = [adminGroup],
+            CreatedById = request.CreatedById,
+            CreatedDate = DateTime.UtcNow,
+        };
+        var form = new Form
         {
             Id = formId,
             Name = request.Name,
             Description = request.Description,
             CreatedDate = DateTime.UtcNow,
             CreatedById = request.CreatedById,
-            SurveyId = request.SurveyId,
+            SurveyId = surveyId,
         };
         var emptySection = new Section
         {
@@ -36,9 +54,16 @@ public class CreateFormCommandHandler : IRequestHandler<CreateFormCommand, Form>
             Order = 1,
         };
 
-        var newSurvey = await _formRepository.CreateForm(survey);
+        var newSurvey = await _surveyRepository.CreateSurvey(survey);
 
         if (newSurvey is null)
+        {
+            throw new Exception("Survey have not created");
+        }
+
+        var newform = await _formRepository.CreateForm(form);
+
+        if (newform is null)
         {
             throw new Exception("Form have not created");
         }
@@ -49,6 +74,6 @@ public class CreateFormCommandHandler : IRequestHandler<CreateFormCommand, Form>
             throw new Exception("Section have not created");
         }
 
-        return newSurvey;
+        return newform;
     }
 }

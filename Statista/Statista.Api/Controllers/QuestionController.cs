@@ -1,7 +1,9 @@
-using System.Text.Json;
 using Microsoft.AspNetCore.Mvc;
 using Statista.Application.Features.Forms.Commands.CreateForm;
+using Statista.Application.Features.Questions.Commands.DeleteQuestionById;
+using Statista.Application.Features.Questions.Commands.UpdateQuestion;
 using Statista.Application.Features.Questions.Dto;
+using Statista.Application.Features.Questions.Queries.GetGeneralQuestion;
 using Statista.Application.Features.Questions.Queries.GetQuestionsBySectionId;
 
 namespace Statista.Api.Controllers;
@@ -24,8 +26,23 @@ public class QuestionController : BaseController
         return Ok(result);
     }
 
+    [HttpGet]
+    [Route("general")]
+    public async Task<IActionResult> GetQuestionsBySectionId([FromQuery] GetGeneralQuestionQuery request)
+    {
+        var result = await mediator.Send(request);
+        return Ok(mapper.Map<QuestionResponse>(result));
+    }
+
+    [HttpPatch]
+    public async Task<IActionResult> DeleteById(UpdateQuestionCommand request)
+    {
+        var result = await mediator.Send(request);
+        return Ok(result);
+    }
+
     [HttpDelete]
-    public async Task<IActionResult> DeleteById(DeleteFormByIdCommand request)
+    public async Task<IActionResult> DeleteById(DeleteQuestionByIdCommand request)
     {
         var result = await mediator.Send(request);
         return Ok(mapper.Map<QuestionResponse>(result));

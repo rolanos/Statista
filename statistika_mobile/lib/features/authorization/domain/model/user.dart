@@ -1,4 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'package:statistika_mobile/features/authorization/domain/model/user_info.dart';
 
 part 'user.g.dart';
 
@@ -10,6 +11,7 @@ class User {
     required this.surname,
     required this.username,
     required this.email,
+    required this.userInfo,
     required this.createdDate,
     required this.updatedDate,
   });
@@ -19,6 +21,7 @@ class User {
   final String? surname;
   final String? username;
   final String email;
+  final UserInfo? userInfo;
   final DateTime createdDate;
   final DateTime updatedDate;
 

@@ -5,9 +5,9 @@ import 'app_constants.dart';
 class AppTheme {
   static List<BoxShadow> get smallShadows => [
         const BoxShadow(
-          color: Color.fromRGBO(0, 0, 0, 0.1),
+          color: Color.fromRGBO(0, 0, 0, 0.07),
           spreadRadius: 3,
-          blurRadius: 3,
+          blurRadius: 6,
         ),
       ];
 
@@ -16,6 +16,18 @@ class AppTheme {
       brightness: Brightness.light,
       scaffoldBackgroundColor: const Color(0xFFF9FAFB),
       indicatorColor: AppColors.black,
+      primaryColor: Colors.black,
+      colorScheme: const ColorScheme(
+        brightness: Brightness.light,
+        primary: Colors.black,
+        onPrimary: Colors.black,
+        secondary: AppColors.black,
+        onSecondary: AppColors.white,
+        error: Color.fromARGB(255, 205, 135, 135),
+        onError: Color.fromARGB(255, 205, 135, 135),
+        surface: AppColors.white,
+        onSurface: AppColors.black,
+      ),
       textTheme: const TextTheme(
         titleLarge: TextStyle(
           color: Color(0xFF171717),
@@ -23,7 +35,7 @@ class AppTheme {
         ),
         bodyLarge: TextStyle(
           color: Color(0xFF404040),
-          fontSize: 24,
+          fontSize: 18,
         ),
         bodyMedium: TextStyle(
           color: Color(0xFF404040),

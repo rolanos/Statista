@@ -23,47 +23,50 @@ class _SurveyScreenState extends State<SurveyScreen> {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(top: AppConstants.mediumPadding),
-      child: Column(
-        spacing: AppConstants.mediumPadding,
-        children: [
-          Container(
-            color: AppColors.white,
-            padding: const EdgeInsets.symmetric(
-              horizontal: AppConstants.mediumPadding,
-            ),
-            child: TextFormField(
-              decoration: const InputDecoration(
-                hintText: 'Поиск',
+      child: RefreshIndicator(
+        onRefresh: () async => context.read<SurveyCubit>().getSurveys(),
+        child: Column(
+          spacing: AppConstants.mediumPadding,
+          children: [
+            Container(
+              color: AppColors.white,
+              padding: const EdgeInsets.symmetric(
+                horizontal: AppConstants.mediumPadding,
+              ),
+              child: TextFormField(
+                decoration: const InputDecoration(
+                  hintText: 'Поиск',
+                ),
               ),
             ),
-          ),
-          Expanded(
-            child: BlocBuilder<SurveyCubit, SurveyState>(
-              builder: (context, state) {
-                if (state is SurveyLoading) {
-                  return const Center(child: CircularProgressIndicator());
-                } else {
-                  if (state is SurveyInitial) {
-                    return ListView.separated(
-                      shrinkWrap: true,
-                      itemCount: state.surveys.length,
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: AppConstants.mediumPadding,
-                        vertical: AppConstants.mediumPadding,
-                      ),
-                      separatorBuilder: (context, index) =>
-                          const SizedBox(height: AppConstants.mediumPadding),
-                      itemBuilder: (context, index) => SurveyCard(
-                        survey: state.surveys[index],
-                      ),
-                    );
+            Expanded(
+              child: BlocBuilder<SurveyCubit, SurveyState>(
+                builder: (context, state) {
+                  if (state is SurveyLoading) {
+                    return const Center(child: CircularProgressIndicator());
+                  } else {
+                    if (state is SurveyInitial) {
+                      return ListView.separated(
+                        shrinkWrap: true,
+                        itemCount: state.surveys.length,
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: AppConstants.mediumPadding,
+                          vertical: AppConstants.mediumPadding,
+                        ),
+                        separatorBuilder: (context, index) =>
+                            const SizedBox(height: AppConstants.mediumPadding),
+                        itemBuilder: (context, index) => SurveyCard(
+                          survey: state.surveys[index],
+                        ),
+                      );
+                    }
+                    return const SizedBox();
                   }
-                  return const SizedBox();
-                }
-              },
+                },
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

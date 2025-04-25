@@ -40,13 +40,10 @@ public class DataSeeder
     private async Task InsertClassifier()
     {
         var _classifierRepository = _services.GetRequiredService<IClassifierRepository>();
-        var classifier = await _classifierRepository.GetClassifierById(QuestionTypeConstants.QuestionTypeParent.Id);
-        if (classifier is null)
+        foreach (var item in QuestionTypeConstants.values)
         {
-            foreach (var item in QuestionTypeConstants.values)
-            {
-                await _classifierRepository.CreateClassifier(item);
-            }
+            var contains = await _classifierRepository.GetClassifierById(item.Id);
+            if (contains == null) { await _classifierRepository.CreateClassifier(item); }
         }
     }
 }

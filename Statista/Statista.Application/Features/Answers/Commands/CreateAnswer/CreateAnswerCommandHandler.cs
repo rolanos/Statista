@@ -20,11 +20,12 @@ public class CreateAnswerCommandHandler : IRequestHandler<CreateAnswerCommand, A
             Id = Guid.NewGuid(),
             QuestionId = request.QuestionId,
             AnswerValueId = request.AnswerValueId,
+            RespondentId = request.UserId,
         };
         var newAnswer = await _answerRepository.CreateAnswer(answer);
         if (newAnswer is null)
         {
-            throw new Exception("Question have not created");
+            throw new Exception("Answer have not created");
         }
         return newAnswer;
     }

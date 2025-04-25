@@ -27,7 +27,11 @@ class AuthorizationRepository {
       }
       final data = result.data as Map<String, dynamic>;
 
-      return Either.right(User.fromJson(data));
+      final user = User.fromJson(data);
+
+      await SharedPreferencesManager.setUserId(user.id);
+
+      return Either.right(user);
     } on DioException catch (e) {
       log(e.toString());
       return Either.left(e);

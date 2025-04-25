@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Statista.Application.Features.AvailableAnswers.Commands.UpdateAvailableAnswer;
 using Statista.Application.Features.AvailableAnswers.Dto;
 using Statista.Application.Features.Surveys.CreateSurvey;
 using Statista.Application.Features.Surveys.Queries.GetSurveys;
@@ -21,6 +22,13 @@ public class AvaliableAnswerController : BaseController
     {
         var result = await mediator.Send(request);
         return Ok(result);
+    }
+
+    [HttpPatch]
+    public async Task<IActionResult> UpdateAvailableAnswer(UpdateAvailableAnswerCommand request)
+    {
+        var result = await mediator.Send(request);
+        return Ok(mapper.Map<AvailableAnswerResponse>(result));
     }
 
     [HttpDelete]

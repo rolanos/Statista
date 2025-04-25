@@ -98,6 +98,34 @@ namespace Statista.Infrastructure.Migrations
                     b.ToTable("RespondentGroup", (string)null);
                 });
 
+            modelBuilder.Entity("Statista.Domain.Entities.AnaliticalFact", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("AnswerTime")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("AnswerValue")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("QuestionId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid?>("UserInfoId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("QuestionId");
+
+                    b.HasIndex("UserInfoId");
+
+                    b.ToTable("AnaliticalFacts");
+                });
+
             modelBuilder.Entity("Statista.Domain.Entities.AvailableAnswer", b =>
                 {
                     b.Property<Guid>("Id")
@@ -123,7 +151,6 @@ namespace Statista.Infrastructure.Migrations
             modelBuilder.Entity("Statista.Domain.Entities.Form", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
                     b.Property<Guid>("CreatedById")
@@ -150,7 +177,7 @@ namespace Statista.Infrastructure.Migrations
                     b.HasIndex("SurveyId")
                         .IsUnique();
 
-                    b.ToTable("Forms");
+                    b.ToTable("Form", (string)null);
                 });
 
             modelBuilder.Entity("Statista.Domain.Entities.Question", b =>
@@ -162,10 +189,16 @@ namespace Statista.Infrastructure.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<Guid>("FormId")
+                    b.Property<bool>("IsGeneral")
+                        .HasColumnType("boolean");
+
+                    b.Property<Guid?>("NextQuestionId")
                         .HasColumnType("uuid");
 
-                    b.Property<Guid>("SectionId")
+                    b.Property<Guid?>("PastQuestionId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid?>("SectionId")
                         .HasColumnType("uuid");
 
                     b.Property<string>("Title")
@@ -176,8 +209,6 @@ namespace Statista.Infrastructure.Migrations
                         .HasColumnType("uuid");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("FormId");
 
                     b.HasIndex("SectionId");
 
@@ -267,23 +298,28 @@ namespace Statista.Infrastructure.Migrations
             modelBuilder.Entity("Survey", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
                     b.Property<Guid>("CreatedById")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid>("FormId")
                         .HasColumnType("uuid");
 
                     b.HasKey("Id");
 
                     b.HasIndex("CreatedById");
 
-                    b.ToTable("Surveys");
+                    b.ToTable("Survey", (string)null);
                 });
 
             modelBuilder.Entity("AdminGroup", b =>
                 {
                     b.HasOne("Survey", "Survey")
-                        .WithMany()
+                        .WithMany("AdminGroup")
                         .HasForeignKey("SurveyId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -312,7 +348,7 @@ namespace Statista.Infrastructure.Migrations
                         .IsRequired();
 
                     b.HasOne("Survey", null)
-                        .WithMany("answers")
+                        .WithMany("Answers")
                         .HasForeignKey("SurveyId");
 
                     b.Navigation("AnswerValue");
@@ -332,7 +368,7 @@ namespace Statista.Infrastructure.Migrations
             modelBuilder.Entity("RespondentGroup", b =>
                 {
                     b.HasOne("Survey", "Survey")
-                        .WithMany()
+                        .WithMany("RespondentGroup")
                         .HasForeignKey("SurveyId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -346,6 +382,23 @@ namespace Statista.Infrastructure.Migrations
                     b.Navigation("Survey");
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Statista.Domain.Entities.AnaliticalFact", b =>
+                {
+                    b.HasOne("Statista.Domain.Entities.Question", "Question")
+                        .WithMany()
+                        .HasForeignKey("QuestionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Statista.Domain.Entities.UserInfo", "UserInfo")
+                        .WithMany()
+                        .HasForeignKey("UserInfoId");
+
+                    b.Navigation("Question");
+
+                    b.Navigation("UserInfo");
                 });
 
             modelBuilder.Entity("Statista.Domain.Entities.AvailableAnswer", b =>
@@ -368,7 +421,7 @@ namespace Statista.Infrastructure.Migrations
                         .IsRequired();
 
                     b.HasOne("Survey", "Survey")
-                        .WithOne("form")
+                        .WithOne("Form")
                         .HasForeignKey("Statista.Domain.Entities.Form", "SurveyId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -380,23 +433,13 @@ namespace Statista.Infrastructure.Migrations
 
             modelBuilder.Entity("Statista.Domain.Entities.Question", b =>
                 {
-                    b.HasOne("Statista.Domain.Entities.Form", "Form")
-                        .WithMany()
-                        .HasForeignKey("FormId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("Statista.Domain.Entities.Section", "Section")
                         .WithMany("Questions")
-                        .HasForeignKey("SectionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("SectionId");
 
                     b.HasOne("Classifier", "Type")
                         .WithMany()
                         .HasForeignKey("TypeId");
-
-                    b.Navigation("Form");
 
                     b.Navigation("Section");
 
@@ -472,9 +515,14 @@ namespace Statista.Infrastructure.Migrations
 
             modelBuilder.Entity("Survey", b =>
                 {
-                    b.Navigation("answers");
+                    b.Navigation("AdminGroup");
 
-                    b.Navigation("form");
+                    b.Navigation("Answers");
+
+                    b.Navigation("Form")
+                        .IsRequired();
+
+                    b.Navigation("RespondentGroup");
                 });
 #pragma warning restore 612, 618
         }

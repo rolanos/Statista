@@ -41,4 +41,32 @@ public class QuestionRepository : IQuestionRepository
         }
         return null;
     }
+
+    public async Task<Question?> GetQuestionsById(Guid id)
+    {
+        return await _dbContext.Questions.AsNoTracking()
+                                         .SingleOrDefaultAsync(u => u.Id == id);
+    }
+
+    public async Task<Question?> UpdateQuestion(Question question)
+    {
+        _dbContext.Questions.Update(question);
+
+        await _dbContext.SaveChangesAsync();
+
+        return await GetQuestionsById(question.Id);
+    }
+
+    public async Task<Question?> GetGeneralQuestion()
+    {
+        var list = await _dbContext.Questions.AsNoTracking()
+                                             .Include(q => q.AvailableAnswers)
+                                             .Where(q => q.IsGeneral)
+                                             .ToListAsync();
+        if (list.Count != 0)
+        {
+            return list[Random.Shared.Next(list.Count)];
+        }
+        return null;
+    }
 }

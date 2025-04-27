@@ -9,6 +9,41 @@ public static class QuestionType
     public const string Scale = "Шкала";
 }
 
+public static class RoleTypes
+{
+    public const string Type = "Тип роли";
+    public const string TypeGuid = "7b50738a-9684-4395-919a-22903510f062";
+    public const string SurveyAdmin = "Администратор";
+    public const string SurveyEditor = "Редактор";
+}
+
+public static class RoleTypeConstants
+{
+    public static Classifier RoleTypeParent = new Classifier
+    {
+        Id = Guid.Parse(RoleTypes.TypeGuid),
+        Name = RoleTypes.Type
+    };
+    public static Classifier SurveyAdmin = new Classifier
+    {
+        Id = Guid.Parse("007287a5-1b20-4348-9e1b-1f2fababd1ca"),
+        Name = RoleTypes.SurveyAdmin,
+        ParentId = Guid.Parse(RoleTypes.TypeGuid)
+    };
+    public static Classifier SurveyEditor = new Classifier
+    {
+        Id = Guid.Parse("86696706-5620-4a25-a2c8-60cac77abb26"),
+        Name = RoleTypes.SurveyEditor,
+        ParentId = Guid.Parse(RoleTypes.TypeGuid),
+    };
+
+    public static ICollection<Classifier> values = [
+        RoleTypeParent,
+        SurveyAdmin,
+        SurveyEditor,
+    ];
+}
+
 public static class QuestionTypeConstants
 {
     public static Classifier QuestionTypeParent = new Classifier

@@ -1,5 +1,6 @@
 using MediatR;
 using Statista.Application.Common.Interfaces.Persistence;
+using Statista.Domain.Constants;
 using Statista.Domain.Entities;
 
 namespace Statista.Application.Features.Forms.Commands.CreateForm;
@@ -7,17 +8,22 @@ namespace Statista.Application.Features.Forms.Commands.CreateForm;
 public class CreateFormCommandHandler : IRequestHandler<CreateFormCommand, Form>
 {
     private readonly ISurveyRepository _surveyRepository;
+    private readonly ISurveyConfigurationRepository _surveyConfigurationRepository;
     private readonly IFormRepository _formRepository;
-
     private readonly ISectionRepository _sectionRepository;
+    private readonly IAdminGroupRepository _adminGroupRepository;
 
     public CreateFormCommandHandler(ISurveyRepository surveyRepository,
+                                    ISurveyConfigurationRepository surveyConfigurationRepository,
                                     IFormRepository formRepository,
-                                    ISectionRepository sectionRepository)
+                                    ISectionRepository sectionRepository,
+                                    IAdminGroupRepository adminGroupRepository)
     {
         _surveyRepository = surveyRepository;
+        _surveyConfigurationRepository = surveyConfigurationRepository;
         _formRepository = formRepository;
         _sectionRepository = sectionRepository;
+        _adminGroupRepository = adminGroupRepository;
     }
 
     public async Task<Form> Handle(CreateFormCommand request, CancellationToken cancellationToken)
@@ -28,6 +34,7 @@ public class CreateFormCommandHandler : IRequestHandler<CreateFormCommand, Form>
         {
             SurveyId = surveyId,
             UserId = request.CreatedById,
+            RoleId = RoleTypeConstants.SurveyAdmin.Id,
         };
         var survey = new Survey
         {
@@ -35,6 +42,12 @@ public class CreateFormCommandHandler : IRequestHandler<CreateFormCommand, Form>
             FormId = formId,
             AdminGroup = [adminGroup],
             CreatedDate = DateTime.UtcNow,
+        };
+        var surveyConfiguration = new SurveyConfiguration
+        {
+            Id = Guid.NewGuid(),
+            IsAnonymous = false,
+            SurveyId = surveyId,
         };
         var form = new Form
         {
@@ -59,6 +72,13 @@ public class CreateFormCommandHandler : IRequestHandler<CreateFormCommand, Form>
             throw new Exception("Survey have not created");
         }
 
+        var newSurveyConfiguration = await _surveyConfigurationRepository.CreateSurveyConfiguration(surveyConfiguration);
+
+        if (newSurveyConfiguration is null)
+        {
+            throw new Exception("Survey configuration have not created");
+        }
+
         var newform = await _formRepository.CreateForm(form);
 
         if (newform is null)
@@ -67,6 +87,7 @@ public class CreateFormCommandHandler : IRequestHandler<CreateFormCommand, Form>
         }
 
         var newEmptySection = await _sectionRepository.CreateSection(emptySection);
+
         if (newEmptySection is null)
         {
             throw new Exception("Section have not created");

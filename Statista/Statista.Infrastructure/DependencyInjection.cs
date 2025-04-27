@@ -40,6 +40,8 @@ public static class DependencyInjection
         services.AddScoped<IClassifierRepository, ClassifierRepository>();
         services.AddScoped<IUserInfoRepository, UserInfoRepository>();
         services.AddScoped<IAnaliticalRepository, AnaliticalRepository>();
+        services.AddScoped<ISurveyConfigurationRepository, SurveyConfigurationRepository>();
+        services.AddScoped<IAdminGroupRepository, AdminGroupRepository>();
         return services;
     }
 

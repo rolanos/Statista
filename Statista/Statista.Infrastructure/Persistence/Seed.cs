@@ -45,5 +45,10 @@ public class DataSeeder
             var contains = await _classifierRepository.GetClassifierById(item.Id);
             if (contains == null) { await _classifierRepository.CreateClassifier(item); }
         }
+        foreach (var item in RoleTypeConstants.values)
+        {
+            var contains = await _classifierRepository.GetClassifierById(item.Id);
+            if (contains == null) { await _classifierRepository.CreateClassifier(item); }
+        }
     }
 }

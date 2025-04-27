@@ -26,6 +26,10 @@ abstract class ApiRoutes {
   static const generalQuestion = '$questions/general';
 
   static const analitical = '$baseUrl/analitical';
+
+  static const surveyConfiguration = '$baseUrl/survey_configuration';
+
+  static const adminGroup = '$baseUrl/admin_group';
 }
 
 abstract class NavigationRoutes {
@@ -39,6 +43,8 @@ abstract class NavigationRoutes {
   static const createForm = 'create_form';
   static const formEditer = 'form_editer_screen';
   static const formAnalitic = 'form_analitic';
+  static const surveyConfiguration = 'configuration';
+  static const surveyAdminGroup = 'admin_group';
 
   static const welcomeForm = 'welcome_form';
   static const fillForm = 'fill_form';

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:statistika_mobile/core/constants/app_constants.dart';
 import 'package:statistika_mobile/core/constants/constants.dart';
 import 'package:statistika_mobile/core/utils/extensions.dart';
 import 'package:statistika_mobile/features/authorization/domain/enum/gender.dart';
@@ -132,7 +131,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   },
                                   title: Text(
                                     birthday != null
-                                        ? birthday.toString()
+                                        ? birthday!.toFormattedString()
                                         : 'Выбрать дату рождения',
                                     style: context.textTheme.bodySmall,
                                   ),

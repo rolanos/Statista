@@ -20,7 +20,7 @@ class AppTheme {
       colorScheme: const ColorScheme(
         brightness: Brightness.light,
         primary: Colors.black,
-        onPrimary: Colors.black,
+        onPrimary: Colors.white,
         secondary: AppColors.black,
         onSecondary: AppColors.white,
         error: Color.fromARGB(255, 205, 135, 135),

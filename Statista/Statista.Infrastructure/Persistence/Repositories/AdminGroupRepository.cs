@@ -26,6 +26,9 @@ class AdminGroupRepository : IAdminGroupRepository
     {
         return await _dbContext.AdminGroup.AsNoTracking()
                                           .Where(a => a.SurveyId == surveyId)
+                                          .Include(a => a.User)
+                                          .ThenInclude(u => u.UserInfo)
+                                          .Include(a => a.Role)
                                           .ToListAsync();
     }
 }

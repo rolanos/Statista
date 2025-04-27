@@ -3,7 +3,7 @@ import 'dart:developer';
 import 'package:dio/dio.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:statistika_mobile/core/utils/shared_preferences_manager.dart';
-import 'package:statistika_mobile/features/survey/domain/model/survey.dart';
+import 'package:statistika_mobile/features/survey/domain/model/survey/survey.dart';
 
 import '../../../../core/constants/routes.dart';
 

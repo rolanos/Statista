@@ -23,11 +23,15 @@ public class UpdateSurveyConfigurationCommandHandler : IRequestHandler<UpdateSur
         {
             if (request.StartDate != null)
             {
-                surveyConfiguration.StartDate = request.StartDate;
+                DateTime date;
+                DateTime.TryParse(request.StartDate, out date);
+                surveyConfiguration.StartDate = date;
             }
             if (request.EndDate != null)
             {
-                surveyConfiguration.EndDate = request.EndDate;
+                DateTime date;
+                DateTime.TryParse(request.EndDate, out date);
+                surveyConfiguration.EndDate = date;
             }
             if (request.IsAnonymous != null)
             {

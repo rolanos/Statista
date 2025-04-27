@@ -58,14 +58,14 @@ class FormCard extends StatelessWidget {
             Row(
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
-                Flexible(
-                  child: Text(
-                    form.createdById,
-                    style: context.textTheme.bodyMedium?.copyWith(
-                      color: AppColors.black,
-                    ),
-                  ),
-                ),
+                // Flexible(
+                //   child: Text(
+                //     form.createdById,
+                //     style: context.textTheme.bodyMedium?.copyWith(
+                //       color: AppColors.black,
+                //     ),
+                //   ),
+                // ),
                 const Spacer(),
                 Text(
                   form.createdDate.toFormattedString(),
@@ -92,19 +92,13 @@ class FormCard extends StatelessWidget {
                           queryParameters: {'formId': form.id},
                         );
                       },
-                      child: Row(
+                      child: const Row(
                         spacing: AppConstants.smallPadding,
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          const Icon(
+                          Icon(
                             Icons.edit,
                             color: AppColors.white,
-                          ),
-                          Text(
-                            'Редактировать',
-                            style: context.textTheme.bodySmall?.copyWith(
-                              color: AppColors.white,
-                            ),
                           ),
                         ],
                       ),
@@ -123,19 +117,38 @@ class FormCard extends StatelessWidget {
                           queryParameters: {'formId': form.id},
                         );
                       },
-                      child: Row(
+                      child: const Row(
                         spacing: AppConstants.smallPadding,
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          const Icon(
+                          Icon(
                             Icons.analytics,
                             color: AppColors.white,
                           ),
-                          Text(
-                            'Аналитика',
-                            style: context.textTheme.bodySmall?.copyWith(
-                              color: AppColors.white,
-                            ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    child: ElevatedButton(
+                      style: const ButtonStyle(
+                        backgroundColor: WidgetStatePropertyAll(
+                          AppColors.gray,
+                        ),
+                      ),
+                      onPressed: () {
+                        context.goNamed(
+                          NavigationRoutes.surveyConfiguration,
+                          queryParameters: {'surveyId': form.surveyId},
+                        );
+                      },
+                      child: const Row(
+                        spacing: AppConstants.smallPadding,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            Icons.settings,
+                            color: AppColors.white,
                           ),
                         ],
                       ),

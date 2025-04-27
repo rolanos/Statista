@@ -15,7 +15,10 @@ import 'package:statistika_mobile/features/form/view/fill_form/welcome_form_scre
 import 'package:statistika_mobile/features/general_question/view/create_question_screen.dart';
 import 'package:statistika_mobile/features/general_question/view/general_question_screen.dart';
 import 'package:statistika_mobile/features/home/home_screen.dart';
+import 'package:statistika_mobile/features/survey/view/admin_group/admin_group_screen.dart';
 import 'package:statistika_mobile/features/survey/view/survey_screen.dart';
+
+import '../../features/survey/view/configuration/survey_configuration_screen.dart';
 
 GoRouter get router {
   return GoRouter(
@@ -53,6 +56,22 @@ GoRouter get router {
                 name: NavigationRoutes.forms,
                 builder: (context, state) => const FormsScreen(),
                 routes: [
+                  GoRoute(
+                    path: NavigationRoutes.surveyConfiguration,
+                    name: NavigationRoutes.surveyConfiguration,
+                    builder: (context, state) => SurveyConfigurationScreen(
+                      surveyId: state.uri.queryParameters['surveyId'],
+                    ),
+                    routes: [
+                      GoRoute(
+                        path: NavigationRoutes.surveyAdminGroup,
+                        name: NavigationRoutes.surveyAdminGroup,
+                        builder: (context, state) => AdminGroupScreen(
+                          surveyId: state.uri.queryParameters['surveyId'],
+                        ),
+                      ),
+                    ],
+                  ),
                   GoRoute(
                     path: NavigationRoutes.formAnalitic,
                     name: NavigationRoutes.formAnalitic,

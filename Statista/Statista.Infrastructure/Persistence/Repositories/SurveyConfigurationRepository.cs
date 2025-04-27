@@ -34,8 +34,22 @@ public class SurveyConfigurationRepository : ISurveyConfigurationRepository
         return null;
     }
 
+    public async Task<SurveyConfiguration?> GetSurveyConfigurationById(Guid id)
+    {
+        return await _dbContext.SurveyConfiguration.SingleOrDefaultAsync(u => u.Id == id);
+    }
+
     public async Task<SurveyConfiguration?> GetSurveyConfigurationBySurveyId(Guid surveyId)
     {
         return await _dbContext.SurveyConfiguration.SingleOrDefaultAsync(u => u.SurveyId == surveyId);
+    }
+
+    public async Task<SurveyConfiguration?> Update(SurveyConfiguration surveyConfiguration)
+    {
+        _dbContext.Update(surveyConfiguration);
+
+        await _dbContext.SaveChangesAsync();
+
+        return await _dbContext.SurveyConfiguration.SingleOrDefaultAsync(u => u.Id == surveyConfiguration.Id);
     }
 }

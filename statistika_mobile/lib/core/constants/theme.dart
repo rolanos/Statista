@@ -17,6 +17,10 @@ class AppTheme {
       scaffoldBackgroundColor: const Color(0xFFF9FAFB),
       indicatorColor: AppColors.black,
       primaryColor: Colors.black,
+      dividerTheme: const DividerThemeData(
+        color: AppColors.whiteSecondary,
+        thickness: 0.75,
+      ),
       colorScheme: const ColorScheme(
         brightness: Brightness.light,
         primary: Colors.black,

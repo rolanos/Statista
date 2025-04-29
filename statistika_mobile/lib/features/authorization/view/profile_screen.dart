@@ -52,108 +52,157 @@ class _ProfileScreenState extends State<ProfileScreen> {
             }
           },
           builder: (context, userState) {
-            return Padding(
-              padding: const EdgeInsets.all(AppConstants.mediumPadding),
-              child: RefreshIndicator(
-                onRefresh: () async => context
-                    .read<UserProfileCubit>()
-                    .updateUserProfileInfo(genderValue, birthday),
-                child: CustomScrollView(
-                  slivers: [
-                    SliverFillRemaining(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
+            final showSaveButton = (userState is UserProfileLoading ||
+                (userState is UserProfileInitial &&
+                    userState.notCompare(
+                      genderValue?.isMan(),
+                      birthday,
+                    )));
+            return RefreshIndicator(
+              onRefresh: () async =>
+                  context.read<UserProfileCubit>().updateUserProfileInfo(
+                        genderValue,
+                        birthday,
+                        withLoading: false,
+                      ),
+              child: CustomScrollView(
+                slivers: [
+                  SliverFillRemaining(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(
+                            top: AppConstants.mediumPadding,
+                            right: AppConstants.mediumPadding,
+                          ),
+                          child: Row(
                             children: [
                               const Spacer(),
-                              ElevatedButton(
-                                onPressed: () {
-                                  context
-                                      .read<UserProfileCubit>()
-                                      .updateUserProfileInfo(
-                                          genderValue, birthday);
-                                },
-                                child: Text('Сохранить',
-                                    style: context.textTheme.bodySmall
-                                        ?.copyWith(color: AppColors.white)),
+                              Visibility(
+                                visible: showSaveButton,
+                                maintainAnimation: true,
+                                maintainState: true,
+                                child: AnimatedOpacity(
+                                  duration: const Duration(milliseconds: 256),
+                                  curve: Curves.fastOutSlowIn,
+                                  opacity: showSaveButton ? 1 : 0,
+                                  child: ElevatedButton(
+                                    onPressed: () {
+                                      context
+                                          .read<UserProfileCubit>()
+                                          .updateUserProfileInfo(
+                                              genderValue, birthday);
+                                    },
+                                    child: userState is UserProfileLoading
+                                        ? SizedBox(
+                                            height: (context.textTheme.bodySmall
+                                                        ?.fontSize ??
+                                                    12) *
+                                                (context.textTheme.bodySmall
+                                                        ?.height ??
+                                                    1),
+                                            width: (context.textTheme.bodySmall
+                                                        ?.fontSize ??
+                                                    12) *
+                                                (context.textTheme.bodySmall
+                                                        ?.height ??
+                                                    1),
+                                            child:
+                                                const CircularProgressIndicator(
+                                              color: AppColors.white,
+                                            ),
+                                          )
+                                        : Text(
+                                            'Сохранить',
+                                            style: context.textTheme.bodySmall
+                                                ?.copyWith(
+                                              color: AppColors.white,
+                                            ),
+                                          ),
+                                  ),
+                                ),
                               ),
                             ],
                           ),
-                          const Spacer(),
-                          Container(
-                            padding: EdgeInsets.all(AppConstants.mediumPadding),
-                            decoration: BoxDecoration(
-                              color: AppColors.white,
-                              boxShadow: AppTheme.smallShadows,
-                              borderRadius: BorderRadius.circular(
-                                AppConstants.mediumPadding,
-                              ),
-                            ),
-                            child: Column(
-                              children: [
-                                DropdownButton<Gender>(
-                                  isExpanded: true,
-                                  value: genderValue,
-                                  hint: const Text('Пол'),
-                                  style: context.textTheme.bodySmall,
-                                  items: [
-                                    DropdownMenuItem(
-                                      value: Gender.male,
-                                      child: Row(
-                                        children: [Text(Gender.male.name)],
-                                      ),
-                                    ),
-                                    DropdownMenuItem(
-                                      value: Gender.female,
-                                      child: Row(
-                                        children: [
-                                          Text(
-                                            Gender.female.name,
-                                          )
-                                        ],
-                                      ),
-                                    ),
-                                  ],
-                                  onChanged: (value) => setState(
-                                    () => genderValue = value,
-                                  ),
-                                ),
-                                ListTile(
-                                  contentPadding: EdgeInsets.zero,
-                                  onTap: () async {
-                                    birthday = await showDatePicker(
-                                      context: context,
-                                      firstDate: DateTime(1920),
-                                      lastDate: DateTime(2020),
-                                    );
-                                    setState(() {});
-                                  },
-                                  title: Text(
-                                    birthday != null
-                                        ? birthday!.toFormattedString()
-                                        : 'Выбрать дату рождения',
-                                    style: context.textTheme.bodySmall,
-                                  ),
-                                  trailing: Text(
-                                    userState is UserProfileInitial &&
-                                            userState.user.userInfo?.birthday !=
-                                                null
-                                        ? userState.user.userInfo!.birthday
-                                            .toString()
-                                        : 'Укажите',
-                                    style: context.textTheme.bodySmall,
-                                  ),
-                                ),
-                              ],
+                        ),
+                        const Spacer(),
+                        Container(
+                          margin:
+                              const EdgeInsets.all(AppConstants.mediumPadding),
+                          padding:
+                              const EdgeInsets.all(AppConstants.mediumPadding),
+                          decoration: BoxDecoration(
+                            color: AppColors.white,
+                            boxShadow: AppTheme.smallShadows,
+                            borderRadius: BorderRadius.circular(
+                              AppConstants.mediumPadding,
                             ),
                           ),
-                          const Spacer(),
-                        ],
-                      ),
+                          child: Column(
+                            children: [
+                              DropdownButton<Gender>(
+                                isExpanded: true,
+                                value: genderValue,
+                                hint: const Text(
+                                  'Пол',
+                                ),
+                                underline: const SizedBox(),
+                                style: context.textTheme.bodySmall,
+                                items: [
+                                  DropdownMenuItem(
+                                    value: Gender.male,
+                                    child: Row(
+                                      children: [Text(Gender.male.name)],
+                                    ),
+                                  ),
+                                  DropdownMenuItem(
+                                    value: Gender.female,
+                                    child: Row(
+                                      children: [
+                                        Text(
+                                          Gender.female.name,
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                                onChanged: (value) => setState(
+                                  () => genderValue = value,
+                                ),
+                              ),
+                              const Divider(),
+                              ListTile(
+                                contentPadding: EdgeInsets.zero,
+                                onTap: () async {
+                                  birthday = await showDatePicker(
+                                    context: context,
+                                    firstDate: DateTime(1920),
+                                    lastDate: DateTime(2020),
+                                  );
+                                  setState(() {});
+                                },
+                                title: Text(
+                                  birthday != null
+                                      ? 'День рождения'
+                                      : 'Выбрать дату рождения',
+                                  style: context.textTheme.bodySmall,
+                                ),
+                                trailing: Text(
+                                  birthday != null
+                                      ? birthday!.toFormattedString()
+                                      : 'Пусто',
+                                  style: context.textTheme.bodySmall,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        const Spacer(),
+                      ],
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             );
           },

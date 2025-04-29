@@ -14,11 +14,15 @@ class UserProfileCubit extends Cubit<UserProfileState> {
 
   Future<void> updateUserProfileInfo(
     Gender? genderValue,
-    DateTime? birthday,
-  ) async {
+    DateTime? birthday, {
+    bool withLoading = false,
+  }) async {
     if (state is UserProfileLoading) return;
 
     final stateSnap = state;
+    if (withLoading) {
+      emit(UserProfileLoading());
+    }
     if (stateSnap is UserProfileInitial && stateSnap.user.userInfo != null) {
       final userInfo = await UserInfoRepository().updateUserInfo(
         UpdateUserInfoRequest(
@@ -32,8 +36,14 @@ class UserProfileCubit extends Cubit<UserProfileState> {
           emit(UserProfileError(message: e.toString()));
           emit(stateSnap);
         },
-        (u) {},
+        (u) => emit(
+          UserProfileInitial(
+            user: stateSnap.user.copyWith(userInfo: u),
+          ),
+        ),
       );
+    } else {
+      emit(stateSnap);
     }
   }
 }

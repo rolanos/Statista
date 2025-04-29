@@ -9,7 +9,6 @@ public class Question
     public Guid? SectionId { get; set; }
     public Section? Section { get; set; }
     public Guid? PastQuestionId { get; set; }
-    public Guid? NextQuestionId { get; set; }
     public bool IsGeneral { get; set; }
     public ICollection<AvailableAnswer> AvailableAnswers { get; set; } = new List<AvailableAnswer>();
     public DateTime CreatedDate { get; set; }

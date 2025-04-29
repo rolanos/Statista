@@ -1,10 +1,19 @@
 enum QuestionTypes {
-  singleChoise('2b517e05-2113-414b-80b6-628a7164f85b'),
-  multipleChoice('ee694d36-19f0-4cd2-a44f-19be00f31bdc');
+  singleChoise(
+    '2b517e05-2113-414b-80b6-628a7164f85b',
+    'Одиночный выбор',
+  ),
+  multipleChoice(
+    'ee694d36-19f0-4cd2-a44f-19be00f31bdc',
+    'Множественный выбор',
+  );
 
-  const QuestionTypes(this.id);
+  const QuestionTypes(
+    this.id,
+    this.name,
+  );
 
-  QuestionTypes? tryParse(String? id) {
+  static QuestionTypes? tryParse(String? id) {
     if (id == singleChoise.id) {
       return singleChoise;
     }
@@ -15,4 +24,5 @@ enum QuestionTypes {
   }
 
   final String id;
+  final String name;
 }

@@ -18,11 +18,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   DateTime? birthday;
 
+  final nameController = TextEditingController();
+
+  final nameFocusNode = FocusNode();
+
   @override
   void initState() {
     super.initState();
     final state = context.read<UserProfileCubit>().state;
+    nameController.addListener(() => setState(() {}));
     if (state is UserProfileInitial) {
+      nameController.text = state.user.userInfo?.name ?? '';
       birthday = state.user.userInfo?.birthday;
       switch (state.user.userInfo?.isMan) {
         case true:
@@ -55,6 +61,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             final showSaveButton = (userState is UserProfileLoading ||
                 (userState is UserProfileInitial &&
                     userState.notCompare(
+                      nameController.text.trim(),
                       genderValue?.isMan(),
                       birthday,
                     )));
@@ -87,20 +94,23 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                       context
                                           .read<UserProfileCubit>()
                                           .updateUserProfileInfo(
-                                              genderValue, birthday);
+                                            nameController.text.trim(),
+                                            genderValue,
+                                            birthday,
+                                          );
                                     },
                                     child: userState is UserProfileLoading
                                         ? SizedBox(
-                                            height: (context.textTheme.bodySmall
-                                                        ?.fontSize ??
+                                            height: (context.textTheme
+                                                        .bodyMedium?.fontSize ??
                                                     12) *
-                                                (context.textTheme.bodySmall
+                                                (context.textTheme.bodyMedium
                                                         ?.height ??
                                                     1),
-                                            width: (context.textTheme.bodySmall
+                                            width: (context.textTheme.bodyMedium
                                                         ?.fontSize ??
                                                     12) *
-                                                (context.textTheme.bodySmall
+                                                (context.textTheme.bodyMedium
                                                         ?.height ??
                                                     1),
                                             child:
@@ -110,7 +120,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                           )
                                         : Text(
                                             'Сохранить',
-                                            style: context.textTheme.bodySmall
+                                            style: context.textTheme.bodyMedium
                                                 ?.copyWith(
                                               color: AppColors.white,
                                             ),
@@ -136,6 +146,24 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           ),
                           child: Column(
                             children: [
+                              TapRegion(
+                                onTapOutside: (event) =>
+                                    nameFocusNode.unfocus(),
+                                child: TextField(
+                                  controller: nameController,
+                                  focusNode: nameFocusNode,
+                                  style: context.textTheme.bodyMedium,
+                                  decoration: InputDecoration(
+                                    contentPadding: EdgeInsets.zero,
+                                    hintText: 'Ваше имя',
+                                    hintStyle: context.textTheme.bodyMedium,
+                                    border: InputBorder.none,
+                                    enabledBorder: InputBorder.none,
+                                    focusedBorder: InputBorder.none,
+                                  ),
+                                ),
+                              ),
+                              const Divider(),
                               DropdownButton<Gender>(
                                 isExpanded: true,
                                 value: genderValue,
@@ -143,7 +171,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   'Пол',
                                 ),
                                 underline: const SizedBox(),
-                                style: context.textTheme.bodySmall,
+                                style: context.textTheme.bodyMedium,
                                 items: [
                                   DropdownMenuItem(
                                     value: Gender.male,
@@ -181,13 +209,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   birthday != null
                                       ? 'День рождения'
                                       : 'Выбрать дату рождения',
-                                  style: context.textTheme.bodySmall,
+                                  style: context.textTheme.bodyMedium,
                                 ),
                                 trailing: Text(
                                   birthday != null
                                       ? birthday!.toFormattedString()
                                       : 'Пусто',
-                                  style: context.textTheme.bodySmall,
+                                  style: context.textTheme.bodyMedium,
                                 ),
                               ),
                             ],

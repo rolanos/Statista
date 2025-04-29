@@ -1,8 +1,10 @@
 using AutoMapper;
 using MediatR;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Statista.Application.Common.Interfaces.Persistence;
 using Statista.Application.Users.Dto;
 using Statista.Application.Users.Queries.GetUserById;
+using Statista.Domain.Errors;
 
 namespace Statista.Application.Users.Queries.GetUserByEmail;
 
@@ -23,7 +25,7 @@ public class GetUserByIdQueryHandler : IRequestHandler<GetUserByIdQuery, UserRes
         var user = await _userRepository.GetUserById(request.Id);
         if (user == null)
         {
-            throw new Exception("User not found");
+            throw new NotFoundException("User not found");
         }
         return _mapper.Map<UserResponse>(user);
     }

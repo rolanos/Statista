@@ -8,11 +8,13 @@ class UserInfo {
     required this.id,
     required this.userId,
     required this.isMan,
+    required this.name,
     required this.birthday,
   });
 
   final String id;
   final String userId;
+  final String? name;
   final bool? isMan;
   final DateTime? birthday;
 

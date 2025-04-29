@@ -39,6 +39,7 @@ abstract class NavigationRoutes {
   static const auth = 'auth';
 
   static const generalQuestions = 'general_questions';
+  static const chooseQuestionType = 'choose_question_type';
   static const createGeneralQuestion = 'create_general_question';
 
   static const surveys = 'surveys';

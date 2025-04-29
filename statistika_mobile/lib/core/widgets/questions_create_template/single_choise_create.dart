@@ -32,6 +32,8 @@ class SingleChoiseCreateWidget extends StatefulWidget {
   final FutureOr<void> Function(AvailableAnswer, String)?
       onUpdateAvailableAnswer;
 
+  final String placeHolderSymbol = '•';
+
   @override
   State<SingleChoiseCreateWidget> createState() =>
       _SingleChoiseCreateWidgetState();
@@ -121,7 +123,7 @@ class _SingleChoiseCreateWidgetState extends State<SingleChoiseCreateWidget> {
               onReorder: (int oldIndex, int newIndex) {},
               itemBuilder: (BuildContext context, int index) => ListTile(
                 key: ValueKey(widget.question.availableAnswers[index].id),
-                leading: const Text('•'),
+                leading: Text(widget.placeHolderSymbol),
                 title: TextFormField(
                   controller: availableControllers
                       .find(widget.question.availableAnswers[index].id)

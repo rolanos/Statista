@@ -6,11 +6,13 @@ part 'update_user_info_request.g.dart';
 class UpdateUserInfoRequest {
   UpdateUserInfoRequest({
     required this.id,
+    required this.name,
     required this.isMan,
     required this.birthday,
   });
 
   final String id;
+  final String? name;
   final bool? isMan;
   final DateTime? birthday;
 

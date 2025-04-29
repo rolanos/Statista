@@ -21,7 +21,13 @@ final class UserProfileInitial extends UserProfileState {
   UserProfileInitial({required this.user});
 
   //if true then not equals
-  bool notCompare(bool? isMan, DateTime? birthday) {
+  bool notCompare(String? name, bool? isMan, DateTime? birthday) {
+    if (name != null) {
+      if (user.userInfo?.name != name) {
+        return true;
+      }
+    }
+
     if (user.userInfo?.isMan != isMan) {
       return true;
     }

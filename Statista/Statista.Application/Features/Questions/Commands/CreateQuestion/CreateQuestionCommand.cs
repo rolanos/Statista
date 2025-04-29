@@ -7,7 +7,6 @@ namespace Statista.Application.Features.Forms.Commands.CreateForm;
 public record CreateQuestionCommand(
     string Title,
     Guid? PastQuestion,
-    Guid? NextQuestion,
     Guid TypeId,
     Guid? SectionId,
     bool isGeneral = false) : IRequest<Question>;

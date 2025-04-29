@@ -27,6 +27,7 @@ class UserProfileCubit extends Cubit<UserProfileState> {
   }
 
   Future<void> updateUserProfileInfo(
+    String? name,
     Gender? genderValue,
     DateTime? birthday, {
     bool withLoading = false,
@@ -41,6 +42,7 @@ class UserProfileCubit extends Cubit<UserProfileState> {
       final userInfo = await UserInfoRepository().updateUserInfo(
         UpdateUserInfoRequest(
           id: stateSnap.user.userInfo!.id,
+          name: name,
           isMan: genderValue?.isMan(),
           birthday: birthday,
         ),

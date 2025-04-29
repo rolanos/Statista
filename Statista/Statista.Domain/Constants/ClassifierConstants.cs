@@ -17,6 +17,50 @@ public static class RoleTypes
     public const string SurveyEditor = "Редактор";
 }
 
+public static class SurveyType
+{
+    public const string Type = "Тип опроса";
+    public const string TypeGuid = "2a37cbe7-986b-498d-a3ef-d83d8f931743";
+    public const string SociologicalSurvey = "Социологический опрос";
+    public const string MarketingSurvey = "Маркетинговый опрос";
+    public const string PsychologicalSurvey = "Психологический опрос";
+}
+
+public static class SurveyTypeConstants
+{
+    public static Classifier SurveyTypeParent = new Classifier
+    {
+        Id = Guid.Parse(SurveyType.TypeGuid),
+        Name = SurveyType.Type
+    };
+    public static Classifier SociologicalSurvey = new Classifier
+    {
+        Id = Guid.Parse("9896aa2c-6289-486f-8e54-3a894537420d"),
+        Name = SurveyType.SociologicalSurvey,
+        ParentId = Guid.Parse(SurveyType.TypeGuid)
+    };
+    public static Classifier MarketingSurvey = new Classifier
+    {
+        Id = Guid.Parse("a5e090c1-c5de-473f-ac80-6beba3c0cf8c"),
+        Name = SurveyType.MarketingSurvey,
+        ParentId = Guid.Parse(SurveyType.TypeGuid)
+    };
+    public static Classifier PsychologicalSurvey = new Classifier
+    {
+        Id = Guid.Parse("93fe90f3-516c-44c5-9804-d3a4be6445d7"),
+        Name = SurveyType.PsychologicalSurvey,
+        ParentId = Guid.Parse(SurveyType.TypeGuid),
+    };
+
+    public static ICollection<Classifier> values = [
+        SurveyTypeParent,
+        SociologicalSurvey,
+        PsychologicalSurvey,
+        MarketingSurvey,
+    ];
+}
+
+
 public static class RoleTypeConstants
 {
     public static Classifier RoleTypeParent = new Classifier

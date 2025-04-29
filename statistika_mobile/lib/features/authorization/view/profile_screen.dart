@@ -59,12 +59,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       birthday,
                     )));
             return RefreshIndicator(
-              onRefresh: () async =>
-                  context.read<UserProfileCubit>().updateUserProfileInfo(
-                        genderValue,
-                        birthday,
-                        withLoading: false,
-                      ),
+              onRefresh: () async => context.read<UserProfileCubit>().update(),
               child: CustomScrollView(
                 slivers: [
                   SliverFillRemaining(

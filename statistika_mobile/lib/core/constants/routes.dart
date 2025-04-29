@@ -3,6 +3,9 @@ abstract class ApiRoutes {
 
   static const register = '$baseUrl/auth/register';
   static const login = '$baseUrl/auth/login';
+
+  static const users = '$baseUrl/users';
+
   static const userInfo = '$baseUrl/user_info';
 
   static const surveys = '$baseUrl/surveys';

@@ -20,7 +20,11 @@ public class GetUserByIdQueryHandler : IRequestHandler<GetUserByIdQuery, UserRes
 
     public async Task<UserResponse> Handle(GetUserByIdQuery request, CancellationToken cancellationToken)
     {
-        var user = _userRepository.GetUserById(request.Id);
+        var user = await _userRepository.GetUserById(request.Id);
+        if (user == null)
+        {
+            throw new Exception("User not found");
+        }
         return _mapper.Map<UserResponse>(user);
     }
 }

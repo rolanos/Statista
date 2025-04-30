@@ -2,6 +2,7 @@ using MediatR;
 using Statista.Application.Common.Interfaces.Persistence;
 using Statista.Domain.Constants;
 using Statista.Domain.Entities;
+using Statista.Domain.Errors;
 
 namespace Statista.Application.Features.Forms.Commands.CreateForm;
 
@@ -11,25 +12,33 @@ public class CreateFormCommandHandler : IRequestHandler<CreateFormCommand, Form>
     private readonly ISurveyConfigurationRepository _surveyConfigurationRepository;
     private readonly IFormRepository _formRepository;
     private readonly ISectionRepository _sectionRepository;
-    private readonly IAdminGroupRepository _adminGroupRepository;
+    private readonly IClassifierRepository _classifierRepository;
 
     public CreateFormCommandHandler(ISurveyRepository surveyRepository,
                                     ISurveyConfigurationRepository surveyConfigurationRepository,
                                     IFormRepository formRepository,
                                     ISectionRepository sectionRepository,
-                                    IAdminGroupRepository adminGroupRepository)
+                                    IClassifierRepository classifierRepository)
     {
         _surveyRepository = surveyRepository;
         _surveyConfigurationRepository = surveyConfigurationRepository;
         _formRepository = formRepository;
         _sectionRepository = sectionRepository;
-        _adminGroupRepository = adminGroupRepository;
+        _classifierRepository = classifierRepository;
     }
 
     public async Task<Form> Handle(CreateFormCommand request, CancellationToken cancellationToken)
     {
         var surveyId = Guid.NewGuid();
         var formId = Guid.NewGuid();
+        if (request.TypeId != null)
+        {
+            var type = await _classifierRepository.GetClassifierById(request.TypeId.GetValueOrDefault());
+            if (type == null)
+            {
+                throw new NotFoundException("Survey type not found");
+            }
+        }
         var adminGroup = new AdminGroup
         {
             SurveyId = surveyId,
@@ -53,6 +62,7 @@ public class CreateFormCommandHandler : IRequestHandler<CreateFormCommand, Form>
         {
             Id = formId,
             Name = request.Name,
+            TypeId = request.TypeId,
             Description = request.Description,
             CreatedDate = DateTime.UtcNow,
             SurveyId = surveyId,

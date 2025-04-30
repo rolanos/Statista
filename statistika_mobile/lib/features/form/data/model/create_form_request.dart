@@ -7,11 +7,13 @@ class CreateFormRequest {
   CreateFormRequest({
     required this.name,
     required this.description,
+    required this.typeId,
     required this.createdById,
   });
 
   final String name;
   final String description;
+  final String? typeId;
   final String createdById;
 
   factory CreateFormRequest.fromJson(Map<String, dynamic> json) =>

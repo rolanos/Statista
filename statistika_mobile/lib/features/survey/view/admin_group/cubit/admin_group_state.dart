@@ -1,28 +1,37 @@
 part of 'admin_group_cubit.dart';
 
 @immutable
-sealed class AdminGroupState {}
+sealed class AdminGroupState {
+  final String? surveyId;
 
-final class AdminGroupLoading extends AdminGroupState {}
+  const AdminGroupState({
+    required this.surveyId,
+  });
+}
 
-final class AdminGroupEmpty extends AdminGroupState {}
+final class AdminGroupLoading extends AdminGroupState {
+  const AdminGroupLoading({required super.surveyId});
+}
 
-final class AdminGroupError extends AdminGroupState {
+final class AdminGroupEmpty extends AdminGroupState {
+  const AdminGroupEmpty({required super.surveyId});
+}
+
+final class AdminGroupError extends AdminGroupInitial {
   AdminGroupError({
-    this.surveyId,
+    required super.surveyId,
+    super.adminGroups = const [],
     required this.message,
   });
 
-  final String? surveyId;
   final String message;
 }
 
 final class AdminGroupInitial extends AdminGroupState {
   AdminGroupInitial({
-    this.surveyId,
+    required super.surveyId,
     required this.adminGroups,
   });
 
-  final String? surveyId;
   final List<AdminGroup> adminGroups;
 }

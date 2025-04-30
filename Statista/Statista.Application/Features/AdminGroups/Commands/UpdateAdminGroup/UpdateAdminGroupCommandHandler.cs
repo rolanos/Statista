@@ -45,12 +45,13 @@ public class UpdateAdminGroupCommandHandler : IRequestHandler<UpdateAdminGroupCo
 
         var containsRole = RoleTypeConstants.values.SingleOrDefault(r => r.Id == request.RoleId);
 
-        if (adminGroup is null)
+        if (containsRole is null)
         {
             throw new NotFoundException("No role with this ID");
         }
 
         adminGroup.RoleId = request.RoleId;
+        adminGroup.Role = containsRole;
 
         var newAdminGroup = await _adminGroupRepository.UpdateAdmin(adminGroup);
 

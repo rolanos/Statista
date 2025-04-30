@@ -113,6 +113,7 @@ class _CreateFormScreenState extends State<CreateFormScreen> {
                           nameController.text,
                           descriptionController.text,
                           state.user.id,
+                          type?.id,
                         );
                       }
                     },

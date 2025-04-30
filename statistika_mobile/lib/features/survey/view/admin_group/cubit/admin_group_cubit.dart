@@ -11,7 +11,7 @@ import '../../../../../core/dto/create_admin_group/create_admin_group.dart';
 part 'admin_group_state.dart';
 
 class AdminGroupCubit extends Cubit<AdminGroupState> {
-  AdminGroupCubit() : super(AdminGroupEmpty());
+  AdminGroupCubit() : super(const AdminGroupEmpty(surveyId: ''));
 
   Future<void> init(String? surveyId) async {
     if (surveyId == null) {
@@ -24,7 +24,7 @@ class AdminGroupCubit extends Cubit<AdminGroupState> {
       return;
     }
 
-    emit(AdminGroupLoading());
+    emit(AdminGroupLoading(surveyId: surveyId));
 
     final config = await AdminGroupRepository().getAdminGroups(surveyId);
 
@@ -46,28 +46,25 @@ class AdminGroupCubit extends Cubit<AdminGroupState> {
 
   Future<void> update() async {
     var state = this.state;
-    if (state is AdminGroupInitial && state.surveyId != null) {
-      final config =
-          await AdminGroupRepository().getAdminGroups(state.surveyId!);
 
-      final surveyId = state.surveyId;
-      config.match(
-        (e) => emit(
+    final config = await AdminGroupRepository().getAdminGroups(state.surveyId!);
+
+    final surveyId = state.surveyId;
+    config.match(
+      (e) {
+        emit(
           AdminGroupError(
             surveyId: surveyId,
             message: e.toString(),
           ),
-        ),
-        (a) => emit(AdminGroupInitial(
-          adminGroups: a,
-          surveyId: surveyId,
-        )),
-      );
-    }
-    state = this.state;
-    if (state is AdminGroupError) {
-      await init(state.surveyId);
-    }
+        );
+        update();
+      },
+      (a) => emit(AdminGroupInitial(
+        adminGroups: a,
+        surveyId: surveyId,
+      )),
+    );
   }
 
   Future<void> add(String? userEmail) async {
@@ -85,12 +82,15 @@ class AdminGroupCubit extends Cubit<AdminGroupState> {
 
       final surveyId = state.surveyId;
       addResult.match(
-        (e) => emit(
-          AdminGroupError(
-            surveyId: surveyId,
-            message: e.toString(),
-          ),
-        ),
+        (e) {
+          emit(
+            AdminGroupError(
+              surveyId: surveyId,
+              message: e.toString(),
+            ),
+          );
+          update();
+        },
         (a) => update(),
       );
     }
@@ -108,12 +108,15 @@ class AdminGroupCubit extends Cubit<AdminGroupState> {
       );
 
       addResult.match(
-        (e) => emit(
-          AdminGroupError(
-            surveyId: adminGrop.surveyId,
-            message: e.toString(),
-          ),
-        ),
+        (e) {
+          emit(
+            AdminGroupError(
+              surveyId: state.surveyId,
+              message: e.toString(),
+            ),
+          );
+          update();
+        },
         (a) => update(),
       );
     }
@@ -130,12 +133,15 @@ class AdminGroupCubit extends Cubit<AdminGroupState> {
       );
 
       addResult.match(
-        (e) => emit(
-          AdminGroupError(
-            surveyId: adminGrop.surveyId,
-            message: e.toString(),
-          ),
-        ),
+        (e) {
+          emit(
+            AdminGroupError(
+              surveyId: state.surveyId,
+              message: e.toString(),
+            ),
+          );
+          update();
+        },
         (a) => update(),
       );
     }

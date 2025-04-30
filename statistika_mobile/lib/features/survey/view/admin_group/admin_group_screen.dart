@@ -4,6 +4,8 @@ import 'package:statistika_mobile/core/utils/extensions.dart';
 
 import '../../../../core/constants/app_constants.dart';
 import 'cubit/admin_group_cubit.dart';
+import 'widget/email_bottom_modal_sheet.dart';
+import 'widget/role_bottom_modal_sheet.dart';
 
 class AdminGroupScreen extends StatefulWidget {
   const AdminGroupScreen({
@@ -48,6 +50,19 @@ class _AdminGroupScreenState extends State<AdminGroupScreen> {
                 style: context.textTheme.bodyMedium
                     ?.copyWith(color: AppColors.black),
               ),
+              actions: [
+                IconButton(
+                  onPressed: () async {
+                    showEmailBottomSheet(
+                      context,
+                      onTap: (p0) => adminGroupCubit.add(p0),
+                    );
+                  },
+                  icon: const Icon(
+                    Icons.add,
+                  ),
+                ),
+              ],
             ),
           ],
           body: BlocBuilder<AdminGroupCubit, AdminGroupState>(
@@ -83,6 +98,15 @@ class _AdminGroupScreenState extends State<AdminGroupScreen> {
                           Icons.delete,
                         ),
                       ),
+                      onTap: () async {
+                        await showRoleBottomSheet(
+                          context,
+                          onTap: (role) => adminGroupCubit.updateAdminGroup(
+                            data,
+                            role,
+                          ),
+                        );
+                      },
                     );
                   },
                 );

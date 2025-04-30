@@ -32,7 +32,7 @@ class _AdminGroupScreenState extends State<AdminGroupScreen> {
       create: (context) => adminGroupCubit,
       child: RefreshIndicator(
         notificationPredicate: (notification) {
-          return notification.depth == 2;
+          return notification.depth == 1;
         },
         onRefresh: () async => adminGroupCubit.update(),
         child: NestedScrollView(
@@ -64,7 +64,7 @@ class _AdminGroupScreenState extends State<AdminGroupScreen> {
                     final data = state.adminGroups[index];
                     return ListTile(
                       title: Text(
-                        data.user?.userInfo?.id ?? 'Нет имени',
+                        data.user?.userInfo?.name ?? 'Нет имени',
                         style: context.textTheme.bodyLarge?.copyWith(
                           color: AppColors.black,
                         ),
@@ -73,6 +73,14 @@ class _AdminGroupScreenState extends State<AdminGroupScreen> {
                         data.role?.name ?? 'Нет роли',
                         style: context.textTheme.bodyMedium?.copyWith(
                           color: AppColors.black,
+                        ),
+                      ),
+                      trailing: IconButton(
+                        onPressed: () async {
+                          await adminGroupCubit.deleteAdminGroup(data);
+                        },
+                        icon: const Icon(
+                          Icons.delete,
                         ),
                       ),
                     );

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:statistika_mobile/core/constants/constants.dart';
-import 'package:statistika_mobile/core/widgets/questions/single_choise_question.dart';
 import 'package:statistika_mobile/features/form/view/form_analitic/cubit/form_analitic_cubit.dart';
 
 import 'widget/bar_chart.dart';

@@ -33,6 +33,14 @@ abstract class ApiRoutes {
   static const surveyConfiguration = '$baseUrl/survey_configuration';
 
   static const adminGroup = '$baseUrl/admin_group';
+
+  static const classifier = '$baseUrl/classifiers';
+
+  static const questionTypes = '$classifier/question_types';
+
+  static const surveyRoles = '$classifier/survey_roles';
+
+  static const surveyTypes = '$classifier/survey_types';
 }
 
 abstract class NavigationRoutes {

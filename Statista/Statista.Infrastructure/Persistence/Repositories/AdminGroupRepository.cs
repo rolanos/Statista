@@ -22,6 +22,19 @@ class AdminGroupRepository : IAdminGroupRepository
                                                                      && i.UserId == adminGroup.UserId);
     }
 
+    public async Task<AdminGroup?> DeleteAdminGroup(AdminGroup adminGroup)
+    {
+        var adminGroupDb = await _dbContext.AdminGroup.AsNoTracking()
+                                                    .SingleOrDefaultAsync(a => a.UserId == adminGroup.UserId && a.SurveyId == adminGroup.SurveyId);
+        if (adminGroupDb is not null)
+        {
+            _dbContext.AdminGroup.Remove(adminGroup);
+            await _dbContext.SaveChangesAsync();
+            return adminGroupDb;
+        }
+        return null;
+    }
+
     public async Task<ICollection<AdminGroup>> GetAdminGroupBySurveyId(Guid surveyId)
     {
         return await _dbContext.AdminGroup.AsNoTracking()
@@ -30,5 +43,14 @@ class AdminGroupRepository : IAdminGroupRepository
                                           .ThenInclude(u => u.UserInfo)
                                           .Include(a => a.Role)
                                           .ToListAsync();
+    }
+
+    public async Task<AdminGroup?> UpdateAdmin(AdminGroup adminGroup)
+    {
+        _dbContext.AdminGroup.Update(adminGroup);
+
+        await _dbContext.SaveChangesAsync();
+
+        return await _dbContext.AdminGroup.SingleOrDefaultAsync(a => a.UserId == adminGroup.UserId && a.SurveyId == adminGroup.SurveyId);
     }
 }

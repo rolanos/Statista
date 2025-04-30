@@ -6,6 +6,9 @@ import 'package:statistika_mobile/features/authorization/view/cubit/user_profile
 import 'package:statistika_mobile/features/form/view/fill_form/cubit/fill_form/active_form_cubit.dart';
 import 'package:statistika_mobile/features/form/view/forms/cubit/forms_cubit.dart';
 import 'package:statistika_mobile/features/general_question/view/cubit/general_question_cubit.dart';
+import 'package:statistika_mobile/features/home/cubit/question_types_cubit.dart';
+import 'package:statistika_mobile/features/home/cubit/survey_roles_cubit.dart';
+import 'package:statistika_mobile/features/home/cubit/survey_types_cubit.dart';
 import 'package:statistika_mobile/features/survey/view/cubit/survey_cubit.dart';
 
 import 'core/constants/constants.dart';
@@ -32,6 +35,8 @@ class _MyAppState extends State<MyApp> {
         BlocProvider(
           create: (context) => AuthorizationCubit(),
         ),
+
+        //Основная часть
         BlocProvider(
           create: (context) => SurveyCubit(),
         ),
@@ -46,6 +51,17 @@ class _MyAppState extends State<MyApp> {
         ),
         BlocProvider(
           create: (context) => GeneralQuestionCubit(),
+        ),
+
+        //Классификации/справочники
+        BlocProvider(
+          create: (context) => QuestionTypesCubit()..update(),
+        ),
+        BlocProvider(
+          create: (context) => SurveyRolesCubit()..update(),
+        ),
+        BlocProvider(
+          create: (context) => SurveyTypesCubit()..update(),
         ),
       ],
       child: MaterialApp.router(

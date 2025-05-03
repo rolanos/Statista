@@ -50,7 +50,7 @@ class _SurveyConfigurationScreenState extends State<SurveyConfigurationScreen> {
               surfaceTintColor: AppColors.white,
               title: Text(
                 'Конфигурация опроса',
-                style: context.textTheme.bodyMedium
+                style: context.textTheme.bodyLarge
                     ?.copyWith(color: AppColors.black),
               ),
             ),

@@ -7,11 +7,14 @@ class CustomContainer extends StatelessWidget {
     super.key,
     required this.child,
     this.margin,
+    this.shadow,
   });
 
   final Widget child;
 
   final EdgeInsets? margin;
+
+  final List<BoxShadow>? shadow;
 
   @override
   Widget build(BuildContext context) {
@@ -23,6 +26,7 @@ class CustomContainer extends StatelessWidget {
         borderRadius: BorderRadius.circular(
           AppConstants.mediumPadding,
         ),
+        boxShadow: shadow,
       ),
       child: child,
     );

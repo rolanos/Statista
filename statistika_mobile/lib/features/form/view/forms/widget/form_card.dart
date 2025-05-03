@@ -83,7 +83,7 @@ class FormCard extends StatelessWidget {
                     child: ElevatedButton(
                       style: const ButtonStyle(
                         backgroundColor: WidgetStatePropertyAll(
-                          AppColors.gray,
+                          AppColors.blueDark,
                         ),
                       ),
                       onPressed: () {
@@ -108,7 +108,7 @@ class FormCard extends StatelessWidget {
                     child: ElevatedButton(
                       style: const ButtonStyle(
                         backgroundColor: WidgetStatePropertyAll(
-                          AppColors.gray,
+                          AppColors.blueDark,
                         ),
                       ),
                       onPressed: () {
@@ -133,7 +133,7 @@ class FormCard extends StatelessWidget {
                     child: ElevatedButton(
                       style: const ButtonStyle(
                         backgroundColor: WidgetStatePropertyAll(
-                          AppColors.gray,
+                          AppColors.blueDark,
                         ),
                       ),
                       onPressed: () {

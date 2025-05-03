@@ -38,13 +38,17 @@ class _CreateQuestionScreenState extends State<CreateQuestionScreen> {
       create: (context) => createQuestionCubit,
       child: CustomScrollView(
         slivers: [
-          const SliverAppBar(
+          SliverAppBar(
             snap: false,
             pinned: true,
             floating: false,
             backgroundColor: AppColors.white,
             surfaceTintColor: AppColors.white,
-            title: Text('Создание вопроса'),
+            title: Text(
+              'Создание вопроса',
+              style:
+                  context.textTheme.bodyLarge?.copyWith(color: AppColors.black),
+            ),
           ),
           SliverFillRemaining(
             child: BlocConsumer<CreateQuestionCubit, CreateQuestionState>(

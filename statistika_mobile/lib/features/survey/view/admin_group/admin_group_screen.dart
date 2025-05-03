@@ -47,7 +47,7 @@ class _AdminGroupScreenState extends State<AdminGroupScreen> {
               surfaceTintColor: AppColors.white,
               title: Text(
                 'Административная группа',
-                style: context.textTheme.bodyMedium
+                style: context.textTheme.bodyLarge
                     ?.copyWith(color: AppColors.black),
               ),
               actions: [

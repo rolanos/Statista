@@ -16,5 +16,6 @@ abstract class AppColors {
 
   static const border = Color(0xFFE5E5E5);
 
-  static const blue = Color.fromARGB(255, 42, 61, 184);
+  static const blueDark = Color.fromARGB(178, 41, 120, 255);
+  static const blue = Color(0xFF2979FF);
 }

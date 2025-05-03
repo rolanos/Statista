@@ -69,6 +69,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
               onRefresh: () async => context.read<UserProfileCubit>().update(),
               child: CustomScrollView(
                 slivers: [
+                  SliverAppBar(
+                    floating: true,
+                    snap: true,
+                    pinned: true,
+                    stretch: true,
+                    backgroundColor: AppColors.white,
+                    surfaceTintColor: AppColors.white,
+                    title: Text(
+                      'Профиль',
+                      style: context.textTheme.bodyLarge
+                          ?.copyWith(color: AppColors.black),
+                    ),
+                  ),
                   SliverFillRemaining(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,

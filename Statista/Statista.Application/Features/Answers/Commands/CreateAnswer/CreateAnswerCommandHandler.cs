@@ -1,6 +1,5 @@
 using MediatR;
 using Statista.Application.Common.Interfaces.Persistence;
-using Statista.Domain.Entities;
 
 namespace Statista.Application.Features.Forms.Commands.CreateForm;
 
@@ -8,19 +7,25 @@ public class CreateAnswerCommandHandler : IRequestHandler<CreateAnswerCommand, A
 {
     private readonly IAnswerRepository _answerRepository;
 
-    public CreateAnswerCommandHandler(IAnswerRepository answerRepository)
+    private readonly IAvailableAnswerRepository _availableAnswerRepository;
+
+    public CreateAnswerCommandHandler(IAnswerRepository answerRepository,
+                                      IAvailableAnswerRepository availableAnswerRepository)
     {
         _answerRepository = answerRepository;
+        _availableAnswerRepository = availableAnswerRepository;
     }
 
     public async Task<Answer> Handle(CreateAnswerCommand request, CancellationToken cancellationToken)
     {
+        var answerMeaningValue = await _availableAnswerRepository.GetAvailableAnswerById(request.AnswerValueId);
         var answer = new Answer
         {
             Id = Guid.NewGuid(),
             QuestionId = request.QuestionId,
             AnswerValueId = request.AnswerValueId,
             RespondentId = request.UserId,
+            AnswerMeaning = answerMeaningValue?.Text ?? string.Empty,
         };
         var newAnswer = await _answerRepository.CreateAnswer(answer);
         if (newAnswer is null)

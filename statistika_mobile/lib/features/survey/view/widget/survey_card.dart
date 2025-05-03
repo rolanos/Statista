@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:statistika_mobile/core/constants/constants.dart';
 import 'package:statistika_mobile/core/constants/routes.dart';
-import 'package:statistika_mobile/features/survey/domain/model/survey.dart';
+import 'package:statistika_mobile/features/survey/domain/model/survey/survey.dart';
 
 class SurveyCard extends StatelessWidget {
   const SurveyCard({

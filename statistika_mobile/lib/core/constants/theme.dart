@@ -17,10 +17,14 @@ class AppTheme {
       scaffoldBackgroundColor: const Color(0xFFF9FAFB),
       indicatorColor: AppColors.black,
       primaryColor: Colors.black,
+      dividerTheme: DividerThemeData(
+        color: AppColors.whiteSecondary.withAlpha(75),
+        thickness: 0.75,
+      ),
       colorScheme: const ColorScheme(
         brightness: Brightness.light,
         primary: Colors.black,
-        onPrimary: Colors.black,
+        onPrimary: Colors.white,
         secondary: AppColors.black,
         onSecondary: AppColors.white,
         error: Color.fromARGB(255, 205, 135, 135),

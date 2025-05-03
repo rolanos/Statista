@@ -98,8 +98,17 @@ class _AuthorizationScreenState extends State<AuthorizationScreen> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           if (state is AuthorizationLoading)
-                            const CircularProgressIndicator(
-                                color: AppColors.white),
+                            SizedBox(
+                              height: (context.textTheme.bodyMedium?.fontSize ??
+                                      12) *
+                                  (context.textTheme.bodyMedium?.height ?? 1),
+                              width: (context.textTheme.bodyMedium?.fontSize ??
+                                      12) *
+                                  (context.textTheme.bodyMedium?.height ?? 1),
+                              child: const CircularProgressIndicator(
+                                color: AppColors.white,
+                              ),
+                            ),
                           if (state is! AuthorizationLoading)
                             Text(
                               'Войти',

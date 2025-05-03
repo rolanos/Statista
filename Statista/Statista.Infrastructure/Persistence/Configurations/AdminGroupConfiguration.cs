@@ -16,5 +16,7 @@ public class AdminGroupConfigurations : IEntityTypeConfiguration<AdminGroup>
         builder.ToTable("AdminGroup");
         //Указываем какой у нас ключ в таблице
         builder.HasKey(a => new { a.SurveyId, a.UserId });
+
+        builder.HasOne(a => a.Survey).WithMany(s => s.AdminGroup).HasForeignKey(a => a.SurveyId);
     }
 }

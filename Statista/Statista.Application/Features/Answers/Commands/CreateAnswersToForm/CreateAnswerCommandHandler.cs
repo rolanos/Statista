@@ -11,25 +11,30 @@ public class CreateAnswersToFormCommandHandler : IRequestHandler<CreateAnswersTo
 
     private readonly IFormRepository _formRepository;
 
+    private readonly IAvailableAnswerRepository _availableAnswerRepository;
+
     public CreateAnswersToFormCommandHandler(IAnswerRepository answerRepository,
                                              IQuestionRepository questionRepository,
-                                             IFormRepository formRepository)
+                                             IFormRepository formRepository,
+                                             IAvailableAnswerRepository availableAnswerRepository)
     {
         _answerRepository = answerRepository;
         _questionRepository = questionRepository;
         _formRepository = formRepository;
+        _availableAnswerRepository = availableAnswerRepository;
     }
 
     public async Task<Guid> Handle(CreateAnswersToFormCommand request, CancellationToken cancellationToken)
     {
         foreach (var answerDto in request.answers)
         {
-            //TODO проверки
+            var answerMeaningValue = await _availableAnswerRepository.GetAvailableAnswerById(answerDto.AnswerValueId);
             var answer = new Answer
             {
                 Id = Guid.NewGuid(),
                 QuestionId = answerDto.QuestionId,
                 AnswerValueId = answerDto.AnswerValueId,
+                AnswerMeaning = answerMeaningValue?.Text ?? string.Empty,
             };
             var newAnswer = await _answerRepository.CreateAnswer(answer);
             if (newAnswer is null)

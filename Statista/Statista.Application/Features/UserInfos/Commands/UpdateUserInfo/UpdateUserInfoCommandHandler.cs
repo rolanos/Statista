@@ -2,7 +2,6 @@ using AutoMapper;
 using MediatR;
 using Statista.Application.Common.Interfaces.Persistence;
 using Statista.Application.UserInfos.Dto;
-using Statista.Domain.Entities;
 
 namespace Statista.Application.Features.UserInfos.Commands.UpdateUserInfo;
 
@@ -24,6 +23,7 @@ public class UpdateUserInfoCommandHandler : IRequestHandler<UpdateUserInfoComman
         {
             userInfo.Birthday = request.Birthday;
             userInfo.IsMan = request.IsMan;
+            userInfo.Name = request.Name;
             var updatedUserInfo = await _userInfoRepository.UpdateUserInfo(userInfo);
 
             if (updatedUserInfo is null)

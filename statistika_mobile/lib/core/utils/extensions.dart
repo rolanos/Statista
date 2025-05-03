@@ -1,7 +1,11 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 
 extension ThemeExtension on BuildContext {
   TextTheme get textTheme => Theme.of(this).textTheme;
+
+  Size get mediaQuerySize => MediaQuery.of(this).size;
 }
 
 extension StringNullableExtension on String? {
@@ -23,5 +27,19 @@ extension DateTimeExtension on DateTime {
     }
     result += year.toString();
     return result;
+  }
+}
+
+extension IntegerListExtension on List<int> {
+  int getMax() {
+    if (isNotEmpty) {
+      var maxValue = first;
+      for (var value in this) {
+        maxValue = max(maxValue, value);
+      }
+      return maxValue;
+    } else {
+      return 0;
+    }
   }
 }

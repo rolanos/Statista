@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 import 'package:statistika_mobile/core/repository/available_answer_repository.dart';
+import 'package:statistika_mobile/features/form/domain/enum/question_types.dart';
 import 'package:statistika_mobile/features/form/domain/model/available_answer.dart';
 import 'package:statistika_mobile/features/form/domain/model/question.dart';
 
@@ -13,11 +14,21 @@ part 'create_question_state.dart';
 class CreateQuestionCubit extends Cubit<CreateQuestionState> {
   CreateQuestionCubit() : super(CreateQuestionEmpty());
 
-  void init(String typeId) => emit(
+  void init(String? typeId) {
+    if (typeId != null && QuestionTypes.tryParse(typeId) != null) {
+      emit(
         CreateQuestionInitial(
           question: Question.empty().copyWith(typeId: typeId),
         ),
       );
+    } else {
+      emit(
+        CreateQuestionError(
+          message: 'Данный тип вопросов находится в разработке',
+        ),
+      );
+    }
+  }
 
   void changeQuestionTitle(String title) {
     final state = this.state;

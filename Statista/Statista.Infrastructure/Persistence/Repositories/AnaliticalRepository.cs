@@ -22,16 +22,15 @@ public class AnaliticalRepository : IAnaliticalRepository
             QuestionId = parameters.QuestionId,
         };
         complex.AnaliticalResults = await _dbContext.AnaliticalFacts
-            .Where(f => f.QuestionId == parameters.QuestionId)
-            .GroupBy(f => f.AnswerValue)
-            .Select(g => new AnaliticalResult
-            {
-                // Если AnswerValue соответствует ID варианта ответа (AvailableAnswer)
-                AnswerId = Guid.TryParse(g.Key, out _) ? Guid.Parse(g.Key) : null,
-                AnswerValue = g.Key,
-                Count = g.Count()
-            })
-            .ToListAsync();
+        .Where(f => f.QuestionId == parameters.QuestionId)
+        .GroupBy(f => new { f.AnswerValue, f.AvailableAnswerId }) // Группируем по обоим полям
+        .Select(g => new AnaliticalResult
+        {
+            AnswerId = g.Key.AvailableAnswerId,
+            AnswerValue = g.Key.AnswerValue,
+            Count = g.Count()
+        })
+        .ToListAsync();
         complex.TotalCount = complex.AnaliticalResults.Sum(r => r.Count);
         return complex;
     }

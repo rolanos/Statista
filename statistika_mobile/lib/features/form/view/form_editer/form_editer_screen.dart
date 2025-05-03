@@ -31,72 +31,69 @@ class _FormEditerScreenState extends State<FormEditerScreen> {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => formEditerCubit,
-      child: Padding(
-        padding: const EdgeInsets.all(AppConstants.mediumPadding),
-        child: BlocBuilder<FormEditerCubit, FormEditerState>(
-          bloc: formEditerCubit,
-          builder: (context, state) {
-            if (state is FormEditerInitial) {
-              return PageView.builder(
-                itemCount: state.sections.length,
-                itemBuilder: (context, index) => RefreshIndicator(
-                  onRefresh: () => formEditerCubit.update(),
-                  child: SingleChildScrollView(
-                    physics: const AlwaysScrollableScrollPhysics(),
-                    child: ConstrainedBox(
-                      constraints: BoxConstraints(
-                        minHeight: MediaQuery.of(context).size.height * 0.8,
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                state.sections[index].title ??
-                                    'Пустой заголовок',
-                                style: context.textTheme.bodyMedium
-                                    ?.copyWith(color: AppColors.black),
-                              ),
-                              Text(
-                                state is FormEditerInitialLoading
-                                    ? 'Сохранение..'
-                                    : 'Сохранено',
-                                style: context.textTheme.bodyMedium
-                                    ?.copyWith(color: AppColors.black),
-                              ),
-                              IconButton(
-                                onPressed: () {
-                                  formEditerCubit.addNewQuestion(
-                                    state.sections[index],
-                                    'Пустой заголовок',
-                                  );
-                                },
-                                icon: const Icon(Icons.add),
-                              ),
-                            ],
-                          ),
-                          SectionContent(section: state.sections[index]),
-                        ],
-                      ),
+      child: BlocBuilder<FormEditerCubit, FormEditerState>(
+        bloc: formEditerCubit,
+        builder: (context, state) {
+          if (state is FormEditerInitial) {
+            return PageView.builder(
+              itemCount: state.sections.length,
+              itemBuilder: (context, index) => RefreshIndicator(
+                onRefresh: () => formEditerCubit.update(),
+                child: SingleChildScrollView(
+                  physics: const AlwaysScrollableScrollPhysics(),
+                  padding: const EdgeInsets.all(AppConstants.mediumPadding),
+                  child: ConstrainedBox(
+                    constraints: BoxConstraints(
+                      minHeight: MediaQuery.of(context).size.height * 0.8,
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              state.sections[index].title ?? 'Пустой заголовок',
+                              style: context.textTheme.bodyMedium
+                                  ?.copyWith(color: AppColors.black),
+                            ),
+                            Text(
+                              state is FormEditerInitialLoading
+                                  ? 'Сохранение..'
+                                  : 'Сохранено',
+                              style: context.textTheme.bodyMedium
+                                  ?.copyWith(color: AppColors.black),
+                            ),
+                            IconButton(
+                              onPressed: () {
+                                formEditerCubit.addNewQuestion(
+                                  state.sections[index],
+                                  'Пустой заголовок',
+                                );
+                              },
+                              icon: const Icon(Icons.add),
+                            ),
+                          ],
+                        ),
+                        SectionContent(section: state.sections[index]),
+                      ],
                     ),
                   ),
                 ),
-              );
-            }
-            return RefreshIndicator(
-              onRefresh: () => formEditerCubit.update(formId: widget.formId),
-              child: SingleChildScrollView(
-                physics: const AlwaysScrollableScrollPhysics(),
-                child: SizedBox(
-                  height: MediaQuery.of(context).size.height,
-                  width: MediaQuery.of(context).size.width,
-                ),
               ),
             );
-          },
-        ),
+          }
+          return RefreshIndicator(
+            onRefresh: () => formEditerCubit.update(formId: widget.formId),
+            child: SingleChildScrollView(
+              physics: const AlwaysScrollableScrollPhysics(),
+              child: SizedBox(
+                height: MediaQuery.of(context).size.height,
+                width: MediaQuery.of(context).size.width,
+              ),
+            ),
+          );
+        },
       ),
     );
   }

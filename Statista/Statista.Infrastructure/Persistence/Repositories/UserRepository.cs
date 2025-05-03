@@ -42,7 +42,7 @@ public class UserRepository : IUserRepository
     {
         return await _dbContext.Users.AsNoTracking()
                                      .Include(u => u.UserInfo)
-                                     .SingleOrDefaultAsync(u => u.Id!.Equals(id));
+                                     .SingleOrDefaultAsync(u => u.Id == id);
     }
 
     public IReadOnlyCollection<User?> GetUsers()

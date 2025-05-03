@@ -26,7 +26,9 @@ public class AnswerRepository : IAnswerRepository
             Id = Guid.NewGuid(),
             UserInfoId = userInfo?.Id,
             QuestionId = answer.QuestionId,
-            AnswerValue = answer.AnswerValueId.ToString(),
+            AvailableAnswerId = answer.AnswerValueId,
+            AvailableAnswer = answer.AnswerValue,
+            AnswerValue = answer.AnswerMeaning,
             AnswerTime = DateTime.UtcNow,
         };
 

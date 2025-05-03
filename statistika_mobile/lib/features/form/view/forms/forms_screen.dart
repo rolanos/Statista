@@ -47,7 +47,7 @@ class _FormsScreenState extends State<FormsScreen> {
                 surfaceTintColor: AppColors.white,
                 title: Text(
                   'Опросы',
-                  style: context.textTheme.bodyMedium
+                  style: context.textTheme.bodyLarge
                       ?.copyWith(color: AppColors.black),
                 ),
                 actions: [

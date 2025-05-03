@@ -30,8 +30,11 @@ class _GeneralQuestionScreenState extends State<GeneralQuestionScreen> {
     return RefreshIndicator(
       onRefresh: () async =>
           context.read<GeneralQuestionCubit>().getGeneralQuestion(),
-      child: CustomScrollView(
-        slivers: [
+      notificationPredicate: (notification) {
+        return notification.depth == 1;
+      },
+      child: NestedScrollView(
+        headerSliverBuilder: (context, innerBoxIsScrolled) => [
           SliverAppBar(
             snap: false,
             pinned: true,
@@ -40,13 +43,13 @@ class _GeneralQuestionScreenState extends State<GeneralQuestionScreen> {
             surfaceTintColor: AppColors.white,
             title: Text(
               'Вопросы',
-              style: context.textTheme.bodyMedium
-                  ?.copyWith(color: AppColors.black),
+              style:
+                  context.textTheme.bodyLarge?.copyWith(color: AppColors.black),
             ),
             actions: [
               IconButton(
                 onPressed: () {
-                  context.goNamed(NavigationRoutes.createGeneralQuestion);
+                  context.goNamed(NavigationRoutes.chooseQuestionType);
                 },
                 icon: const Icon(
                   Icons.add,
@@ -54,94 +57,93 @@ class _GeneralQuestionScreenState extends State<GeneralQuestionScreen> {
               ),
             ],
           ),
-          SliverFillRemaining(
-            child: Column(
-              children: [
-                Expanded(
-                  child:
-                      BlocConsumer<GeneralQuestionCubit, GeneralQuestionState>(
-                    listenWhen: (previous, current) {
-                      if (previous is GeneralQuestionInitial &&
-                          current is GeneralQuestionInitial) {
-                        return previous.question != current.question;
-                      }
-                      return false;
-                    },
-                    listener: (context, state) {
-                      if (state is GeneralQuestionInitial) {
-                        answer = null;
-                        setState(() {});
-                      }
-                    },
-                    builder: (context, state) {
-                      if (state is GeneralQuestionLoading) {
-                        return const Center(
-                          child: CircularProgressIndicator(),
-                        );
-                      }
-                      if (state is GeneralQuestionInitial) {
-                        return Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          spacing: AppConstants.mediumPadding,
-                          children: [
-                            SingleChoiseQuestion(
-                              question: state.question,
-                              onSelected: (a) => answer = a,
-                              analitic:
-                                  state is GeneralQuestionInitialShowAnalitic
-                                      ? state.analitic
-                                      : null,
-                            ),
-                            Align(
-                              alignment: Alignment.centerRight,
-                              child: Padding(
-                                padding: const EdgeInsets.only(
-                                  right: AppConstants.mediumPadding,
-                                ),
-                                child: ElevatedButton(
-                                  onPressed: () async {
-                                    if (state
-                                        is GeneralQuestionInitialAnswerLoading) {
-                                      return;
-                                    } else if (state
-                                        is GeneralQuestionInitialShowAnalitic) {
-                                      await context
-                                          .read<GeneralQuestionCubit>()
-                                          .getGeneralQuestion();
-                                    } else if (answer != null) {
-                                      await context
-                                          .read<GeneralQuestionCubit>()
-                                          .answerQuestion(answer);
-                                    }
-                                  },
-                                  child: state
-                                          is GeneralQuestionInitialAnswerLoading
-                                      ? const CircularProgressIndicator(
-                                          color: AppColors.white,
-                                        )
-                                      : Text(
-                                          state is GeneralQuestionInitialShowAnalitic
-                                              ? 'Следующий вопрос'
-                                              : 'Ответить',
-                                          style: context.textTheme.bodyMedium
-                                              ?.copyWith(
+        ],
+        body: Center(
+          child: Column(
+            children: [
+              Expanded(
+                child: BlocConsumer<GeneralQuestionCubit, GeneralQuestionState>(
+                  listenWhen: (previous, current) {
+                    if (previous is GeneralQuestionInitial &&
+                        current is GeneralQuestionInitial) {
+                      return previous.question != current.question;
+                    }
+                    return false;
+                  },
+                  listener: (context, state) {
+                    if (state is GeneralQuestionInitial) {
+                      answer = null;
+                      setState(() {});
+                    }
+                  },
+                  builder: (context, state) {
+                    if (state is GeneralQuestionLoading) {
+                      return const Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    }
+                    if (state is GeneralQuestionInitial) {
+                      return Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        spacing: AppConstants.mediumPadding,
+                        children: [
+                          SingleChoiseQuestion(
+                            question: state.question,
+                            onSelected: (a) => answer = a,
+                            analitic:
+                                state is GeneralQuestionInitialShowAnalitic
+                                    ? state.analitic
+                                    : null,
+                          ),
+                          Align(
+                            alignment: Alignment.centerRight,
+                            child: Padding(
+                              padding: const EdgeInsets.only(
+                                right: AppConstants.mediumPadding,
+                              ),
+                              child: ElevatedButton(
+                                onPressed: () async {
+                                  if (state
+                                      is GeneralQuestionInitialAnswerLoading) {
+                                    return;
+                                  } else if (state
+                                      is GeneralQuestionInitialShowAnalitic) {
+                                    await context
+                                        .read<GeneralQuestionCubit>()
+                                        .getGeneralQuestion();
+                                  } else if (answer != null) {
+                                    await context
+                                        .read<GeneralQuestionCubit>()
+                                        .answerQuestion(answer);
+                                  }
+                                },
+                                child:
+                                    state is GeneralQuestionInitialAnswerLoading
+                                        ? const CircularProgressIndicator(
                                             color: AppColors.white,
+                                          )
+                                        : Text(
+                                            state is GeneralQuestionInitialShowAnalitic
+                                                ? 'Следующий вопрос'
+                                                : 'Ответить',
+                                            style: context.textTheme.bodyMedium
+                                                ?.copyWith(
+                                              color: AppColors.white,
+                                            ),
                                           ),
-                                        ),
-                                ),
                               ),
                             ),
-                          ],
-                        );
-                      }
-                      return const SizedBox();
-                    },
-                  ),
+                          ),
+                        ],
+                      );
+                    }
+                    return const SizedBox();
+                  },
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }

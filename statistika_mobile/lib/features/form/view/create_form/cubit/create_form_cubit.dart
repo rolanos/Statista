@@ -13,10 +13,12 @@ class CreateFormCubit extends Cubit<CreateFormState> {
     String name,
     String description,
     String userId,
+    String? typeId,
   ) async {
     final request = CreateFormRequest(
       name: name,
       description: description,
+      typeId: typeId,
       createdById: userId,
     );
     final result = await FormRepository().createForm(request);

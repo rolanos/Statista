@@ -1,7 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta/meta.dart';
 import 'package:statistika_mobile/features/survey/data/repository/survey_repository.dart';
-import 'package:statistika_mobile/features/survey/domain/model/survey.dart';
+import 'package:statistika_mobile/features/survey/domain/model/survey/survey.dart';
 
 part 'survey_state.dart';
 

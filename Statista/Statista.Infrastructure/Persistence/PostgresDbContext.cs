@@ -35,6 +35,8 @@ public class PostgresDbContext : DbContext
 
     public DbSet<AnaliticalFact> AnaliticalFacts { get; set; } = null!;
 
+    public DbSet<Domain.Entities.File> Files { get; set; } = null!;
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(PostgresDbContext).Assembly);

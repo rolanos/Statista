@@ -1,5 +1,5 @@
 abstract class ApiRoutes {
-  static const baseUrl = 'http://185.112.101.214:8080';
+  static const baseUrl = 'http://10.0.2.2:8080';
 
   static const register = '$baseUrl/auth/register';
   static const login = '$baseUrl/auth/login';

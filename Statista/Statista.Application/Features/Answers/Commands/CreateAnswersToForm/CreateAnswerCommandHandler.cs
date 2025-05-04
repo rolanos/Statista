@@ -28,19 +28,23 @@ public class CreateAnswersToFormCommandHandler : IRequestHandler<CreateAnswersTo
     {
         foreach (var answerDto in request.answers)
         {
-            var answerMeaningValue = await _availableAnswerRepository.GetAvailableAnswerById(answerDto.AnswerValueId);
-            var answer = new Answer
+            foreach (var answerValueId in answerDto.AnswerValueIds)
             {
-                Id = Guid.NewGuid(),
-                QuestionId = answerDto.QuestionId,
-                AnswerValueId = answerDto.AnswerValueId,
-                AnswerMeaning = answerMeaningValue?.Text ?? string.Empty,
-            };
-            var newAnswer = await _answerRepository.CreateAnswer(answer);
-            if (newAnswer is null)
-            {
-                throw new Exception("Answer have not created");
+                var answerMeaningValue = await _availableAnswerRepository.GetAvailableAnswerById(answerValueId);
+                var answer = new Answer
+                {
+                    Id = Guid.NewGuid(),
+                    QuestionId = answerDto.QuestionId,
+                    AnswerValueId = answerValueId,
+                    AnswerMeaning = answerMeaningValue?.Text ?? string.Empty,
+                };
+                var newAnswer = await _answerRepository.CreateAnswer(answer);
+                if (newAnswer is null)
+                {
+
+                }
             }
+
         }
 
         return request.FormId;

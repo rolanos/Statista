@@ -24,14 +24,17 @@ class GeneralQuestionCubit extends Cubit<GeneralQuestionState> {
     );
   }
 
-  Future<void> answerQuestion(AvailableAnswer? answer) async {
+  Future<void> answerQuestion(List<AvailableAnswer> answers) async {
     final state = this.state;
 
-    if (state is GeneralQuestionInitial && answer != null) {
+    if (state is GeneralQuestionInitial && answers.isNotEmpty) {
       emit(GeneralQuestionInitialAnswerLoading(question: state.question));
       final request = CreateAnswerRequest(
         questionId: state.question.id,
-        answerValueId: answer.id,
+        answerValueIds: List<String>.generate(
+          answers.length,
+          (i) => answers[i].id,
+        ),
       );
 
       final result = await AnswerRepository().sendAnswer(request);
@@ -53,6 +56,9 @@ class GeneralQuestionCubit extends Cubit<GeneralQuestionState> {
           );
         },
       );
+    }
+    if (this.state is GeneralQuestionError) {
+      await getGeneralQuestion();
     }
   }
 }

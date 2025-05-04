@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:statistika_mobile/core/model/analitical_complex.dart';
 import 'package:statistika_mobile/core/utils/utils.dart';
 
@@ -85,7 +86,7 @@ class _BarChartWidgetState extends State<BarChartWidget> {
           ) {
             return BarTooltipItem(
               rod.toY.round().toString(),
-              context.textTheme.bodyMedium ?? const TextStyle(),
+              context.textTheme.bodyMedium ?? GoogleFonts.roboto(),
             );
           },
         ),

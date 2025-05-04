@@ -7,6 +7,7 @@ import 'package:statistika_mobile/core/dto/create_available_answer/create_availa
 import 'package:statistika_mobile/core/dto/update_available_answer/update_available_answer_request.dart';
 import 'package:statistika_mobile/features/form/domain/model/available_answer.dart';
 
+import '../utils/dio_client.dart';
 import '../utils/shared_preferences_manager.dart';
 
 class AvailableAnswerRepository {
@@ -14,7 +15,7 @@ class AvailableAnswerRepository {
     CreateAvailableAnswerRequest createRequest,
   ) async {
     try {
-      final dio = Dio();
+      final dio = DioClient.dio;
       final result = await dio.post(
         ApiRoutes.availableAnswer,
         data: createRequest.toJson(),
@@ -33,7 +34,7 @@ class AvailableAnswerRepository {
     UpdateAvailableAnswerRequest updateRequest,
   ) async {
     try {
-      final dio = Dio();
+      final dio = DioClient.dio;
       final result = await dio.patch(
         ApiRoutes.availableAnswer,
         data: updateRequest.toJson(),
@@ -50,7 +51,7 @@ class AvailableAnswerRepository {
 
   Future<Either<Exception, AvailableAnswer>> deleteAnswer(String id) async {
     try {
-      final dio = Dio();
+      final dio = DioClient.dio;
       final result = await dio.delete(
         ApiRoutes.availableAnswer,
         data: {"id": id},

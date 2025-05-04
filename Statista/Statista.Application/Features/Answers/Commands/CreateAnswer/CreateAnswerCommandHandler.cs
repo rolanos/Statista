@@ -1,9 +1,10 @@
 using MediatR;
 using Statista.Application.Common.Interfaces.Persistence;
+using Statista.Domain.Errors;
 
 namespace Statista.Application.Features.Forms.Commands.CreateForm;
 
-public class CreateAnswerCommandHandler : IRequestHandler<CreateAnswerCommand, Answer>
+public class CreateAnswerCommandHandler : IRequestHandler<CreateAnswerCommand, ICollection<Answer>>
 {
     private readonly IAnswerRepository _answerRepository;
 
@@ -16,22 +17,32 @@ public class CreateAnswerCommandHandler : IRequestHandler<CreateAnswerCommand, A
         _availableAnswerRepository = availableAnswerRepository;
     }
 
-    public async Task<Answer> Handle(CreateAnswerCommand request, CancellationToken cancellationToken)
+    public async Task<ICollection<Answer>> Handle(CreateAnswerCommand request, CancellationToken cancellationToken)
     {
-        var answerMeaningValue = await _availableAnswerRepository.GetAvailableAnswerById(request.AnswerValueId);
-        var answer = new Answer
+
+        var answers = new List<Answer>();
+        foreach (var item in request.AnswerValueIds)
         {
-            Id = Guid.NewGuid(),
-            QuestionId = request.QuestionId,
-            AnswerValueId = request.AnswerValueId,
-            RespondentId = request.UserId,
-            AnswerMeaning = answerMeaningValue?.Text ?? string.Empty,
-        };
-        var newAnswer = await _answerRepository.CreateAnswer(answer);
-        if (newAnswer is null)
-        {
-            throw new Exception("Answer have not created");
+            var answerMeaningValue = await _availableAnswerRepository.GetAvailableAnswerById(item);
+            if (answerMeaningValue is null)
+            {
+                throw new NotFoundException("Available answer not found");
+            }
+            var answer = new Answer
+            {
+                Id = Guid.NewGuid(),
+                QuestionId = request.QuestionId,
+                AnswerValueId = item,
+                RespondentId = request.UserId,
+                AnswerMeaning = answerMeaningValue?.Text ?? string.Empty,
+            };
+            answers.Add(answer);
+            var newAnswer = await _answerRepository.CreateAnswer(answer);
+            if (newAnswer is null)
+            {
+                throw new Exception("Answer have not created");
+            }
         }
-        return newAnswer;
+        return answers;
     }
 }

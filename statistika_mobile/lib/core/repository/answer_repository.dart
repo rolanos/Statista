@@ -6,6 +6,7 @@ import 'package:statistika_mobile/core/dto/create_answer/create_answer_request.d
 import 'package:statistika_mobile/core/dto/create_answer/create_answers_to_form_request.dart';
 
 import '../constants/routes.dart';
+import '../utils/dio_client.dart';
 import '../utils/shared_preferences_manager.dart';
 
 class AnswerRepository {
@@ -13,7 +14,7 @@ class AnswerRepository {
     CreateAnswersToFormRequest request,
   ) async {
     try {
-      final dio = Dio();
+      final dio = DioClient.dio;
       final result = await dio.post(
         ApiRoutes.answersForForm,
         data: request.toJson(),
@@ -32,7 +33,7 @@ class AnswerRepository {
     CreateAnswerRequest request,
   ) async {
     try {
-      final dio = Dio();
+      final dio = DioClient.dio;
       final result = await dio.post(
         ApiRoutes.answers,
         data: request.toJson(),

@@ -83,6 +83,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ),
                   ),
                   SliverFillRemaining(
+                    hasScrollBody: false,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [

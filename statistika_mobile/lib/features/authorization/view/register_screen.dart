@@ -7,14 +7,14 @@ import 'package:statistika_mobile/core/utils/extensions.dart';
 import 'package:statistika_mobile/features/authorization/view/cubit/authorization_cubit.dart';
 import 'package:statistika_mobile/features/authorization/view/cubit/user_profile_cubit.dart';
 
-class AuthorizationScreen extends StatefulWidget {
-  const AuthorizationScreen({super.key});
+class RegisterScreen extends StatefulWidget {
+  const RegisterScreen({super.key});
 
   @override
-  State<AuthorizationScreen> createState() => _AuthorizationScreenState();
+  State<RegisterScreen> createState() => _RegisterScreenState();
 }
 
-class _AuthorizationScreenState extends State<AuthorizationScreen> {
+class _RegisterScreenState extends State<RegisterScreen> {
   final emailController = TextEditingController();
 
   final passwordController = TextEditingController();
@@ -46,9 +46,38 @@ class _AuthorizationScreenState extends State<AuthorizationScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Email',
+                      'Имя',
                       style: context.textTheme.bodySmall?.copyWith(
                         color: AppColors.gray,
+                      ),
+                    ),
+                    TextFormField(
+                      controller: passwordController,
+                      style: context.textTheme.bodySmall,
+                      decoration: const InputDecoration(
+                        hintText: 'Введите имя',
+                      ),
+                    ),
+                  ],
+                ),
+                Column(
+                  spacing: AppConstants.smallPadding,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    RichText(
+                      text: TextSpan(
+                        text: 'Email',
+                        style: context.textTheme.bodySmall?.copyWith(
+                          color: AppColors.gray,
+                        ),
+                        children: [
+                          TextSpan(
+                            text: ' *',
+                            style: context.textTheme.bodySmall?.copyWith(
+                              color: AppColors.red,
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                     TextFormField(
@@ -64,10 +93,20 @@ class _AuthorizationScreenState extends State<AuthorizationScreen> {
                   spacing: AppConstants.smallPadding,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      'Пароль',
-                      style: context.textTheme.bodySmall?.copyWith(
-                        color: AppColors.gray,
+                    RichText(
+                      text: TextSpan(
+                        text: 'Пароль',
+                        style: context.textTheme.bodySmall?.copyWith(
+                          color: AppColors.gray,
+                        ),
+                        children: [
+                          TextSpan(
+                            text: ' *',
+                            style: context.textTheme.bodySmall?.copyWith(
+                              color: AppColors.red,
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                     TextFormField(
@@ -77,60 +116,37 @@ class _AuthorizationScreenState extends State<AuthorizationScreen> {
                         hintText: 'Введите пароль',
                       ),
                     ),
-                    Text(
-                      'Забыли пароль?',
-                      style: context.textTheme.bodySmall?.copyWith(
-                        color: AppColors.gray,
-                      ),
-                    ),
                   ],
                 ),
-                const SizedBox(),
                 BlocBuilder<AuthorizationCubit, AuthorizationState>(
                   builder: (context, state) {
                     return ElevatedButton(
                       onPressed: () {
-                        context.read<AuthorizationCubit>().login(
-                            emailController.text, passwordController.text);
-                        // Navigator.of(context).pushNamed('/home');
+                        context.read<AuthorizationCubit>().register(
+                              emailController.text,
+                              passwordController.text,
+                            );
                       },
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           if (state is AuthorizationLoading)
-                            const ProgressPlaceholder(),
+                            SizedBox(
+                              height: (context.textTheme.bodyMedium?.fontSize ??
+                                      12) *
+                                  (context.textTheme.bodyMedium?.height ?? 1),
+                              width: (context.textTheme.bodyMedium?.fontSize ??
+                                      12) *
+                                  (context.textTheme.bodyMedium?.height ?? 1),
+                              child: const CircularProgressIndicator(
+                                color: AppColors.white,
+                              ),
+                            ),
                           if (state is! AuthorizationLoading)
                             Text(
-                              'Войти',
+                              'Регистрация',
                               style: context.textTheme.bodyMedium
                                   ?.copyWith(color: AppColors.white),
-                            ),
-                        ],
-                      ),
-                    );
-                  },
-                ),
-                BlocBuilder<AuthorizationCubit, AuthorizationState>(
-                  builder: (context, state) {
-                    return ElevatedButton(
-                      style: const ButtonStyle(
-                        shadowColor: WidgetStatePropertyAll(Colors.transparent),
-                        backgroundColor:
-                            WidgetStatePropertyAll(Colors.transparent),
-                      ),
-                      onPressed: () {
-                        context.goNamed(NavigationRoutes.register);
-                      },
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          if (state is AuthorizationLoading)
-                            const ProgressPlaceholder(),
-                          if (state is! AuthorizationLoading)
-                            Text(
-                              'Зарегистрироваться',
-                              style: context.textTheme.bodyMedium
-                                  ?.copyWith(color: AppColors.black),
                             ),
                         ],
                       ),
@@ -142,25 +158,6 @@ class _AuthorizationScreenState extends State<AuthorizationScreen> {
             ),
           ),
         ),
-      ),
-    );
-  }
-}
-
-class ProgressPlaceholder extends StatelessWidget {
-  const ProgressPlaceholder({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      height: (context.textTheme.bodyMedium?.fontSize ?? 12) *
-          (context.textTheme.bodyMedium?.height ?? 1),
-      width: (context.textTheme.bodyMedium?.fontSize ?? 12) *
-          (context.textTheme.bodyMedium?.height ?? 1),
-      child: const CircularProgressIndicator(
-        color: AppColors.white,
       ),
     );
   }

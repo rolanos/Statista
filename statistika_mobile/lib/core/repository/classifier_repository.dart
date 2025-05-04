@@ -5,13 +5,14 @@ import 'package:fpdart/fpdart.dart';
 import 'package:statistika_mobile/core/constants/routes.dart';
 import 'package:statistika_mobile/core/model/classifier.dart';
 
+import '../utils/dio_client.dart';
 import '../utils/shared_preferences_manager.dart';
 
 class ClassifierRepository {
   Future<Either<Exception, List<Classifier>>> getQuestionTypes() async {
     try {
       final list = <Classifier>[];
-      final dio = Dio();
+      final dio = DioClient.dio;
       final result = await dio.get(
         ApiRoutes.questionTypes,
         options: Options(
@@ -32,7 +33,7 @@ class ClassifierRepository {
   Future<Either<Exception, List<Classifier>>> getSurveyTypes() async {
     try {
       final list = <Classifier>[];
-      final dio = Dio();
+      final dio = DioClient.dio;
       final result = await dio.get(
         ApiRoutes.surveyTypes,
         options: Options(
@@ -53,7 +54,7 @@ class ClassifierRepository {
   Future<Either<Exception, List<Classifier>>> getSurveyRoles() async {
     try {
       final list = <Classifier>[];
-      final dio = Dio();
+      final dio = DioClient.dio;
       final result = await dio.get(
         ApiRoutes.surveyRoles,
         options: Options(

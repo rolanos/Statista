@@ -1,0 +1,2 @@
+C:/dev/StatistikaApp/statistika_mobile/android/app/.cxx/RelWithDebInfo/55401y5s/x86/CMakeFiles/edit_cache.dir
+C:/dev/StatistikaApp/statistika_mobile/android/app/.cxx/RelWithDebInfo/55401y5s/x86/CMakeFiles/rebuild_cache.dir

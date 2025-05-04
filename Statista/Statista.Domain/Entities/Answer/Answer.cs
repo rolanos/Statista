@@ -7,4 +7,7 @@ public class Answer
     public Question Question { get; set; }
     public Guid? AnswerValueId { get; set; }
     public AvailableAnswer? AnswerValue { get; set; }
+    public string AnswerMeaning { get; set; } = string.Empty;
+    public Guid? RespondentId;
+    public User? Respondent;
 }

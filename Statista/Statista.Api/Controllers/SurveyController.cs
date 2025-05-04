@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Statista.Application.Features.Surveys.CreateSurvey;
 using Statista.Application.Features.Surveys.Dto;
@@ -14,12 +15,5 @@ public class SurveyController : BaseController
     {
         var result = await mediator.Send(new GetSurveysQuery());
         return Ok(result);
-    }
-
-    [HttpPost]
-    public async Task<IActionResult> CreateSurvey(CreateSurveyCommand request)
-    {
-        var result = await mediator.Send(request);
-        return Ok(mapper.Map<SurveyResponse>(result));
     }
 }

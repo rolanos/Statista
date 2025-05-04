@@ -25,7 +25,7 @@ public class SectionController : BaseController
     }
 
     [HttpDelete]
-    public async Task<IActionResult> GetSectionsByFormId(DeleteSectionCommand request)
+    public async Task<IActionResult> DeleteSection(DeleteSectionCommand request)
     {
         var result = await mediator.Send(request);
         return Ok(result);

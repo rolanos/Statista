@@ -13,6 +13,8 @@ public class PostgresDbContext : DbContext
 
     public DbSet<Survey> Surveys { get; set; } = null!;
 
+    public DbSet<SurveyConfiguration> SurveyConfiguration { get; set; } = null!;
+
     public DbSet<Form> Forms { get; set; } = null!;
 
     public DbSet<Section> Sections { get; set; } = null!;
@@ -23,6 +25,17 @@ public class PostgresDbContext : DbContext
 
     public DbSet<Answer> Answers { get; set; } = null!;
 
+    public DbSet<AdminGroup> AdminGroup { get; set; } = null!;
+
+    public DbSet<RespondentGroup> RespondentGroups { get; set; } = null!;
+
+    public DbSet<Classifier> Classifiers { get; set; } = null!;
+
+    public DbSet<UserInfo> UserInfo { get; set; } = null!;
+
+    public DbSet<AnaliticalFact> AnaliticalFacts { get; set; } = null!;
+
+    public DbSet<Domain.Entities.File> Files { get; set; } = null!;
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

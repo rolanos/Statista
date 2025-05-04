@@ -10,7 +10,7 @@ namespace Statista.Api.Controllers;
 [Route("users")]
 public class UserController : BaseController
 {
-    [HttpGet]
+    [HttpGet("all")]
     public async Task<IActionResult> GetUsers()
     {
         var result = await mediator.Send(new GetUsersQuery());
@@ -18,30 +18,15 @@ public class UserController : BaseController
         return Ok(result);
     }
 
-    [HttpGet("{id:guid}")]
-    public async Task<IActionResult> GetUserById(Guid id)
+    [HttpGet()]
+    public async Task<IActionResult> GetUserById([FromQuery] Guid id)
     {
         var result = await mediator.Send(new GetUserByIdQuery(id));
         return Ok(result);
     }
 
-    // [HttpGet("{email:alpha}")]
-    // public async Task<IActionResult> GetUserByEmail(string email)
-    // {
-    //     var createUserResult = await mediator.Send(new GetUserByEmailQuery(email));
-    //     return Ok(createUserResult);
-    // }
-
-    [HttpPost]
-    public async Task<IActionResult> CreateUser(CreateUserRequest request)
-    {
-        var command = mapper.Map<CreateUserCommand>(request);
-        var result = await mediator.Send(command);
-        return Ok(mapper.Map<UserResponse>(result));
-    }
-
-    [HttpDelete("{id:guid}")]
-    public async Task<IActionResult> DeleteUser(Guid id)
+    [HttpDelete()]
+    public async Task<IActionResult> DeleteUser([FromQuery] Guid id)
     {
         var result = await mediator.Send(new DeleteUserCommand(id));
         return Ok(result);

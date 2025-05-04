@@ -1,5 +1,7 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
+using Statista.Application.Common.Interfaces.Persistence;
+using Statista.Domain.Constants;
 
 namespace Statista.Infrastructure.Persistence;
 
@@ -32,18 +34,26 @@ public class DataSeeder
 
     public async Task Seed()
     {
-        //await InsertPerissions();
+        await InsertClassifier();
     }
 
-    // private async Task InsertPerissions()
-    // {
-    //     var _permissionsRepository = _services.GetRequiredService<IPermissionRepository>();
-    //     if (!_permissionsRepository.HasData())
-    //     {
-    //         foreach (var item in PermissionConstant.values)
-    //         {
-    //             await _permissionsRepository.Add(item);
-    //         }
-    //     }
-    // }
+    private async Task InsertClassifier()
+    {
+        var _classifierRepository = _services.GetRequiredService<IClassifierRepository>();
+        foreach (var item in QuestionTypeConstants.values)
+        {
+            var contains = await _classifierRepository.GetClassifierById(item.Id);
+            if (contains == null) { await _classifierRepository.CreateClassifier(item); }
+        }
+        foreach (var item in RoleTypeConstants.values)
+        {
+            var contains = await _classifierRepository.GetClassifierById(item.Id);
+            if (contains == null) { await _classifierRepository.CreateClassifier(item); }
+        }
+        foreach (var item in SurveyTypeConstants.values)
+        {
+            var contains = await _classifierRepository.GetClassifierById(item.Id);
+            if (contains == null) { await _classifierRepository.CreateClassifier(item); }
+        }
+    }
 }

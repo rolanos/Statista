@@ -33,17 +33,57 @@ public class UserRepository : IUserRepository
 
     public async Task<User?> GetUserByEmail(string email)
     {
-        return await _dbContext.Users.SingleOrDefaultAsync(u => u.Email == email);
+        var user = await _dbContext.Users.AsNoTracking()
+                                     .Include(u => u.UserInfo)
+                                     .SingleOrDefaultAsync(u => u.Email == email);
+        if (user != null && user?.UserInfo != null)
+        {
+            var file = await _dbContext.Files.AsNoTracking()
+                                             .Where(f => f.ElementId == user.UserInfo.Id)
+                                             .SingleOrDefaultAsync();
+            user!.UserInfo.PhotoId = file?.Id;
+            user!.UserInfo.Photo = file;
+        }
+
+        return user;
     }
 
     public async Task<User?> GetUserById(Guid id)
     {
-        return await _dbContext.Users.SingleOrDefaultAsync(u => u.Id!.Equals(id));
+        var user = await _dbContext.Users.AsNoTracking()
+                                     .Include(u => u.UserInfo)
+                                     .SingleOrDefaultAsync(u => u.Id == id);
+        if (user != null && user?.UserInfo != null)
+        {
+            var file = await _dbContext.Files.AsNoTracking()
+                                             .Where(f => f.ElementId == user.UserInfo.Id)
+                                             .SingleOrDefaultAsync();
+            user!.UserInfo.PhotoId = file?.Id;
+            user!.UserInfo.Photo = file;
+        }
+
+        return user;
     }
 
-    public IReadOnlyCollection<User?> GetUsers()
+    public async Task<ICollection<User?>> GetUsers()
     {
-        return _dbContext.Users.ToList().AsReadOnly();
+        var users = _dbContext.Users.AsNoTracking()
+                               .ToList()
+                               .AsReadOnly();
+        for (int i = 0; i < users.Count; i++)
+        {
+            if (users[i]?.UserInfo != null)
+            {
+                var file = await _dbContext.Files.AsNoTracking()
+                                                 .Where(f => f.ElementId == users[i]!.UserInfo.Id)
+                                                 .SingleOrDefaultAsync();
+                users[i]!.UserInfo.PhotoId = file?.Id;
+                users[i]!.UserInfo.Photo = file;
+            }
+
+        }
+
+        return users;
     }
 
     public async Task<User?> UpdateUser(User user)

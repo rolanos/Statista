@@ -15,4 +15,9 @@ abstract class AppColors {
   static const whiteSecondary = Color(0xFFADAEBC);
 
   static const border = Color(0xFFE5E5E5);
+
+  static const blueDark = Color.fromARGB(178, 41, 120, 255);
+  static const blue = Color(0xFF2979FF);
+
+  static const red = Color.fromARGB(255, 154, 51, 51);
 }

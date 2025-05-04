@@ -27,7 +27,6 @@ public class FormRepository : IFormRepository
     {
         return await _dbContext.Forms.AsNoTracking()
                                      .Include(f => f.Survey)
-                                     .Include(f => f.CreatedBy)
                                      .ToListAsync();
     }
 
@@ -35,6 +34,13 @@ public class FormRepository : IFormRepository
     {
         return await _dbContext.Forms.AsNoTracking()
                                      .SingleOrDefaultAsync(u => u.SurveyId == surveyId);
+    }
+
+
+    public async Task<Form?> GetFormById(Guid id)
+    {
+        return await _dbContext.Forms.AsNoTracking()
+                                     .SingleOrDefaultAsync(u => u.Id == id);
     }
 
     public async Task<Form?> DeleteById(Guid id)
@@ -48,5 +54,12 @@ public class FormRepository : IFormRepository
             return form;
         }
         return null;
+    }
+
+    public async Task<ICollection<Form>> GetFormsByUserId(Guid userId)
+    {
+        return await _dbContext.Forms.AsNoTracking()
+                                     .Include(f => f.Survey)
+                                     .ToListAsync();
     }
 }

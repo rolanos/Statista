@@ -39,4 +39,8 @@ public class SurveyRepository : ISurveyRepository
         return await _dbContext.Surveys.ToListAsync();
     }
 
+    public async Task<Survey?> GetSurveyById(Guid id)
+    {
+        return await _dbContext.Surveys.SingleOrDefaultAsync(u => u.Id == id);
+    }
 }

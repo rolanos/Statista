@@ -1,4 +1,3 @@
-
 using MediatR;
 using Statista.Domain.Entities;
 

@@ -1,5 +1,6 @@
 using System.Net;
 using System.Text.Json;
+using Statista.Domain.Errors;
 
 public class ErrorHandlingMiddleware
 {
@@ -32,6 +33,13 @@ public class ErrorHandlingMiddleware
         var result = JsonSerializer.Serialize(new { error = exception.Message, status = code });
         context.Response.ContentType = "application/json";
         context.Response.StatusCode = (int)code;
+        switch (exception)
+        {
+            case ServiceException serviceException:
+                return context.Response.WriteAsync(JsonSerializer.Serialize(new { error = serviceException.ErrorMessage, status = serviceException.StatusCode }));
+            case Exception:
+                return context.Response.WriteAsync(result);
+        }
         return context.Response.WriteAsync(result);
     }
 }

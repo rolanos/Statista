@@ -1,5 +1,6 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:statistika_mobile/core/constants/constants.dart';
 
 import '../../../../../core/model/analitical_complex.dart';
@@ -107,10 +108,10 @@ class _PieChartWidgetState extends State<PieChartWidget> {
         value: (widget.analitic?.data[i].count ?? 0).toDouble(),
         title: '${widget.analitic?.data[i].count ?? 0}',
         radius: radius,
-        titleStyle: TextStyle(
+        titleStyle: GoogleFonts.roboto(
           fontSize: fontSize,
           fontWeight: FontWeight.bold,
-          color: Colors.black,
+          color: Colors.white,
           shadows: shadows,
         ),
       );

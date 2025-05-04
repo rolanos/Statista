@@ -7,12 +7,13 @@ import 'package:statistika_mobile/core/dto/create_question/create_question_reque
 import 'package:statistika_mobile/features/form/data/model/update_question_request.dart';
 import 'package:statistika_mobile/features/form/domain/model/question.dart';
 
+import '../utils/dio_client.dart';
 import '../utils/shared_preferences_manager.dart';
 
 class QuestionRepository {
   Future<Either<Exception, Question>> getGeneralQuestion() async {
     try {
-      final dio = Dio();
+      final dio = DioClient.dio;
       final result = await dio.get(
         ApiRoutes.generalQuestion,
         options: Options(
@@ -30,7 +31,7 @@ class QuestionRepository {
     CreateQuestionRequest createRequest,
   ) async {
     try {
-      final dio = Dio();
+      final dio = DioClient.dio;
       final result = await dio.post(
         ApiRoutes.questions,
         data: createRequest.toJson(),
@@ -49,7 +50,7 @@ class QuestionRepository {
     UpdateQuestionRequest updateRequest,
   ) async {
     try {
-      final dio = Dio();
+      final dio = DioClient.dio;
       final result = await dio.patch(
         ApiRoutes.questions,
         data: updateRequest.toJson(),
@@ -66,7 +67,7 @@ class QuestionRepository {
 
   Future<Either<Exception, Question>> deleteQuestion(String id) async {
     try {
-      final dio = Dio();
+      final dio = DioClient.dio;
       final result = await dio.delete(
         ApiRoutes.questions,
         data: {'id': id},

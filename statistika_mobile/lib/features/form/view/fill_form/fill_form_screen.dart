@@ -52,7 +52,7 @@ class FillFormScreen extends StatelessWidget {
                           context.read<FillFormCubit>().updateAnswer(
                                 CreateAnswerRequest(
                                   questionId: state.currentQuestion.id,
-                                  answerValueId: ans.id,
+                                  answerValueIds: [ans.id],
                                 ),
                               );
                         }

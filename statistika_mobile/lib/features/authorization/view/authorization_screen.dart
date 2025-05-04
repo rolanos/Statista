@@ -98,17 +98,7 @@ class _AuthorizationScreenState extends State<AuthorizationScreen> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           if (state is AuthorizationLoading)
-                            SizedBox(
-                              height: (context.textTheme.bodyMedium?.fontSize ??
-                                      12) *
-                                  (context.textTheme.bodyMedium?.height ?? 1),
-                              width: (context.textTheme.bodyMedium?.fontSize ??
-                                      12) *
-                                  (context.textTheme.bodyMedium?.height ?? 1),
-                              child: const CircularProgressIndicator(
-                                color: AppColors.white,
-                              ),
-                            ),
+                            const ProgressPlaceholder(),
                           if (state is! AuthorizationLoading)
                             Text(
                               'Войти',
@@ -120,11 +110,57 @@ class _AuthorizationScreenState extends State<AuthorizationScreen> {
                     );
                   },
                 ),
+                BlocBuilder<AuthorizationCubit, AuthorizationState>(
+                  builder: (context, state) {
+                    return ElevatedButton(
+                      style: const ButtonStyle(
+                        shadowColor: WidgetStatePropertyAll(Colors.transparent),
+                        backgroundColor:
+                            WidgetStatePropertyAll(Colors.transparent),
+                      ),
+                      onPressed: () {
+                        context.goNamed(NavigationRoutes.register);
+                      },
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          if (state is AuthorizationLoading)
+                            const ProgressPlaceholder(),
+                          if (state is! AuthorizationLoading)
+                            Text(
+                              'Зарегистрироваться',
+                              style: context.textTheme.bodyMedium
+                                  ?.copyWith(color: AppColors.black),
+                            ),
+                        ],
+                      ),
+                    );
+                  },
+                ),
                 const Spacer(),
               ],
             ),
           ),
         ),
+      ),
+    );
+  }
+}
+
+class ProgressPlaceholder extends StatelessWidget {
+  const ProgressPlaceholder({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: (context.textTheme.bodyMedium?.fontSize ?? 12) *
+          (context.textTheme.bodyMedium?.height ?? 1),
+      width: (context.textTheme.bodyMedium?.fontSize ?? 12) *
+          (context.textTheme.bodyMedium?.height ?? 1),
+      child: const CircularProgressIndicator(
+        color: AppColors.white,
       ),
     );
   }

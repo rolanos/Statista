@@ -5,13 +5,14 @@ import 'package:fpdart/fpdart.dart';
 import 'package:statistika_mobile/core/constants/routes.dart';
 import 'package:statistika_mobile/features/authorization/domain/model/user_info.dart';
 
+import '../../../../core/utils/dio_client.dart';
 import '../dto/update_user_info_request.dart';
 
 class UserInfoRepository {
   Future<Either<Exception, UserInfo>> updateUserInfo(
       UpdateUserInfoRequest request) async {
     try {
-      final dio = Dio();
+      final dio = DioClient.dio;
       final result = await dio.put(
         ApiRoutes.userInfo,
         data: request.toJson(),

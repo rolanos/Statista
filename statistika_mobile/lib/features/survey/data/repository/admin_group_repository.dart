@@ -7,6 +7,7 @@ import 'package:statistika_mobile/core/dto/update_admin_group/update_admin_group
 
 import '../../../../core/constants/routes.dart';
 import '../../../../core/dto/delete_admin_group/delete_admin_group.dart';
+import '../../../../core/utils/dio_client.dart';
 import '../../../../core/utils/shared_preferences_manager.dart';
 import '../../domain/model/admin_group/admin_group.dart';
 
@@ -16,7 +17,7 @@ class AdminGroupRepository {
   ) async {
     try {
       final adminGroup = <AdminGroup>[];
-      final dio = Dio();
+      final dio = DioClient.dio;
       final result = await dio.get(
         ApiRoutes.adminGroup,
         queryParameters: {'surveyId': surveyId},
@@ -39,7 +40,7 @@ class AdminGroupRepository {
     CreateAdminGroup request,
   ) async {
     try {
-      final dio = Dio();
+      final dio = DioClient.dio;
       final result = await dio.post(
         ApiRoutes.adminGroup,
         data: request.toJson(),
@@ -59,7 +60,7 @@ class AdminGroupRepository {
     UpdateAdminGroup request,
   ) async {
     try {
-      final dio = Dio();
+      final dio = DioClient.dio;
       final result = await dio.patch(
         ApiRoutes.adminGroup,
         data: request.toJson(),
@@ -79,7 +80,7 @@ class AdminGroupRepository {
     DeleteAdminGroup request,
   ) async {
     try {
-      final dio = Dio();
+      final dio = DioClient.dio;
       final result = await dio.delete(
         ApiRoutes.adminGroup,
         data: request.toJson(),

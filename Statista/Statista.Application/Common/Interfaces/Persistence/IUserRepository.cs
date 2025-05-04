@@ -7,7 +7,7 @@ public interface IUserRepository
     Task Add(User user);
     Task<User?> GetUserById(Guid id);
     Task<User?> GetUserByEmail(string email);
-    IReadOnlyCollection<User?> GetUsers();
+    Task<ICollection<User?>> GetUsers();
     Task<User?> UpdateUser(User user);
     Task<User?> DeleteUserById(Guid id);
 }

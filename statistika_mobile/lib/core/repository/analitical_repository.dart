@@ -5,6 +5,7 @@ import 'package:fpdart/fpdart.dart';
 import 'package:statistika_mobile/core/model/analitical_complex.dart';
 
 import '../constants/routes.dart';
+import '../utils/dio_client.dart';
 import '../utils/shared_preferences_manager.dart';
 
 class AnaliticalRepository {
@@ -12,7 +13,7 @@ class AnaliticalRepository {
     String questionId,
   ) async {
     try {
-      final dio = Dio();
+      final dio = DioClient.dio;
       final result = await dio.get(
         ApiRoutes.analitical,
         queryParameters: {

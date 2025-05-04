@@ -26,13 +26,13 @@ class ChooseQuestionTypeScreen extends StatelessWidget {
             child: Container(
               padding: const EdgeInsets.all(AppConstants.mediumPadding),
               decoration: BoxDecoration(
-                color: AppColors.whiteSecondary,
+                color: AppColors.blue,
                 borderRadius: BorderRadius.circular(AppConstants.mediumPadding),
               ),
               child: Text(
                 list[i].name,
                 style: context.textTheme.bodyMedium?.copyWith(
-                  color: AppColors.black,
+                  color: AppColors.white,
                 ),
               ),
             ),

@@ -162,6 +162,30 @@ namespace Statista.Infrastructure.Migrations
                     b.ToTable("AvailableAnswer", (string)null);
                 });
 
+            modelBuilder.Entity("Statista.Domain.Entities.File", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<Guid>("ElementId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("FullName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<long>("Size")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Files");
+                });
+
             modelBuilder.Entity("Statista.Domain.Entities.Form", b =>
                 {
                     b.Property<Guid>("Id")
@@ -328,10 +352,15 @@ namespace Statista.Infrastructure.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("text");
 
+                    b.Property<Guid?>("PhotoId")
+                        .HasColumnType("uuid");
+
                     b.Property<Guid>("UserId")
                         .HasColumnType("uuid");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("PhotoId");
 
                     b.HasIndex("UserId")
                         .IsUnique();
@@ -533,11 +562,17 @@ namespace Statista.Infrastructure.Migrations
 
             modelBuilder.Entity("Statista.Domain.Entities.UserInfo", b =>
                 {
+                    b.HasOne("Statista.Domain.Entities.File", "Photo")
+                        .WithMany()
+                        .HasForeignKey("PhotoId");
+
                     b.HasOne("Statista.Domain.Entities.User", "User")
                         .WithOne("UserInfo")
                         .HasForeignKey("Statista.Domain.Entities.UserInfo", "UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Photo");
 
                     b.Navigation("User");
                 });

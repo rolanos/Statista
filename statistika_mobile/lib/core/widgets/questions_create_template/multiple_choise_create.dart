@@ -9,6 +9,7 @@ class MultipleChoiseCreateWidget extends SingleChoiseCreateWidget {
     super.onUpdateTitle,
     super.onDeleteAvailableAnswer,
     super.onUpdateAvailableAnswer,
+    super.duration,
   });
 
   @override

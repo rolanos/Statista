@@ -8,4 +8,6 @@ public class UserInfo
     public string? Name { get; set; }
     public bool? IsMan { get; set; }
     public DateTime? Birthday { get; set; }
+    public Guid? PhotoId { get; set; }  // ссылка на файл
+    public File? Photo { get; set; }
 }

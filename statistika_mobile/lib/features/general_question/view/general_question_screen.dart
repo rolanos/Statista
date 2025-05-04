@@ -4,6 +4,8 @@ import 'package:go_router/go_router.dart';
 import 'package:statistika_mobile/core/constants/app_constants.dart';
 import 'package:statistika_mobile/core/constants/routes.dart';
 import 'package:statistika_mobile/core/utils/utils.dart';
+import 'package:statistika_mobile/core/widgets/questions/multi_choise_question.dart';
+import 'package:statistika_mobile/features/form/domain/enum/question_types.dart';
 import 'package:statistika_mobile/features/general_question/view/cubit/general_question_cubit.dart';
 
 import '../../../core/widgets/questions/single_choise_question.dart';
@@ -17,7 +19,7 @@ class GeneralQuestionScreen extends StatefulWidget {
 }
 
 class _GeneralQuestionScreenState extends State<GeneralQuestionScreen> {
-  AvailableAnswer? answer;
+  List<AvailableAnswer> answers = [];
 
   @override
   void initState() {
@@ -72,7 +74,7 @@ class _GeneralQuestionScreenState extends State<GeneralQuestionScreen> {
                   },
                   listener: (context, state) {
                     if (state is GeneralQuestionInitial) {
-                      answer = null;
+                      answers = [];
                       setState(() {});
                     }
                   },
@@ -83,18 +85,47 @@ class _GeneralQuestionScreenState extends State<GeneralQuestionScreen> {
                       );
                     }
                     if (state is GeneralQuestionInitial) {
+                      final type =
+                          QuestionTypes.tryParse(state.question.typeId);
                       return Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         spacing: AppConstants.mediumPadding,
                         children: [
-                          SingleChoiseQuestion(
-                            question: state.question,
-                            onSelected: (a) => answer = a,
-                            analitic:
-                                state is GeneralQuestionInitialShowAnalitic
-                                    ? state.analitic
-                                    : null,
-                          ),
+                          switch (type) {
+                            QuestionTypes.singleChoise => SingleChoiseQuestion(
+                                question: state.question,
+                                onSelected: (a) {
+                                  if (a != null && !answers.contains(a)) {
+                                    answers.add(a);
+                                  }
+                                },
+                                analitic:
+                                    state is GeneralQuestionInitialShowAnalitic
+                                        ? state.analitic
+                                        : null,
+                              ),
+                            QuestionTypes.multipleChoice => MultiChoiseQuestion(
+                                question: state.question,
+                                availableAnswers: answers,
+                                onSelected: (a) {
+                                  if (a != null) {
+                                    answers.add(a);
+                                    setState(() {});
+                                  }
+                                },
+                                onUnselected: (a) {
+                                  if (a != null) {
+                                    answers.remove(a);
+                                    setState(() {});
+                                  }
+                                },
+                                analitic:
+                                    state is GeneralQuestionInitialShowAnalitic
+                                        ? state.analitic
+                                        : null,
+                              ),
+                            _ => const SizedBox(),
+                          },
                           Align(
                             alignment: Alignment.centerRight,
                             child: Padding(
@@ -111,10 +142,18 @@ class _GeneralQuestionScreenState extends State<GeneralQuestionScreen> {
                                     await context
                                         .read<GeneralQuestionCubit>()
                                         .getGeneralQuestion();
-                                  } else if (answer != null) {
-                                    await context
-                                        .read<GeneralQuestionCubit>()
-                                        .answerQuestion(answer);
+                                  } else if (answers.isNotEmpty) {
+                                    switch (type) {
+                                      case QuestionTypes.singleChoise:
+                                        await context
+                                            .read<GeneralQuestionCubit>()
+                                            .answerQuestion(answers);
+                                      case QuestionTypes.multipleChoice:
+                                        await context
+                                            .read<GeneralQuestionCubit>()
+                                            .answerQuestion(answers);
+                                      default:
+                                    }
                                   }
                                 },
                                 child:

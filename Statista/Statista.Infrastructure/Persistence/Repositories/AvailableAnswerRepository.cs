@@ -15,6 +15,13 @@ public class AvailableAnswerRepository : IAvailableAnswerRepository
 
     public async Task<AvailableAnswer?> CreateAvailableAnswer(AvailableAnswer availableAnswer)
     {
+        var orderedAnswers = await GetAvailableAnswersByQuestionId(availableAnswer.QuestionId);
+
+        if (orderedAnswers.Any())
+        {
+            availableAnswer.Order = orderedAnswers.Last().Order + 1;
+        }
+
         await _dbContext.AddAsync(availableAnswer);
 
         await _dbContext.SaveChangesAsync();
@@ -26,10 +33,25 @@ public class AvailableAnswerRepository : IAvailableAnswerRepository
     {
         var availableAnswer = await _dbContext.AvailableAnswers.AsNoTracking()
                                                                .SingleOrDefaultAsync(u => u.Id == id);
+
         if (availableAnswer is not null)
         {
+            var orderedAnswers = await GetAvailableAnswersByQuestionId(availableAnswer.QuestionId);
+            var current = orderedAnswers.FirstOrDefault(a => a.Id == id);
+            if (orderedAnswers == null || current == null)
+                return null;
+
             _dbContext.AvailableAnswers.Remove(availableAnswer);
             await _dbContext.SaveChangesAsync();
+
+            foreach (var otherAnswer in orderedAnswers)
+            {
+                if (otherAnswer.Order > availableAnswer.Order)
+                {
+                    otherAnswer.Order -= 1;
+                    await UpdateAvailableAnswer(otherAnswer);
+                }
+            }
             return availableAnswer;
         }
         return null;
@@ -43,9 +65,11 @@ public class AvailableAnswerRepository : IAvailableAnswerRepository
 
     public async Task<ICollection<AvailableAnswer>> GetAvailableAnswersByQuestionId(Guid questionId)
     {
-        return await _dbContext.AvailableAnswers.AsNoTracking()
-                                                .Where(u => u.QuestionId == questionId)
-                                                .ToListAsync();
+        return await _dbContext.AvailableAnswers
+                                      .AsNoTracking()
+                                      .Where(a => a.QuestionId == questionId)
+                                      .OrderBy(a => a.Order)
+                                      .ToListAsync();
     }
 
     public async Task<AvailableAnswer?> UpdateAvailableAnswer(AvailableAnswer availableAnswer)

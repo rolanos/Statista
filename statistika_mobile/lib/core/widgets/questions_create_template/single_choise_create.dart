@@ -163,7 +163,7 @@ class _SingleChoiseCreateWidgetState extends State<SingleChoiseCreateWidget> {
     _debounceTimer?.cancel();
 
     // Запускаем новый таймер на 3 секунды
-    _debounceTimer = Timer(const Duration(milliseconds: 1500), () {
+    _debounceTimer = Timer(const Duration(milliseconds: 500), () {
       // Действие, которое выполнится через 3 секунды после последнего изменения
       if (widget.onUpdateTitle != null) {
         widget.onUpdateTitle!(titleController.text);

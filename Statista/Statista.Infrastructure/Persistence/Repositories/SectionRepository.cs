@@ -38,8 +38,8 @@ public class SectionRepository : ISectionRepository
     public async Task<ICollection<Section>> GetSectionsByFormId(Guid formId)
     {
         return await _dbContext.Sections.AsNoTracking()
-                                        .Include(s => s.Questions)
-                                        .ThenInclude(q => q.AvailableAnswers)
+                                        .Include(s => s.Questions.OrderBy(q => q.Order))
+                                        .ThenInclude(q => q.AvailableAnswers.OrderBy(q => q.Order))
                                         .Where(s => s.FormId == formId).ToListAsync();
     }
 }

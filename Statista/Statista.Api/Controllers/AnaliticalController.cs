@@ -1,5 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
-using Statista.Application.Features.Forms.Queries.GetAllForms;
+using Statista.Application.Features.Analitical.Queries.GetAnaliticDataByQuestion;
 
 namespace Statista.Api.Controllers;
 

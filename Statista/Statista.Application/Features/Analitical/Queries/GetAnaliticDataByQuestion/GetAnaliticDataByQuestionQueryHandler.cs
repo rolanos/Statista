@@ -2,7 +2,6 @@ using AutoMapper;
 using MediatR;
 using Statista.Application.Common.Interfaces.Persistence;
 using Statista.Application.Features.Analitical.Dto;
-using Statista.Application.Features.Forms.Queries.GetAllForms;
 using Statista.Domain.Entities;
 
 namespace Statista.Application.Features.Analitical.Queries.GetAnaliticDataByQuestion;
@@ -24,6 +23,9 @@ public class GetAnaliticDataByQuestionQueryHandler : IRequestHandler<GetAnalitic
         var parameters = new AnaliticalParameters
         {
             QuestionId = request.QuestionId,
+            IsMan = request.AnaliticRequest?.Gender,
+            AgeFrom = request.AnaliticRequest?.AgeFrom,
+            AgeTo = request.AnaliticRequest?.AgeTo,
         };
         var result = await _analiticalRepository.Analyse(parameters);
         var analiticResult = new AnaliticalComplexResponse()

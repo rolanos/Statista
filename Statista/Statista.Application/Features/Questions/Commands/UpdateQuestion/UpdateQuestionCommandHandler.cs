@@ -21,10 +21,6 @@ public class CreateQuestionCommandHandler : IRequestHandler<UpdateQuestionComman
         var question = await _questionRepository.GetQuestionsById(request.Id);
         if (question != null)
         {
-            if (request.PastQuestion != null)
-            {
-                question.PastQuestionId = request.PastQuestion;
-            }
             if (request.Title != null)
             {
                 question.Title = request.Title;

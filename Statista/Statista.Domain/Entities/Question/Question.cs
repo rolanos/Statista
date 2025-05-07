@@ -8,7 +8,7 @@ public class Question
     public Classifier? Type { get; set; }
     public Guid? SectionId { get; set; }
     public Section? Section { get; set; }
-    public Guid? PastQuestionId { get; set; }
+    public int Order { get; set; } = 1;
     public bool IsGeneral { get; set; }
     public ICollection<AvailableAnswer> AvailableAnswers { get; set; } = new List<AvailableAnswer>();
     public DateTime CreatedDate { get; set; }

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import 'app_constants.dart';
 
@@ -15,16 +14,12 @@ class AppTheme {
   static ThemeData getTheme() {
     return ThemeData(
       brightness: Brightness.light,
-      scaffoldBackgroundColor: const Color.fromARGB(255, 245, 248, 248),
+      scaffoldBackgroundColor: const Color(0xFFF9FAFB),
       indicatorColor: AppColors.black,
       primaryColor: Colors.black,
       dividerTheme: DividerThemeData(
         color: AppColors.whiteSecondary.withAlpha(75),
         thickness: 0.75,
-      ),
-      appBarTheme: const AppBarTheme(
-        elevation: 4.0,
-        shadowColor: Colors.black,
       ),
       colorScheme: const ColorScheme(
         brightness: Brightness.light,
@@ -37,56 +32,56 @@ class AppTheme {
         surface: AppColors.white,
         onSurface: AppColors.black,
       ),
-      textTheme: TextTheme(
-        titleLarge: GoogleFonts.roboto(
-          color: const Color(0xFF171717),
+      textTheme: const TextTheme(
+        titleLarge: TextStyle(
+          color: Color(0xFF171717),
           fontSize: 24,
         ),
-        bodyLarge: GoogleFonts.roboto(
-          color: const Color(0xFF404040),
+        bodyLarge: TextStyle(
+          color: Color(0xFF404040),
           fontSize: 18,
         ),
-        bodyMedium: GoogleFonts.roboto(
-          color: const Color(0xFF404040),
+        bodyMedium: TextStyle(
+          color: Color(0xFF404040),
           fontSize: 16,
         ),
-        bodySmall: GoogleFonts.roboto(
-          color: const Color(0xFF404040),
+        bodySmall: TextStyle(
+          color: Color(0xFF404040),
           fontSize: 14,
         ),
         //Мелкие надписи
-        labelMedium: GoogleFonts.roboto(
-          color: const Color(0xFF525252),
+        labelMedium: TextStyle(
+          color: Color(0xFF525252),
           fontSize: 14,
         ),
-        labelSmall: GoogleFonts.roboto(
-          color: const Color(0xFF9CA3AF),
+        labelSmall: TextStyle(
+          color: Color(0xFF9CA3AF),
           fontSize: 12,
         ),
       ),
-      bottomNavigationBarTheme: BottomNavigationBarThemeData(
+      bottomNavigationBarTheme: const BottomNavigationBarThemeData(
         backgroundColor: AppColors.white,
-        selectedIconTheme: const IconThemeData(
+        selectedIconTheme: IconThemeData(
           color: AppColors.black,
         ),
-        unselectedIconTheme: const IconThemeData(
+        unselectedIconTheme: IconThemeData(
           color: AppColors.black,
         ),
-        selectedLabelStyle: GoogleFonts.roboto(
-          color: const Color(0xFF000000),
+        selectedLabelStyle: TextStyle(
+          color: Color(0xFF000000),
           fontSize: 12,
         ),
-        unselectedLabelStyle: GoogleFonts.roboto(
-          color: const Color(0xFF9CA3AF),
+        unselectedLabelStyle: TextStyle(
+          color: Color(0xFF9CA3AF),
           fontSize: 12,
         ),
-        selectedItemColor: const Color(0xFF000000),
-        unselectedItemColor: const Color(0xFF9CA3AF),
+        selectedItemColor: Color(0xFF000000),
+        unselectedItemColor: Color(0xFF9CA3AF),
       ),
-      inputDecorationTheme: InputDecorationTheme(
+      inputDecorationTheme: const InputDecorationTheme(
         contentPadding:
-            const EdgeInsets.symmetric(horizontal: AppConstants.smallPadding),
-        border: const OutlineInputBorder(
+            EdgeInsets.symmetric(horizontal: AppConstants.smallPadding),
+        border: OutlineInputBorder(
           borderSide: BorderSide(
             color: AppColors.border,
           ),
@@ -96,7 +91,7 @@ class AppTheme {
             ),
           ),
         ),
-        enabledBorder: const OutlineInputBorder(
+        enabledBorder: OutlineInputBorder(
           borderSide: BorderSide(
             color: AppColors.border,
           ),
@@ -106,7 +101,7 @@ class AppTheme {
             ),
           ),
         ),
-        focusedBorder: const OutlineInputBorder(
+        focusedBorder: OutlineInputBorder(
           borderSide: BorderSide(
             color: AppColors.border,
           ),
@@ -116,7 +111,7 @@ class AppTheme {
             ),
           ),
         ),
-        focusedErrorBorder: const OutlineInputBorder(
+        focusedErrorBorder: OutlineInputBorder(
           borderSide: BorderSide(
             color: AppColors.border,
           ),
@@ -126,8 +121,8 @@ class AppTheme {
             ),
           ),
         ),
-        hintStyle: GoogleFonts.roboto(
-          color: const Color(0xFFADAEBC),
+        hintStyle: TextStyle(
+          color: Color(0xFFADAEBC),
           fontSize: 14,
         ),
       ),
@@ -138,9 +133,9 @@ class AppTheme {
               borderRadius: BorderRadius.circular(AppConstants.smallPadding),
             ),
           ),
-          textStyle: WidgetStatePropertyAll(
-            GoogleFonts.roboto(
-              color: const Color(0xFFFFFFFF),
+          textStyle: const WidgetStatePropertyAll(
+            TextStyle(
+              color: Color(0xFFFFFFFF),
               fontSize: 16,
             ),
           ),

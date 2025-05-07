@@ -14,7 +14,7 @@ public class AnswerController : BaseController
     public async Task<IActionResult> CreateAnswer(CreateAnswerCommand request)
     {
         var result = await mediator.Send(request);
-        return Ok(mapper.Map<ICollection<AnswerResponse>>(result));
+        return Ok(mapper.Map<AnswerResponse>(result));
     }
 
     [HttpPost("form")]

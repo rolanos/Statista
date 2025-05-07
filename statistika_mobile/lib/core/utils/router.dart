@@ -17,32 +17,16 @@ import 'package:statistika_mobile/features/general_question/view/general_questio
 import 'package:statistika_mobile/features/home/home_screen.dart';
 import 'package:statistika_mobile/features/survey/view/admin_group/admin_group_screen.dart';
 
-import '../../features/authorization/view/register_screen.dart';
-import '../../features/authorization/view/welcome_screen.dart';
 import '../../features/survey/view/configuration/survey_configuration_screen.dart';
 
 GoRouter get router {
   return GoRouter(
-    initialLocation: '/${NavigationRoutes.welcome}',
+    initialLocation: '/${NavigationRoutes.auth}',
     routes: [
       GoRoute(
-        path: '/${NavigationRoutes.welcome}',
-        name: NavigationRoutes.welcome,
-        builder: (context, state) => const WelcomeScreen(),
-        routes: [
-          GoRoute(
-            path: NavigationRoutes.auth,
-            name: NavigationRoutes.auth,
-            builder: (context, state) => const AuthorizationScreen(),
-            routes: [
-              GoRoute(
-                path: NavigationRoutes.register,
-                name: NavigationRoutes.register,
-                builder: (context, state) => const RegisterScreen(),
-              ),
-            ],
-          ),
-        ],
+        path: '/${NavigationRoutes.auth}',
+        name: NavigationRoutes.auth,
+        builder: (context, state) => const AuthorizationScreen(),
       ),
       StatefulShellRoute.indexedStack(
         builder: (context, state, navigationShell) =>

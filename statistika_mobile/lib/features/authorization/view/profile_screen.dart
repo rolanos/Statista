@@ -1,4 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:statistika_mobile/core/constants/constants.dart';
@@ -6,8 +5,6 @@ import 'package:statistika_mobile/core/utils/extensions.dart';
 import 'package:statistika_mobile/features/authorization/domain/enum/gender.dart';
 import 'package:statistika_mobile/features/authorization/view/cubit/authorization_cubit.dart';
 import 'package:statistika_mobile/features/authorization/view/cubit/user_profile_cubit.dart';
-
-import '../../../core/constants/routes.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -68,13 +65,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       genderValue?.isMan(),
                       birthday,
                     )));
-            String? url;
-            if (userState is UserProfileInitial &&
-                userState.user.userInfo?.photo?.fullName != null) {
-              url =
-                  "${ApiRoutes.files}${userState.user.userInfo!.photo!.fullName}";
-            }
-
             return RefreshIndicator(
               onRefresh: () async => context.read<UserProfileCubit>().update(),
               child: CustomScrollView(
@@ -93,7 +83,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ),
                   ),
                   SliverFillRemaining(
-                    hasScrollBody: false,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -104,23 +93,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           ),
                           child: Row(
                             children: [
-                              const Spacer(),
-                              if (url != null)
-                                CachedNetworkImage(
-                                  imageUrl: url,
-                                  imageBuilder: (context, imageProvider) =>
-                                      Container(
-                                    height: context.mediaQuerySize.width * 0.3,
-                                    width: context.mediaQuerySize.width * 0.3,
-                                    decoration: BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      image: DecorationImage(
-                                        image: imageProvider,
-                                        fit: BoxFit.fitHeight,
-                                      ),
-                                    ),
-                                  ),
-                                ),
                               const Spacer(),
                               Visibility(
                                 visible: showSaveButton,
@@ -262,7 +234,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             ],
                           ),
                         ),
-                        const Spacer(flex: 3),
+                        const Spacer(),
                       ],
                     ),
                   ),

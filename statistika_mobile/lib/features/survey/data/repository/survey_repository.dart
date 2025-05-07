@@ -6,13 +6,12 @@ import 'package:statistika_mobile/core/utils/shared_preferences_manager.dart';
 import 'package:statistika_mobile/features/survey/domain/model/survey/survey.dart';
 
 import '../../../../core/constants/routes.dart';
-import '../../../../core/utils/dio_client.dart';
 
 class SurveyRepository {
   Future<Either<Exception, List<Survey>>> getSurveys() async {
     try {
       final list = <Survey>[];
-      final dio = DioClient.dio;
+      final dio = Dio();
       final result = await dio.get(
         ApiRoutes.surveys,
         options: Options(

@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Statista.Infrastructure.Persistence;
@@ -11,9 +12,11 @@ using Statista.Infrastructure.Persistence;
 namespace Statista.Infrastructure.Migrations
 {
     [DbContext(typeof(PostgresDbContext))]
-    partial class PostgresDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250506103445_UpdateAvailableAnswers")]
+    partial class UpdateAvailableAnswers
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -149,9 +152,6 @@ namespace Statista.Infrastructure.Migrations
                     b.Property<string>("ImageLink")
                         .HasColumnType("text");
 
-                    b.Property<int>("Order")
-                        .HasColumnType("integer");
-
                     b.Property<Guid?>("PastAvailableAnswerId")
                         .HasColumnType("uuid");
 
@@ -238,8 +238,8 @@ namespace Statista.Infrastructure.Migrations
                     b.Property<bool>("IsGeneral")
                         .HasColumnType("boolean");
 
-                    b.Property<int>("Order")
-                        .HasColumnType("integer");
+                    b.Property<Guid?>("PastQuestionId")
+                        .HasColumnType("uuid");
 
                     b.Property<Guid?>("SectionId")
                         .HasColumnType("uuid");
@@ -360,10 +360,15 @@ namespace Statista.Infrastructure.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("text");
 
+                    b.Property<Guid?>("PhotoId")
+                        .HasColumnType("uuid");
+
                     b.Property<Guid>("UserId")
                         .HasColumnType("uuid");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("PhotoId");
 
                     b.HasIndex("UserId")
                         .IsUnique();
@@ -571,11 +576,17 @@ namespace Statista.Infrastructure.Migrations
 
             modelBuilder.Entity("Statista.Domain.Entities.UserInfo", b =>
                 {
+                    b.HasOne("Statista.Domain.Entities.File", "Photo")
+                        .WithMany()
+                        .HasForeignKey("PhotoId");
+
                     b.HasOne("Statista.Domain.Entities.User", "User")
                         .WithOne("UserInfo")
                         .HasForeignKey("Statista.Domain.Entities.UserInfo", "UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Photo");
 
                     b.Navigation("User");
                 });

@@ -7,4 +7,6 @@ public class AvailableAnswer
     public string? ImageLink { get; set; }
     public Guid QuestionId { get; set; }
     public Question Question { get; set; }
+    public int Order { get; set; } = 1;
+    public AvailableAnswer? PastAvailableAnswer { get; set; }
 }

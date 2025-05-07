@@ -81,7 +81,6 @@ class _CreateQuestionScreenState extends State<CreateQuestionScreen> {
                               ),
                               onDeleteAvailableAnswer: (answer) =>
                                   createQuestionCubit.deleteAnswer(answer),
-                              duration: Duration.zero,
                             ),
                           QuestionTypes.multipleChoice =>
                             MultipleChoiseCreateWidget(
@@ -97,7 +96,6 @@ class _CreateQuestionScreenState extends State<CreateQuestionScreen> {
                               ),
                               onDeleteAvailableAnswer: (answer) =>
                                   createQuestionCubit.deleteAnswer(answer),
-                              duration: Duration.zero,
                             ),
                           null => const SizedBox(),
                         },

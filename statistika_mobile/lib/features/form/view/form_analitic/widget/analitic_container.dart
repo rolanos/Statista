@@ -3,6 +3,7 @@ import 'package:statistika_mobile/core/constants/constants.dart';
 import 'package:statistika_mobile/core/utils/extensions.dart';
 import 'package:statistika_mobile/features/form/view/form_analitic/widget/pie_chart.dart';
 
+import '../../../../../core/constants/app_constants.dart';
 import '../../../../../core/model/analitical_complex.dart';
 import '../../../../../core/widgets/custom_container.dart';
 import '../../../domain/model/question.dart';
@@ -45,7 +46,7 @@ class _AnaliticContainerState extends State<AnaliticContainer> {
       shadow: AppTheme.smallShadows,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        spacing: AppConstants.mediumPadding,
+        spacing: AppConstants.largePadding * 1.5,
         children: [
           Text(
             widget.question.title,
@@ -90,16 +91,6 @@ class _AnaliticContainerState extends State<AnaliticContainer> {
                     );
                   }
                 },
-              ),
-              Spacer(),
-              TextButton(
-                onPressed: () {},
-                child: Text(
-                  'Настроить',
-                  style: context.textTheme.bodyMedium?.copyWith(
-                    color: AppColors.blue,
-                  ),
-                ),
               ),
             ],
           ),

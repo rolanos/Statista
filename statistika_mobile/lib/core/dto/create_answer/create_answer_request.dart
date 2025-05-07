@@ -6,12 +6,15 @@ part 'create_answer_request.g.dart';
 class CreateAnswerRequest {
   CreateAnswerRequest({
     required this.questionId,
-    required this.answerValueIds,
+    required this.answerValueId,
+    required this.userId,
   });
 
   final String questionId;
 
-  final List<String> answerValueIds;
+  final String answerValueId;
+
+  final String? userId;
 
   factory CreateAnswerRequest.fromJson(Map<String, dynamic> json) =>
       _$CreateAnswerRequestFromJson(json);

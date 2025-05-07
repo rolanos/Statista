@@ -15,13 +15,17 @@ public class QuestionRepository : IQuestionRepository
 
     public async Task<Question?> CreateQuestion(Question question)
     {
-        if (question.IsGeneral && question.SectionId is not null)
+        if (!question.IsGeneral && question.SectionId != null)
         {
             var ordered = await GetOrderedQuestionsOptimizedAsync(question.SectionId.GetValueOrDefault());
 
             if (ordered.Any())
             {
-                question.PastQuestionId = ordered.Last().Id;
+                question.Order = ordered.Last().Order + 1;
+            }
+            else
+            {
+                question.Order = 1;
             }
         }
 
@@ -68,8 +72,8 @@ public class QuestionRepository : IQuestionRepository
     public async Task<Question?> GetGeneralQuestion()
     {
         var list = await _dbContext.Questions.AsNoTracking()
-                                             .Include(q => q.AvailableAnswers)
                                              .Where(q => q.IsGeneral)
+                                             .Include(q => q.AvailableAnswers.OrderBy(a => a.Order))
                                              .ToListAsync();
         if (list.Count != 0)
         {
@@ -80,23 +84,9 @@ public class QuestionRepository : IQuestionRepository
 
     private async Task<List<Question>> GetOrderedQuestionsOptimizedAsync(Guid sectionId)
     {
-        var questions = await _dbContext.Questions.AsNoTracking()
+        return await _dbContext.Questions.AsNoTracking()
                                                   .Where(q => q.SectionId == sectionId)
+                                                  .OrderBy(q => q.Order)
                                                   .ToListAsync();
-
-        // Создаем словарь для быстрого поиска по Id
-        var questionDict = questions.ToDictionary(q => q.Id);
-
-        var orderedQuestions = new List<Question>();
-        // Находим начало цепочки (вопрос без предыдущего)
-        var current = questions.FirstOrDefault(q => q.PastQuestionId == null);
-
-        while (current != null)
-        {
-            orderedQuestions.Add(current);
-            current = questions.SingleOrDefault(q => q.PastQuestionId == current.Id);
-        }
-
-        return orderedQuestions;
     }
 }

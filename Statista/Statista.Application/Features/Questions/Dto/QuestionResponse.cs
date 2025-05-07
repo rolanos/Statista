@@ -8,8 +8,7 @@ public class QuestionResponse
     public string Title { get; set; }
     public Guid? TypeId { get; set; }
     public Guid FormId { get; set; }
-    public Guid? pastQuestionId { get; set; }
-    public Guid? nextQuestionId { get; set; }
+    public int Order { get; set; }
     public Guid SectionId { get; set; }
     public DateTime CreatedDate { get; set; }
     public ICollection<AvailableAnswerResponse> AvailableAnswers { get; set; } = new List<AvailableAnswerResponse>();

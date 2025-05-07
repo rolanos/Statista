@@ -9,6 +9,8 @@ import 'package:statistika_mobile/features/form/view/fill_form/cubit/fill_form/a
 import 'package:statistika_mobile/features/form/view/fill_form/cubit/fill_form/fill_form_cubit.dart';
 import 'package:statistika_mobile/core/widgets/questions/single_choise_question.dart';
 
+import '../../../../core/utils/shared_preferences_manager.dart';
+
 class FillFormScreen extends StatelessWidget {
   const FillFormScreen({super.key});
 
@@ -47,14 +49,19 @@ class FillFormScreen extends StatelessWidget {
                       availableAnswer: context
                           .read<FillFormCubit>()
                           .getAnswer(state.currentQuestion),
-                      onSelected: (ans) {
+                      onSelected: (ans) async {
                         if (ans != null) {
-                          context.read<FillFormCubit>().updateAnswer(
-                                CreateAnswerRequest(
-                                  questionId: state.currentQuestion.id,
-                                  answerValueIds: [ans.id],
-                                ),
-                              );
+                          final userId =
+                              await SharedPreferencesManager.getUserId();
+                          if (context.mounted) {
+                            context.read<FillFormCubit>().updateAnswer(
+                                  CreateAnswerRequest(
+                                    questionId: state.currentQuestion.id,
+                                    answerValueId: ans.id,
+                                    userId: userId,
+                                  ),
+                                );
+                          }
                         }
                       },
                     );

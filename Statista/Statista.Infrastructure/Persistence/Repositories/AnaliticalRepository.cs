@@ -21,8 +21,26 @@ public class AnaliticalRepository : IAnaliticalRepository
         {
             QuestionId = parameters.QuestionId,
         };
+        var now = DateTime.UtcNow;
         complex.AnaliticalResults = await _dbContext.AnaliticalFacts
         .Where(f => f.QuestionId == parameters.QuestionId)
+        .Include(f => f.UserInfo)
+        //Filter by Gender param
+        .Where(f => parameters.IsMan == null || (f.UserInfo != null && f.UserInfo.IsMan == parameters.IsMan))
+        // //Filter by Dates param
+        .Where(f =>
+            (parameters.AgeFrom == null && parameters.AgeTo == null) ||
+            (f.UserInfo != null &&
+            f.UserInfo.Birthday != null &&
+            (
+                parameters.AgeFrom == null ||
+                (now.Year - f.UserInfo.Birthday.Value.Year) >= parameters.AgeFrom
+            ) &&
+            (
+                parameters.AgeTo == null ||
+                (now.Year - f.UserInfo.Birthday.Value.Year) <= parameters.AgeTo
+            ))
+        )
         .GroupBy(f => new { f.AnswerValue, f.AvailableAnswerId }) // Группируем по обоим полям
         .Select(g => new AnaliticalResult
         {

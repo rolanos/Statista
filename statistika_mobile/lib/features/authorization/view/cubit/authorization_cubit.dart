@@ -30,22 +30,4 @@ class AuthorizationCubit extends Cubit<AuthorizationState> {
       ),
     );
   }
-
-  Future<void> register(String email, String password) async {
-    if (state is AuthorizationLoading) return;
-
-    emit(AuthorizationLoading());
-
-    final result = await AuthorizationRepository().register(
-      email.trim(),
-      password.trim(),
-    );
-
-    result.match(
-      (e) => emit(AuthorizationError(message: result.getLeft().toString())),
-      (u) => emit(
-        AuthorizationInited(user: u),
-      ),
-    );
-  }
 }

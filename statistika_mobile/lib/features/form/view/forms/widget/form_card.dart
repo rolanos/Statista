@@ -47,12 +47,7 @@ class FormCard extends StatelessWidget {
           children: [
             Row(
               children: [
-                Text(
-                  form.name,
-                  style: context.textTheme.bodyMedium?.copyWith(
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
+                Text(form.name),
                 const Spacer(),
                 const Icon(
                   Icons.arrow_forward,

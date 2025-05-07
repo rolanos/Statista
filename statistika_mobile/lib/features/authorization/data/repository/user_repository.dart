@@ -5,12 +5,11 @@ import 'package:fpdart/fpdart.dart';
 import 'package:statistika_mobile/features/authorization/domain/model/user.dart';
 
 import '../../../../core/constants/routes.dart';
-import '../../../../core/utils/dio_client.dart';
 
 class UserRepository {
   Future<Either<Exception, User>> getUserById(String id) async {
     try {
-      final dio = DioClient.dio;
+      final dio = Dio();
       final result = await dio.get(
         ApiRoutes.users,
         queryParameters: {'id': id},

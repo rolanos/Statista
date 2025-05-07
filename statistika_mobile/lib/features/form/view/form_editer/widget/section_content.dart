@@ -22,6 +22,7 @@ class SectionContent extends StatelessWidget {
       separatorBuilder: (context, index) =>
           const SizedBox(height: AppConstants.mediumPadding),
       itemBuilder: (context, index) => SingleChoiseCreateWidget(
+        key: ValueKey(section.questions[index].id),
         onDeleteQuestion: (q) async =>
             context.read<FormEditerCubit>().deleteQuestion(q),
         onAddAnswer: () async => context

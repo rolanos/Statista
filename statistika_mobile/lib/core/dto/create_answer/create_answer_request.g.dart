@@ -10,6 +10,7 @@ CreateAnswerRequest _$CreateAnswerRequestFromJson(Map<String, dynamic> json) =>
     CreateAnswerRequest(
       questionId: json['questionId'] as String,
       answerValueId: json['answerValueId'] as String,
+      userId: json['userId'] as String?,
     );
 
 Map<String, dynamic> _$CreateAnswerRequestToJson(
@@ -17,4 +18,5 @@ Map<String, dynamic> _$CreateAnswerRequestToJson(
     <String, dynamic>{
       'questionId': instance.questionId,
       'answerValueId': instance.answerValueId,
+      'userId': instance.userId,
     };

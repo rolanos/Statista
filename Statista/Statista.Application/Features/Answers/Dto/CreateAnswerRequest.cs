@@ -4,4 +4,5 @@ public class CreateAnswerRequest
 {
     public Guid QuestionId { get; set; }
     public Guid AnswerValueId { get; set; }
+    public Guid? UserId { get; set; }
 }

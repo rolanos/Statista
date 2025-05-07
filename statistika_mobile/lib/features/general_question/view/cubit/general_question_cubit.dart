@@ -6,6 +6,7 @@ import 'package:statistika_mobile/core/model/analitical_complex.dart';
 import 'package:statistika_mobile/core/repository/analitical_repository.dart';
 import 'package:statistika_mobile/core/repository/answer_repository.dart';
 import 'package:statistika_mobile/core/repository/question_repository.dart';
+import 'package:statistika_mobile/core/utils/shared_preferences_manager.dart';
 import 'package:statistika_mobile/features/form/domain/model/available_answer.dart';
 
 import '../../../form/domain/model/question.dart';
@@ -29,9 +30,11 @@ class GeneralQuestionCubit extends Cubit<GeneralQuestionState> {
 
     if (state is GeneralQuestionInitial && answer != null) {
       emit(GeneralQuestionInitialAnswerLoading(question: state.question));
+      final userId = await SharedPreferencesManager.getUserId();
       final request = CreateAnswerRequest(
         questionId: state.question.id,
         answerValueId: answer.id,
+        userId: userId,
       );
 
       final result = await AnswerRepository().sendAnswer(request);

@@ -37,6 +37,7 @@ public class CreateFileCommandHandler : IRequestHandler<CreateFileCommand, FileR
         var fileId = Guid.NewGuid();
         var fileName = fileId.ToString() + extension;
         var path = Path.Combine(Directory.GetCurrentDirectory(), "Uploads");
+        Directory.CreateDirectory(path);
         using FileStream stream = new FileStream(Path.Combine(path, fileName), FileMode.Create);
         await request.FormFile.CopyToAsync(stream);
         var file = new Domain.Entities.File

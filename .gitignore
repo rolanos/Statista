@@ -44,4 +44,4 @@ app.*.map.json
 # Android Studio will place build artifacts here
 /statistika_mobile/android/debug/
 /statistika_mobile/android/release/
-/statistika_mobile/android/app/.cxx/
+/statistika_mobile/android/app/.cxx

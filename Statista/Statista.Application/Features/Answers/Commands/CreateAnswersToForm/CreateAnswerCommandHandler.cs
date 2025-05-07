@@ -37,7 +37,7 @@ public class CreateAnswersToFormCommandHandler : IRequestHandler<CreateAnswersTo
                     QuestionId = answerDto.QuestionId,
                     AnswerValueId = answerValueId,
                     AnswerMeaning = answerMeaningValue?.Text ?? string.Empty,
-                    RespondentId = answerDto.AnswerValueIds,
+                    RespondentId = answerDto.UserId,
                 };
                 var newAnswer = await _answerRepository.CreateAnswer(answer);
                 if (newAnswer is null)

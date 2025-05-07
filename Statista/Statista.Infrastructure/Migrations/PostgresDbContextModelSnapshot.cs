@@ -170,6 +170,30 @@ namespace Statista.Infrastructure.Migrations
                     b.ToTable("AvailableAnswer", (string)null);
                 });
 
+            modelBuilder.Entity("Statista.Domain.Entities.File", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<Guid>("ElementId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("FullName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<long>("Size")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Files");
+                });
+
             modelBuilder.Entity("Statista.Domain.Entities.Form", b =>
                 {
                     b.Property<Guid>("Id")

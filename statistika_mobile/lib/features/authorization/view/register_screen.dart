@@ -74,7 +74,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           TextSpan(
                             text: ' *',
                             style: context.textTheme.bodySmall?.copyWith(
-                              color: AppColors.red,
+                              color: Colors.red,
                             ),
                           ),
                         ],
@@ -103,7 +103,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           TextSpan(
                             text: ' *',
                             style: context.textTheme.bodySmall?.copyWith(
-                              color: AppColors.red,
+                              color: Colors.red,
                             ),
                           ),
                         ],
@@ -121,12 +121,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 BlocBuilder<AuthorizationCubit, AuthorizationState>(
                   builder: (context, state) {
                     return ElevatedButton(
-                      onPressed: () {
-                        context.read<AuthorizationCubit>().register(
-                              emailController.text,
-                              passwordController.text,
-                            );
-                      },
+                      onPressed: () {},
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [

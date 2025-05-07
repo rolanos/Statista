@@ -37,12 +37,27 @@ class AdminGroupRepository : IAdminGroupRepository
 
     public async Task<ICollection<AdminGroup>> GetAdminGroupBySurveyId(Guid surveyId)
     {
-        return await _dbContext.AdminGroup.AsNoTracking()
+        var adminGroups = await _dbContext.AdminGroup.AsNoTracking()
                                           .Where(a => a.SurveyId == surveyId)
                                           .Include(a => a.User)
                                           .ThenInclude(u => u.UserInfo)
                                           .Include(a => a.Role)
                                           .ToListAsync();
+
+        for (int i = 0; i < adminGroups.Count; i++)
+        {
+            if (adminGroups[i] != null && adminGroups[i]?.User.UserInfo != null)
+            {
+                var file = await _dbContext.Files.AsNoTracking()
+                                                 .Where(f => f.ElementId == adminGroups[i]!.User!.UserInfo.Id)
+                                                 .SingleOrDefaultAsync();
+                adminGroups[i]!.User!.UserInfo.PhotoId = file?.Id;
+                adminGroups[i]!.User!.UserInfo.Photo = file;
+            }
+
+        }
+
+        return adminGroups;
     }
 
     public async Task<AdminGroup?> UpdateAdmin(AdminGroup adminGroup)

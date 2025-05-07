@@ -23,7 +23,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
             Expanded(
               child: Center(
                 child: Lottie.network(
-                  'https://lottie.host/582ae525-62db-467f-aa0f-7f374f155561/qjuxjl6ejG.json',
+                  'https://lottie.host/8104afa2-4d27-4a3f-8d04-75a73240e3bd/ukdDJGJ6VU.json',
                   repeat: false,
                 ),
               ),

@@ -3,7 +3,7 @@ using Statista.Application.Common.Interfaces.Persistence;
 
 namespace Statista.Application.Features.Forms.Commands.CreateForm;
 
-public class CreateAnswerCommandHandler : IRequestHandler<CreateAnswerCommand, Answer>
+public class CreateAnswerCommandHandler : IRequestHandler<CreateAnswerCommand, Guid>
 {
     private readonly IAnswerRepository _answerRepository;
 
@@ -16,22 +16,22 @@ public class CreateAnswerCommandHandler : IRequestHandler<CreateAnswerCommand, A
         _availableAnswerRepository = availableAnswerRepository;
     }
 
-    public async Task<Answer> Handle(CreateAnswerCommand request, CancellationToken cancellationToken)
+    public async Task<Guid> Handle(CreateAnswerCommand request, CancellationToken cancellationToken)
     {
-        var answerMeaningValue = await _availableAnswerRepository.GetAvailableAnswerById(request.AnswerValueId);
-        var answer = new Answer
+        foreach (var answerId in request.AnswerValueIds)
         {
-            Id = Guid.NewGuid(),
-            QuestionId = request.QuestionId,
-            AnswerValueId = request.AnswerValueId,
-            RespondentId = request.UserId,
-            AnswerMeaning = answerMeaningValue?.Text ?? string.Empty,
-        };
-        var newAnswer = await _answerRepository.CreateAnswer(answer);
-        if (newAnswer is null)
-        {
-            throw new Exception("Answer have not created");
+            var answerMeaningValue = await _availableAnswerRepository.GetAvailableAnswerById(answerId);
+            var answer = new Answer
+            {
+                Id = Guid.NewGuid(),
+                QuestionId = request.QuestionId,
+                AnswerValueId = answerId,
+                RespondentId = request.UserId,
+                AnswerMeaning = answerMeaningValue?.Text ?? string.Empty,
+            };
+            var newAnswer = await _answerRepository.CreateAnswer(answer);
         }
-        return newAnswer;
+
+        return request.QuestionId;
     }
 }

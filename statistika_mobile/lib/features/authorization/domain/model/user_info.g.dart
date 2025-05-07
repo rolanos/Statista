@@ -14,6 +14,10 @@ UserInfo _$UserInfoFromJson(Map<String, dynamic> json) => UserInfo(
       birthday: json['birthday'] == null
           ? null
           : DateTime.parse(json['birthday'] as String),
+      photoId: json['photoId'] as String?,
+      photo: json['photo'] == null
+          ? null
+          : File.fromJson(json['photo'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$UserInfoToJson(UserInfo instance) => <String, dynamic>{
@@ -22,4 +26,6 @@ Map<String, dynamic> _$UserInfoToJson(UserInfo instance) => <String, dynamic>{
       'name': instance.name,
       'isMan': instance.isMan,
       'birthday': instance.birthday?.toIso8601String(),
+      'photoId': instance.photoId,
+      'photo': instance.photo,
     };

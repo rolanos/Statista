@@ -41,9 +41,12 @@ abstract class ApiRoutes {
   static const surveyRoles = '$classifier/survey_roles';
 
   static const surveyTypes = '$classifier/survey_types';
+
+  static const files = '$baseUrl/files?name=';
 }
 
 abstract class NavigationRoutes {
+  static const welcome = 'welcome';
   static const auth = 'auth';
 
   static const generalQuestions = 'general_questions';

@@ -6,6 +6,8 @@ import 'package:statistika_mobile/features/authorization/domain/enum/gender.dart
 import 'package:statistika_mobile/features/authorization/view/cubit/authorization_cubit.dart';
 import 'package:statistika_mobile/features/authorization/view/cubit/user_profile_cubit.dart';
 
+import '../../../core/constants/routes.dart';
+
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
 
@@ -65,6 +67,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       genderValue?.isMan(),
                       birthday,
                     )));
+            String? url;
+            if (userState is UserProfileInitial &&
+                userState.user.userInfo?.photo?.fullName != null) {
+              url =
+                  "${ApiRoutes.files}${userState.user.userInfo!.photo!.fullName}";
+            }
             return RefreshIndicator(
               onRefresh: () async => context.read<UserProfileCubit>().update(),
               child: CustomScrollView(

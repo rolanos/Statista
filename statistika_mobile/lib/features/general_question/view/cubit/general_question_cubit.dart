@@ -33,7 +33,7 @@ class GeneralQuestionCubit extends Cubit<GeneralQuestionState> {
       final userId = await SharedPreferencesManager.getUserId();
       final request = CreateAnswerRequest(
         questionId: state.question.id,
-        answerValueId: answer.id,
+        answerValueIds: [answer.id],
         userId: userId,
       );
 

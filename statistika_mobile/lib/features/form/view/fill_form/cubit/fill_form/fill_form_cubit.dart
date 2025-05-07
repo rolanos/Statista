@@ -92,7 +92,7 @@ class FillFormCubit extends Cubit<FillFormState> {
       for (var value in answersCopy) {
         if (question.id == value.questionId) {
           final answer = question.availableAnswers
-              .where((a) => a.id == value.answerValueId)
+              .where((a) => value.answerValueIds.contains(a.id))
               .toList();
           if (answer.isNotEmpty) {
             return answer.first;

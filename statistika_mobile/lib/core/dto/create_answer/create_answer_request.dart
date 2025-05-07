@@ -6,13 +6,13 @@ part 'create_answer_request.g.dart';
 class CreateAnswerRequest {
   CreateAnswerRequest({
     required this.questionId,
-    required this.answerValueId,
+    required this.answerValueIds,
     required this.userId,
   });
 
   final String questionId;
 
-  final String answerValueId;
+  final List<String> answerValueIds;
 
   final String? userId;
 

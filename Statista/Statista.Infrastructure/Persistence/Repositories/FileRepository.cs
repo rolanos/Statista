@@ -18,13 +18,13 @@ public class FileRepository : IFileRepository
 
         await _dbContext.SaveChangesAsync();
 
-        return await _dbContext.Files.SingleOrDefaultAsync(u => u.Id == file.Id);
+        return await _dbContext.Files.FirstOrDefaultAsync(u => u.Id == file.Id);
     }
 
     public async Task<Domain.Entities.File?> DeleteFile(Domain.Entities.File file)
     {
         var fileForDelete = await _dbContext.Files.AsNoTracking()
-                                              .SingleOrDefaultAsync(f => f.Id == file.Id);
+                                              .FirstOrDefaultAsync(f => f.Id == file.Id);
         if (fileForDelete is not null)
         {
             _dbContext.Files.Remove(fileForDelete);

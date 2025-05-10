@@ -18,14 +18,14 @@ class AdminGroupRepository : IAdminGroupRepository
 
         await _dbContext.SaveChangesAsync();
 
-        return await _dbContext.AdminGroup.SingleOrDefaultAsync(i => i.SurveyId == adminGroup.SurveyId
+        return await _dbContext.AdminGroup.FirstOrDefaultAsync(i => i.SurveyId == adminGroup.SurveyId
                                                                      && i.UserId == adminGroup.UserId);
     }
 
     public async Task<AdminGroup?> DeleteAdminGroup(AdminGroup adminGroup)
     {
         var adminGroupDb = await _dbContext.AdminGroup.AsNoTracking()
-                                                    .SingleOrDefaultAsync(a => a.UserId == adminGroup.UserId && a.SurveyId == adminGroup.SurveyId);
+                                                    .FirstOrDefaultAsync(a => a.UserId == adminGroup.UserId && a.SurveyId == adminGroup.SurveyId);
         if (adminGroupDb is not null)
         {
             _dbContext.AdminGroup.Remove(adminGroup);
@@ -50,7 +50,7 @@ class AdminGroupRepository : IAdminGroupRepository
             {
                 var file = await _dbContext.Files.AsNoTracking()
                                                  .Where(f => f.ElementId == adminGroups[i]!.User!.UserInfo.Id)
-                                                 .SingleOrDefaultAsync();
+                                                 .FirstOrDefaultAsync();
                 adminGroups[i]!.User!.UserInfo.PhotoId = file?.Id;
                 adminGroups[i]!.User!.UserInfo.Photo = file;
             }
@@ -66,6 +66,6 @@ class AdminGroupRepository : IAdminGroupRepository
 
         await _dbContext.SaveChangesAsync();
 
-        return await _dbContext.AdminGroup.SingleOrDefaultAsync(a => a.UserId == adminGroup.UserId && a.SurveyId == adminGroup.SurveyId);
+        return await _dbContext.AdminGroup.FirstOrDefaultAsync(a => a.UserId == adminGroup.UserId && a.SurveyId == adminGroup.SurveyId);
     }
 }

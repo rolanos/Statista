@@ -199,6 +199,9 @@ namespace Statista.Infrastructure.Migrations
                     b.Property<Guid>("Id")
                         .HasColumnType("uuid");
 
+                    b.Property<Guid?>("CreatedById")
+                        .HasColumnType("uuid");
+
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("timestamp without time zone");
 
@@ -217,6 +220,8 @@ namespace Statista.Infrastructure.Migrations
                         .HasColumnType("uuid");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CreatedById");
 
                     b.HasIndex("SurveyId")
                         .IsUnique();
@@ -510,6 +515,11 @@ namespace Statista.Infrastructure.Migrations
 
             modelBuilder.Entity("Statista.Domain.Entities.Form", b =>
                 {
+                    b.HasOne("Statista.Domain.Entities.User", "CreatedBy")
+                        .WithMany()
+                        .HasForeignKey("CreatedById")
+                        .OnDelete(DeleteBehavior.Restrict);
+
                     b.HasOne("Survey", "Survey")
                         .WithOne("Form")
                         .HasForeignKey("Statista.Domain.Entities.Form", "SurveyId")
@@ -519,6 +529,8 @@ namespace Statista.Infrastructure.Migrations
                     b.HasOne("Classifier", "Type")
                         .WithMany()
                         .HasForeignKey("TypeId");
+
+                    b.Navigation("CreatedBy");
 
                     b.Navigation("Survey");
 

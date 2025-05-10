@@ -5,19 +5,26 @@ import 'package:fpdart/fpdart.dart';
 import 'package:statistika_mobile/core/model/analitical_complex.dart';
 
 import '../constants/routes.dart';
+import '../dto/analitic_request/analitic_request.dart';
 import '../utils/shared_preferences_manager.dart';
 
 class AnaliticalRepository {
   Future<Either<Exception, AnaliticComplexResult>> getAnalitic(
-    String questionId,
-  ) async {
+    String questionId, {
+    AnaliticRequest? analiticRequest,
+  }) async {
     try {
       final dio = Dio();
+      var queryParaameters = <String, dynamic>{
+        "questionId": questionId,
+      };
+      if (analiticRequest != null) {
+        queryParaameters.addAll(analiticRequest.toJson());
+      }
+
       final result = await dio.get(
         ApiRoutes.analitical,
-        queryParameters: {
-          "questionId": questionId,
-        },
+        queryParameters: queryParaameters,
         options: Options(
           headers: await SharedPreferencesManager.getTokenAsMap(),
         ),

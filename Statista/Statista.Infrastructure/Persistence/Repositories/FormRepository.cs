@@ -60,6 +60,8 @@ public class FormRepository : IFormRepository
     {
         return await _dbContext.Forms.AsNoTracking()
                                      .Include(f => f.Survey)
+                                     .ThenInclude(s => s.AdminGroup)
+                                     .Where(f => f.Survey.AdminGroup.Where(a => a.UserId == userId).Any())
                                      .ToListAsync();
     }
 }

@@ -23,40 +23,38 @@ class BarChartWidget extends StatefulWidget {
 class _BarChartWidgetState extends State<BarChartWidget> {
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      child: SingleChildScrollView(
-        scrollDirection: Axis.horizontal,
-        child: ConstrainedBox(
-          constraints: BoxConstraints(
-            maxWidth: calculateGeneralWidth(),
-            maxHeight: context.mediaQuerySize.height * 0.2,
-            minWidth:
-                context.mediaQuerySize.width - AppConstants.largePadding * 3,
-          ),
-          child: BarChart(
-            BarChartData(
-              barTouchData: barTouchData,
-              titlesData: titlesData,
-              borderData: borderData,
-              barGroups: barGroups,
-              gridData: FlGridData(
-                show: true,
-                drawVerticalLine: false,
-                drawHorizontalLine: true,
-                getDrawingHorizontalLine: (value) {
-                  return FlLine(
-                    color: Colors.grey.shade300,
-                    strokeWidth: 1,
-                  );
-                },
-              ),
-              alignment: BarChartAlignment.spaceAround,
-              maxY: List<int>.generate(
-                    widget.analitic?.data.length ?? 0,
-                    (i) => widget.analitic?.data[i].count ?? 0,
-                  ).getMax().toDouble() +
-                  1,
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: ConstrainedBox(
+        constraints: BoxConstraints(
+          maxWidth: calculateGeneralWidth(),
+          maxHeight: context.mediaQuerySize.height * 0.25,
+          minWidth:
+              context.mediaQuerySize.width - AppConstants.largePadding * 3,
+        ),
+        child: BarChart(
+          BarChartData(
+            barTouchData: barTouchData,
+            titlesData: titlesData,
+            borderData: borderData,
+            barGroups: barGroups,
+            gridData: FlGridData(
+              show: true,
+              drawVerticalLine: false,
+              drawHorizontalLine: true,
+              getDrawingHorizontalLine: (value) {
+                return FlLine(
+                  color: Colors.grey.shade300,
+                  strokeWidth: 1,
+                );
+              },
             ),
+            alignment: BarChartAlignment.spaceAround,
+            maxY: List<int>.generate(
+                  widget.analitic?.data.length ?? 0,
+                  (i) => widget.analitic?.data[i].count ?? 0,
+                ).getMax().toDouble() +
+                1,
           ),
         ),
       ),

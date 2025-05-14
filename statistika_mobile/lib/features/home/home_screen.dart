@@ -17,6 +17,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: true,
       body: SafeArea(child: widget.navigationShell),
       bottomNavigationBar: showBottomNavigationBar()
           ? Container(

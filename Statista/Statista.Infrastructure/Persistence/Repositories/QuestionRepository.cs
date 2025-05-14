@@ -33,7 +33,7 @@ public class QuestionRepository : IQuestionRepository
 
         await _dbContext.SaveChangesAsync();
 
-        return await _dbContext.Questions.SingleOrDefaultAsync(u => u.Id == question.Id);
+        return await _dbContext.Questions.FirstOrDefaultAsync(u => u.Id == question.Id);
     }
 
     public async Task<ICollection<Question>> GetQuestionsBySectionId(Guid sectionId)
@@ -44,7 +44,7 @@ public class QuestionRepository : IQuestionRepository
     public async Task<Question?> DeleteById(Guid id)
     {
         var question = await _dbContext.Questions.AsNoTracking()
-                                              .SingleOrDefaultAsync(u => u.Id == id);
+                                              .FirstOrDefaultAsync(u => u.Id == id);
         if (question is not null)
         {
             _dbContext.Questions.Remove(question);
@@ -57,7 +57,7 @@ public class QuestionRepository : IQuestionRepository
     public async Task<Question?> GetQuestionsById(Guid id)
     {
         return await _dbContext.Questions.AsNoTracking()
-                                         .SingleOrDefaultAsync(u => u.Id == id);
+                                         .FirstOrDefaultAsync(u => u.Id == id);
     }
 
     public async Task<Question?> UpdateQuestion(Question question)

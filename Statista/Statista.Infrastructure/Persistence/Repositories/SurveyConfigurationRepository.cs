@@ -19,12 +19,12 @@ public class SurveyConfigurationRepository : ISurveyConfigurationRepository
 
         await _dbContext.SaveChangesAsync();
 
-        return await _dbContext.SurveyConfiguration.SingleOrDefaultAsync(i => i.Id == surveyConfiguration.Id);
+        return await _dbContext.SurveyConfiguration.FirstOrDefaultAsync(i => i.Id == surveyConfiguration.Id);
     }
 
     public async Task<SurveyConfiguration?> DeleteById(Guid id)
     {
-        var surveyConfiguration = await _dbContext.SurveyConfiguration.SingleOrDefaultAsync(u => u.Id == id);
+        var surveyConfiguration = await _dbContext.SurveyConfiguration.FirstOrDefaultAsync(u => u.Id == id);
         if (surveyConfiguration is not null)
         {
             _dbContext.SurveyConfiguration.Remove(surveyConfiguration);
@@ -36,12 +36,12 @@ public class SurveyConfigurationRepository : ISurveyConfigurationRepository
 
     public async Task<SurveyConfiguration?> GetSurveyConfigurationById(Guid id)
     {
-        return await _dbContext.SurveyConfiguration.SingleOrDefaultAsync(u => u.Id == id);
+        return await _dbContext.SurveyConfiguration.FirstOrDefaultAsync(u => u.Id == id);
     }
 
     public async Task<SurveyConfiguration?> GetSurveyConfigurationBySurveyId(Guid surveyId)
     {
-        return await _dbContext.SurveyConfiguration.SingleOrDefaultAsync(u => u.SurveyId == surveyId);
+        return await _dbContext.SurveyConfiguration.FirstOrDefaultAsync(u => u.SurveyId == surveyId);
     }
 
     public async Task<SurveyConfiguration?> Update(SurveyConfiguration surveyConfiguration)
@@ -50,6 +50,6 @@ public class SurveyConfigurationRepository : ISurveyConfigurationRepository
 
         await _dbContext.SaveChangesAsync();
 
-        return await _dbContext.SurveyConfiguration.SingleOrDefaultAsync(u => u.Id == surveyConfiguration.Id);
+        return await _dbContext.SurveyConfiguration.FirstOrDefaultAsync(u => u.Id == surveyConfiguration.Id);
     }
 }

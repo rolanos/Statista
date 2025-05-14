@@ -20,7 +20,7 @@ public class FormRepository : IFormRepository
 
         await _dbContext.SaveChangesAsync();
 
-        return await _dbContext.Forms.SingleOrDefaultAsync(u => u.Id == form.Id);
+        return await _dbContext.Forms.FirstOrDefaultAsync(u => u.Id == form.Id);
     }
 
     public async Task<ICollection<Form>> GetAllForms()
@@ -33,20 +33,20 @@ public class FormRepository : IFormRepository
     public async Task<Form?> GetFormBySurveyId(Guid surveyId)
     {
         return await _dbContext.Forms.AsNoTracking()
-                                     .SingleOrDefaultAsync(u => u.SurveyId == surveyId);
+                                     .FirstOrDefaultAsync(u => u.SurveyId == surveyId);
     }
 
 
     public async Task<Form?> GetFormById(Guid id)
     {
         return await _dbContext.Forms.AsNoTracking()
-                                     .SingleOrDefaultAsync(u => u.Id == id);
+                                     .FirstOrDefaultAsync(u => u.Id == id);
     }
 
     public async Task<Form?> DeleteById(Guid id)
     {
         var form = await _dbContext.Forms.AsNoTracking()
-                                         .SingleOrDefaultAsync(u => u.Id == id);
+                                         .FirstOrDefaultAsync(u => u.Id == id);
         if (form is not null)
         {
             _dbContext.Forms.Remove(form);
@@ -60,6 +60,8 @@ public class FormRepository : IFormRepository
     {
         return await _dbContext.Forms.AsNoTracking()
                                      .Include(f => f.Survey)
+                                     .ThenInclude(s => s.AdminGroup)
+                                     .Where(f => f.Survey.AdminGroup.Where(a => a.UserId == userId).Any())
                                      .ToListAsync();
     }
 }

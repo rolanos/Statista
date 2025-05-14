@@ -19,13 +19,13 @@ public class SectionRepository : ISectionRepository
 
         await _dbContext.SaveChangesAsync();
 
-        return await _dbContext.Sections.SingleOrDefaultAsync(u => u.Id == section.Id);
+        return await _dbContext.Sections.FirstOrDefaultAsync(u => u.Id == section.Id);
     }
 
     public async Task<Section?> DeleteById(Guid id)
     {
         var section = await _dbContext.Sections.AsNoTracking()
-                                               .SingleOrDefaultAsync(u => u.Id == id);
+                                               .FirstOrDefaultAsync(u => u.Id == id);
         if (section is not null)
         {
             _dbContext.Sections.Remove(section);

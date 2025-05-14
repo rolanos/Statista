@@ -29,7 +29,7 @@ public class DeleteAdminGroupCommandHandler : IRequestHandler<DeleteAdminGroupCo
     {
         var adminGroups = await _adminGroupRepository.GetAdminGroupBySurveyId(request.SurveyId);
 
-        var adminGroup = adminGroups.SingleOrDefault(a => a.UserId == request.UserId);
+        var adminGroup = adminGroups.FirstOrDefault(a => a.UserId == request.UserId);
 
         if (adminGroup is null)
         {

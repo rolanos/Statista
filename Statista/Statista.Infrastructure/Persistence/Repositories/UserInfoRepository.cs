@@ -19,17 +19,17 @@ public class UserInfoRepository : IUserInfoRepository
 
         await _dbContext.SaveChangesAsync();
 
-        return await _dbContext.UserInfo.SingleOrDefaultAsync(i => i.Id == userInfo.Id);
+        return await _dbContext.UserInfo.FirstOrDefaultAsync(i => i.Id == userInfo.Id);
     }
 
     public async Task<UserInfo?> GetUserInfoByUserId(Guid userId)
     {
-        return await _dbContext.UserInfo.SingleOrDefaultAsync(i => i.UserId == userId);
+        return await _dbContext.UserInfo.FirstOrDefaultAsync(i => i.UserId == userId);
     }
 
     public async Task<UserInfo?> GetUserInfoId(Guid id)
     {
-        return await _dbContext.UserInfo.SingleOrDefaultAsync(i => i.Id == id);
+        return await _dbContext.UserInfo.FirstOrDefaultAsync(i => i.Id == id);
     }
 
     public async Task<UserInfo?> UpdateUserInfo(UserInfo userInfo)
@@ -38,6 +38,6 @@ public class UserInfoRepository : IUserInfoRepository
 
         await _dbContext.SaveChangesAsync();
 
-        return await _dbContext.UserInfo.SingleOrDefaultAsync(i => i.Id == userInfo.Id);
+        return await _dbContext.UserInfo.FirstOrDefaultAsync(i => i.Id == userInfo.Id);
     }
 }

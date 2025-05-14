@@ -66,7 +66,7 @@ class _CreateFormScreenState extends State<CreateFormScreen> {
                           isExpanded: true,
                           value: type,
                           hint: const Text(
-                            'Тип анкеты',
+                            'Тип опроса',
                           ),
                           underline: const SizedBox(),
                           style: context.textTheme.bodyMedium,
@@ -127,7 +127,7 @@ class _CreateFormScreenState extends State<CreateFormScreen> {
                               const CircularProgressIndicator(),
                             if (state is! CreateFormCubit)
                               Text(
-                                'Создать форму',
+                                'Создать опрос',
                                 style: context.textTheme.bodyMedium?.copyWith(
                                   color: AppColors.white,
                                 ),

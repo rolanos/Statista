@@ -40,7 +40,7 @@ Future<void> showRoleBottomSheet(
               mainAxisSize: MainAxisSize.min,
               children: [
                 Text(
-                  'Введите ваш email',
+                  'Редактирование прав доступа',
                   style: context.textTheme.bodyLarge?.copyWith(
                     color: AppColors.black,
                   ),

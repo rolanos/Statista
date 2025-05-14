@@ -26,13 +26,13 @@ public class AvailableAnswerRepository : IAvailableAnswerRepository
 
         await _dbContext.SaveChangesAsync();
 
-        return await _dbContext.AvailableAnswers.SingleOrDefaultAsync(u => u.Id == availableAnswer.Id);
+        return await _dbContext.AvailableAnswers.FirstOrDefaultAsync(u => u.Id == availableAnswer.Id);
     }
 
     public async Task<AvailableAnswer?> DeleteById(Guid id)
     {
         var availableAnswer = await _dbContext.AvailableAnswers.AsNoTracking()
-                                                               .SingleOrDefaultAsync(u => u.Id == id);
+                                                               .FirstOrDefaultAsync(u => u.Id == id);
 
         if (availableAnswer is not null)
         {
@@ -60,7 +60,7 @@ public class AvailableAnswerRepository : IAvailableAnswerRepository
     public async Task<AvailableAnswer?> GetAvailableAnswerById(Guid id)
     {
         return await _dbContext.AvailableAnswers.AsNoTracking()
-                                                .SingleOrDefaultAsync(u => u.Id == id);
+                                                .FirstOrDefaultAsync(u => u.Id == id);
     }
 
     public async Task<ICollection<AvailableAnswer>> GetAvailableAnswersByQuestionId(Guid questionId)

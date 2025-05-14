@@ -51,6 +51,7 @@ class _CreateQuestionScreenState extends State<CreateQuestionScreen> {
             ),
           ),
           SliverFillRemaining(
+            fillOverscroll: true,
             child: BlocConsumer<CreateQuestionCubit, CreateQuestionState>(
               bloc: createQuestionCubit,
               listener: (context, state) {
@@ -61,7 +62,10 @@ class _CreateQuestionScreenState extends State<CreateQuestionScreen> {
               builder: (context, state) {
                 if (state is CreateQuestionInitial) {
                   return Padding(
-                    padding: const EdgeInsets.all(AppConstants.mediumPadding),
+                    padding: const EdgeInsets.all(AppConstants.mediumPadding)
+                        .copyWith(
+                      bottom: MediaQuery.of(context).viewInsets.bottom,
+                    ),
                     child: Column(
                       spacing: AppConstants.largePadding,
                       mainAxisAlignment: MainAxisAlignment.center,

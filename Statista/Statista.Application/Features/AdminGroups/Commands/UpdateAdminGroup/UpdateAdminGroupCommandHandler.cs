@@ -36,14 +36,14 @@ public class UpdateAdminGroupCommandHandler : IRequestHandler<UpdateAdminGroupCo
 
         var adminGroups = await _adminGroupRepository.GetAdminGroupBySurveyId(survey.Id);
 
-        var adminGroup = adminGroups.SingleOrDefault(a => a.UserId == request.UserId);
+        var adminGroup = adminGroups.FirstOrDefault(a => a.UserId == request.UserId);
 
         if (adminGroup is null)
         {
             throw new NotFoundException("User not added to admin group");
         }
 
-        var containsRole = RoleTypeConstants.values.SingleOrDefault(r => r.Id == request.RoleId);
+        var containsRole = RoleTypeConstants.values.FirstOrDefault(r => r.Id == request.RoleId);
 
         if (containsRole is null)
         {

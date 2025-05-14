@@ -19,7 +19,7 @@ public class AnswerRepository : IAnswerRepository
 
         await _dbContext.SaveChangesAsync();
 
-        var userInfo = await _dbContext.UserInfo.SingleOrDefaultAsync(i => i.UserId == answer.RespondentId);
+        var userInfo = await _dbContext.UserInfo.FirstOrDefaultAsync(i => i.UserId == answer.RespondentId);
 
         var analiticFact = new AnaliticalFact
         {
@@ -36,7 +36,7 @@ public class AnswerRepository : IAnswerRepository
 
         await _dbContext.SaveChangesAsync();
 
-        return await _dbContext.Answers.SingleOrDefaultAsync(u => u.Id == answer.Id);
+        return await _dbContext.Answers.FirstOrDefaultAsync(u => u.Id == answer.Id);
     }
 
     public async Task<ICollection<Answer>> GetAnswersByQuestionId(Guid questionId)

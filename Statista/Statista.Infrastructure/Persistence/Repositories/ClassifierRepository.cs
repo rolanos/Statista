@@ -14,14 +14,14 @@ class ClassifierRepository : IClassifierRepository
 
     public async Task<Classifier?> CreateClassifier(Classifier classifier)
     {
-        var contains = await _dbContext.Classifiers.SingleOrDefaultAsync(c => c.Id == classifier.Id);
+        var contains = await _dbContext.Classifiers.FirstOrDefaultAsync(c => c.Id == classifier.Id);
         if (contains == null)
         {
             await _dbContext.AddAsync(classifier);
 
             await _dbContext.SaveChangesAsync();
 
-            return await _dbContext.Classifiers.SingleOrDefaultAsync(c => c.Id == classifier.Id);
+            return await _dbContext.Classifiers.FirstOrDefaultAsync(c => c.Id == classifier.Id);
         }
         return contains;
     }
@@ -34,7 +34,7 @@ class ClassifierRepository : IClassifierRepository
 
     public async Task<Classifier?> GetClassifierById(Guid id)
     {
-        return await _dbContext.Classifiers.SingleOrDefaultAsync(c => c.Id == id);
+        return await _dbContext.Classifiers.FirstOrDefaultAsync(c => c.Id == id);
     }
 
     public async Task<bool> HasData()

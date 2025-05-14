@@ -42,7 +42,7 @@ public class CreateAdminGroupCommandHandler : IRequestHandler<CreateAdminGroupCo
 
         var adminGroups = await _adminGroupRepository.GetAdminGroupBySurveyId(survey.Id);
 
-        var contains = adminGroups.SingleOrDefault(a => a.UserId == user.Id);
+        var contains = adminGroups.FirstOrDefault(a => a.UserId == user.Id);
 
         if (contains is not null)
         {

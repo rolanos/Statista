@@ -32,45 +32,44 @@ class FillFormScreen extends StatelessWidget {
                   builder: (context, state) {
                     return Text(
                       state.form?.name ?? '',
-                      style: context.textTheme.bodyMedium?.copyWith(
-                        fontWeight: FontWeight.w700,
-                      ),
+                      style: context.textTheme.bodyLarge
+                          ?.copyWith(color: AppColors.black),
                     );
                   },
                 ),
               ],
             ),
-            Expanded(
-              child: BlocBuilder<FillFormCubit, FillFormState>(
-                builder: (context, state) {
-                  if (state is FillFormInitial) {
-                    return SingleChoiseQuestion(
-                      question: state.currentQuestion,
-                      availableAnswer: context
-                          .read<FillFormCubit>()
-                          .getAnswer(state.currentQuestion),
-                      onSelected: (ans) async {
-                        if (ans != null) {
-                          final userId =
-                              await SharedPreferencesManager.getUserId();
-                          if (context.mounted) {
-                            context.read<FillFormCubit>().updateAnswer(
-                                  CreateAnswerRequest(
-                                    questionId: state.currentQuestion.id,
-                                    answerValueIds: [ans.id],
-                                    userId: userId,
-                                  ),
-                                );
-                          }
+            const Spacer(),
+            BlocBuilder<FillFormCubit, FillFormState>(
+              builder: (context, state) {
+                if (state is FillFormInitial) {
+                  return SingleChoiseQuestion(
+                    question: state.currentQuestion,
+                    availableAnswer: context
+                        .read<FillFormCubit>()
+                        .getAnswer(state.currentQuestion),
+                    onSelected: (ans) async {
+                      if (ans != null) {
+                        final userId =
+                            await SharedPreferencesManager.getUserId();
+                        if (context.mounted) {
+                          context.read<FillFormCubit>().updateAnswer(
+                                CreateAnswerRequest(
+                                  questionId: state.currentQuestion.id,
+                                  answerValueIds: [ans.id],
+                                  userId: userId,
+                                ),
+                              );
                         }
-                      },
-                    );
-                  } else {
-                    return const Center(child: CircularProgressIndicator());
-                  }
-                },
-              ),
+                      }
+                    },
+                  );
+                } else {
+                  return const Center(child: CircularProgressIndicator());
+                }
+              },
             ),
+            Spacer(),
             BlocBuilder<FillFormCubit, FillFormState>(
               builder: (context, state) {
                 return Row(

@@ -1,6 +1,11 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SharedPreferencesManager {
+  static Future<void> clear() async {
+    final instance = await SharedPreferences.getInstance();
+    instance.clear();
+  }
+
   static Future<bool> setUserId(String userId) async {
     final instance = await SharedPreferences.getInstance();
     return await instance.setString('userId', userId);

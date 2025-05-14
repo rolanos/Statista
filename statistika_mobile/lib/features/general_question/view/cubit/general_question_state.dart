@@ -10,22 +10,25 @@ final class GeneralQuestionEmpty extends GeneralQuestionState {}
 
 final class GeneralQuestionLoading extends GeneralQuestionState {}
 
-final class GeneralQuestionError extends GeneralQuestionState {
-  GeneralQuestionError({required this.message});
+final class GeneralQuestionInitial extends GeneralQuestionState {
+  GeneralQuestionInitial({required this.question});
+
+  final Question? question;
+
+  @override
+  List<Object?> get props => [question];
+}
+
+final class GeneralQuestionError extends GeneralQuestionInitial {
+  GeneralQuestionError({
+    required this.message,
+    super.question,
+  });
 
   final String message;
 
   @override
   List<Object?> get props => [message];
-}
-
-final class GeneralQuestionInitial extends GeneralQuestionState {
-  GeneralQuestionInitial({required this.question});
-
-  final Question question;
-
-  @override
-  List<Object?> get props => [question];
 }
 
 final class GeneralQuestionInitialAnswerLoading extends GeneralQuestionInitial {

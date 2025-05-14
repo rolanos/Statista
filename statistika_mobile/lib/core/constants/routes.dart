@@ -48,6 +48,7 @@ abstract class ApiRoutes {
 abstract class NavigationRoutes {
   static const welcome = 'welcome';
   static const auth = 'auth';
+  static const register = 'register';
 
   static const generalQuestions = 'general_questions';
   static const chooseQuestionType = 'choose_question_type';

@@ -20,6 +20,8 @@ class _AuthorizationScreenState extends State<AuthorizationScreen> {
 
   final passwordController = TextEditingController();
 
+  bool _showPassword = false;
+
   @override
   Widget build(BuildContext context) {
     return BlocListener<AuthorizationCubit, AuthorizationState>(
@@ -77,7 +79,23 @@ class _AuthorizationScreenState extends State<AuthorizationScreen> {
                     TextFormField(
                       controller: passwordController,
                       style: context.textTheme.bodySmall,
-                      decoration: const InputDecoration(
+                      textAlignVertical: TextAlignVertical.center,
+                      decoration: InputDecoration(
+                        isCollapsed: true,
+                        isDense: true,
+                        suffixIcon: IconButton(
+                          onPressed: () {
+                            setState(() {
+                              _showPassword = !_showPassword;
+                            });
+                          },
+                          icon: Icon(
+                            _showPassword
+                                ? Icons.visibility
+                                : Icons.visibility_off,
+                            color: AppColors.black,
+                          ),
+                        ),
                         hintText: 'Введите пароль',
                       ),
                     ),
@@ -123,6 +141,25 @@ class _AuthorizationScreenState extends State<AuthorizationScreen> {
                       ),
                     );
                   },
+                ),
+                ElevatedButton(
+                  style: const ButtonStyle(
+                    backgroundColor: WidgetStatePropertyAll(Colors.transparent),
+                    shadowColor: WidgetStatePropertyAll(Colors.transparent),
+                  ),
+                  onPressed: () {
+                    context.goNamed(NavigationRoutes.register);
+                  },
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        'Зарегестрироваться',
+                        style: context.textTheme.bodyMedium
+                            ?.copyWith(color: AppColors.black),
+                      ),
+                    ],
+                  ),
                 ),
                 const Spacer(),
               ],

@@ -10,6 +10,9 @@ import '../constants/app_constants.dart';
 extension ThemeExtension on BuildContext {
   TextTheme get textTheme => Theme.of(this).textTheme;
 
+  ElevatedButtonThemeData get elevatedStyle =>
+      Theme.of(this).elevatedButtonTheme;
+
   Size get mediaQuerySize => MediaQuery.of(this).size;
 }
 

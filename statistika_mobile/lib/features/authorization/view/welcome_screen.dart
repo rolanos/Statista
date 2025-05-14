@@ -4,6 +4,7 @@ import 'package:lottie/lottie.dart';
 import 'package:statistika_mobile/core/constants/app_constants.dart';
 import 'package:statistika_mobile/core/constants/routes.dart';
 import 'package:statistika_mobile/core/utils/extensions.dart';
+import 'package:statistika_mobile/core/utils/shared_preferences_manager.dart';
 
 class WelcomeScreen extends StatefulWidget {
   const WelcomeScreen({super.key});
@@ -57,8 +58,11 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                         Colors.transparent,
                       ),
                     ),
-                    onPressed: () {
-                      context.goNamed(NavigationRoutes.generalQuestions);
+                    onPressed: () async {
+                      await SharedPreferencesManager.clear();
+                      if (context.mounted) {
+                        context.goNamed(NavigationRoutes.generalQuestions);
+                      }
                     },
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,

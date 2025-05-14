@@ -24,7 +24,7 @@ class AuthorizationCubit extends Cubit<AuthorizationState> {
         await AuthorizationRepository().login(email.trim(), password.trim());
 
     result.match(
-      (e) => emit(AuthorizationError(message: result.getLeft().toString())),
+      (e) => emit(AuthorizationError(message: e.message)),
       (u) => emit(
         AuthorizationInited(user: u),
       ),

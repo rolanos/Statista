@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:statistika_mobile/core/constants/app_constants.dart';
 import 'package:statistika_mobile/core/constants/routes.dart';
 import 'package:statistika_mobile/core/utils/extensions.dart';
+import 'package:statistika_mobile/core/widgets/snack_bar.dart';
 import 'package:statistika_mobile/features/authorization/view/cubit/authorization_cubit.dart';
 import 'package:statistika_mobile/features/authorization/view/cubit/user_profile_cubit.dart';
 
@@ -26,6 +27,9 @@ class _AuthorizationScreenState extends State<AuthorizationScreen> {
         if (state is AuthorizationInited) {
           context.read<UserProfileCubit>().init(state.user);
           context.goNamed(NavigationRoutes.generalQuestions);
+        }
+        if (state is AuthorizationError) {
+          showCustomSnackBar(context, state.message);
         }
       },
       child: Scaffold(

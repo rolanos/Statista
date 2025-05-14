@@ -17,7 +17,7 @@ class AuthorizationCubit extends Cubit<AuthorizationState> {
       email = 'ivankson@gmail.com';
     }
     if (password.isEmpty) {
-      password = '123123';
+      password = '123124';
     }
 
     final result =

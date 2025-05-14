@@ -6,10 +6,12 @@ import 'package:statistika_mobile/core/constants/routes.dart';
 import 'package:statistika_mobile/core/utils/shared_preferences_manager.dart';
 import 'package:statistika_mobile/features/authorization/domain/model/user.dart';
 
+import '../../../../core/utils/dio_client.dart';
+
 class AuthorizationRepository {
   Future<Either<Exception, User>> login(String email, String password) async {
     try {
-      final dio = Dio();
+      final dio = DioClient.dio;
       final result = await dio.post(
         ApiRoutes.login,
         data: {

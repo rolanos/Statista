@@ -6,6 +6,7 @@ import 'package:statistika_mobile/core/model/analitical_complex.dart';
 
 import '../constants/routes.dart';
 import '../dto/analitic_request/analitic_request.dart';
+import '../utils/dio_client.dart';
 import '../utils/shared_preferences_manager.dart';
 
 class AnaliticalRepository {
@@ -14,7 +15,7 @@ class AnaliticalRepository {
     AnaliticRequest? analiticRequest,
   }) async {
     try {
-      final dio = Dio();
+      final dio = DioClient.dio;
       var queryParaameters = <String, dynamic>{
         "questionId": questionId,
       };

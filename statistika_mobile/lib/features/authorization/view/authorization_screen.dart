@@ -44,7 +44,7 @@ class _AuthorizationScreenState extends State<AuthorizationScreen> {
               children: [
                 const Spacer(),
                 Text(
-                  'Survey App',
+                  'Авторизация',
                   style: context.textTheme.titleLarge,
                 ),
                 Column(

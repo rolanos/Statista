@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:statistika_mobile/core/constants/app_constants.dart';
 import 'package:statistika_mobile/core/constants/routes.dart';
 import 'package:statistika_mobile/core/utils/utils.dart';
+import 'package:statistika_mobile/core/widgets/snack_bar.dart';
 import 'package:statistika_mobile/features/general_question/view/cubit/general_question_cubit.dart';
 
 import '../../../core/widgets/questions/single_choise_question.dart';
@@ -30,11 +31,9 @@ class _GeneralQuestionScreenState extends State<GeneralQuestionScreen> {
     return RefreshIndicator(
       onRefresh: () async =>
           context.read<GeneralQuestionCubit>().getGeneralQuestion(),
-      notificationPredicate: (notification) {
-        return notification.depth == 1;
-      },
-      child: NestedScrollView(
-        headerSliverBuilder: (context, innerBoxIsScrolled) => [
+      child: CustomScrollView(
+        physics: const AlwaysScrollableScrollPhysics(),
+        slivers: [
           SliverAppBar(
             snap: false,
             pinned: true,
@@ -57,68 +56,77 @@ class _GeneralQuestionScreenState extends State<GeneralQuestionScreen> {
               ),
             ],
           ),
-        ],
-        body: Center(
-          child: Column(
-            children: [
-              Expanded(
-                child: BlocConsumer<GeneralQuestionCubit, GeneralQuestionState>(
-                  listenWhen: (previous, current) {
-                    if (previous is GeneralQuestionInitial &&
-                        current is GeneralQuestionInitial) {
-                      return previous.question != current.question;
-                    }
-                    return false;
-                  },
-                  listener: (context, state) {
-                    if (state is GeneralQuestionInitial) {
-                      answer = null;
-                      setState(() {});
-                    }
-                  },
-                  builder: (context, state) {
-                    if (state is GeneralQuestionLoading) {
-                      return const Center(
-                        child: CircularProgressIndicator(),
-                      );
-                    }
-                    if (state is GeneralQuestionInitial) {
-                      return Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        spacing: AppConstants.mediumPadding,
-                        children: [
-                          SingleChoiseQuestion(
-                            question: state.question,
-                            onSelected: (a) => answer = a,
-                            analitic:
-                                state is GeneralQuestionInitialShowAnalitic
-                                    ? state.analitic
-                                    : null,
-                          ),
-                          Align(
-                            alignment: Alignment.centerRight,
-                            child: Padding(
-                              padding: const EdgeInsets.only(
-                                right: AppConstants.mediumPadding,
-                              ),
-                              child: ElevatedButton(
-                                onPressed: () async {
-                                  if (state
-                                      is GeneralQuestionInitialAnswerLoading) {
-                                    return;
-                                  } else if (state
-                                      is GeneralQuestionInitialShowAnalitic) {
-                                    await context
-                                        .read<GeneralQuestionCubit>()
-                                        .getGeneralQuestion();
-                                  } else if (answer != null) {
-                                    await context
-                                        .read<GeneralQuestionCubit>()
-                                        .answerQuestion(answer);
-                                  }
-                                },
-                                child:
-                                    state is GeneralQuestionInitialAnswerLoading
+          SliverFillRemaining(
+            child: BlocListener<GeneralQuestionCubit, GeneralQuestionState>(
+              listener: (context, state) {
+                if (state is GeneralQuestionError) {
+                  showCustomSnackBar(
+                    context,
+                    state.message,
+                  );
+                }
+              },
+              child: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    BlocConsumer<GeneralQuestionCubit, GeneralQuestionState>(
+                      listenWhen: (previous, current) {
+                        if (previous is GeneralQuestionInitial &&
+                            current is GeneralQuestionInitial) {
+                          return previous.question != current.question;
+                        }
+                        return false;
+                      },
+                      listener: (context, state) {
+                        if (state is GeneralQuestionInitial) {
+                          answer = null;
+                          setState(() {});
+                        }
+                      },
+                      builder: (context, state) {
+                        if (state is GeneralQuestionLoading) {
+                          return const Center(
+                            child: CircularProgressIndicator(),
+                          );
+                        }
+                        if (state is GeneralQuestionInitial) {
+                          return Column(
+                            spacing: AppConstants.mediumPadding,
+                            children: [
+                              if (state.question != null)
+                                SingleChoiseQuestion(
+                                  question: state.question!,
+                                  onSelected: (a) => answer = a,
+                                  analitic: state
+                                          is GeneralQuestionInitialShowAnalitic
+                                      ? state.analitic
+                                      : null,
+                                ),
+                              Align(
+                                alignment: Alignment.centerRight,
+                                child: Padding(
+                                  padding: const EdgeInsets.only(
+                                    right: AppConstants.mediumPadding,
+                                  ),
+                                  child: ElevatedButton(
+                                    onPressed: () async {
+                                      if (state
+                                          is GeneralQuestionInitialAnswerLoading) {
+                                        return;
+                                      } else if (state
+                                          is GeneralQuestionInitialShowAnalitic) {
+                                        await context
+                                            .read<GeneralQuestionCubit>()
+                                            .getGeneralQuestion();
+                                      } else if (answer != null) {
+                                        await context
+                                            .read<GeneralQuestionCubit>()
+                                            .answerQuestion(answer);
+                                      }
+                                    },
+                                    child: state
+                                            is GeneralQuestionInitialAnswerLoading
                                         ? const CircularProgressIndicator(
                                             color: AppColors.white,
                                           )
@@ -131,19 +139,21 @@ class _GeneralQuestionScreenState extends State<GeneralQuestionScreen> {
                                               color: AppColors.white,
                                             ),
                                           ),
+                                  ),
+                                ),
                               ),
-                            ),
-                          ),
-                        ],
-                      );
-                    }
-                    return const SizedBox();
-                  },
+                            ],
+                          );
+                        }
+                        return const SizedBox();
+                      },
+                    ),
+                  ],
                 ),
               ),
-            ],
+            ),
           ),
-        ),
+        ],
       ),
     );
   }

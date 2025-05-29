@@ -43,66 +43,72 @@ class _CreateFormScreenState extends State<CreateFormScreen> {
             );
           }
         },
-        child: Padding(
-          padding: const EdgeInsets.all(AppConstants.mediumPadding),
-          child: Column(
-            spacing: AppConstants.mediumPadding,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
+        child: Column(
+          spacing: AppConstants.mediumPadding,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            AppBar(
+              title: Text(
                 'Создание новой анкеты',
-                style: context.textTheme.bodyMedium
-                    ?.copyWith(fontWeight: FontWeight.w600),
+                style: context.textTheme.bodyLarge
+                    ?.copyWith(color: AppColors.black),
               ),
-              const Spacer(),
-              CustomContainer(
-                child: Column(
-                  spacing: AppConstants.smallPadding,
-                  children: [
-                    BlocBuilder<SurveyTypesCubit, SurveyTypesState>(
-                      builder: (context, state) {
-                        return DropdownButton<Classifier>(
-                          isExpanded: true,
-                          value: type,
-                          hint: const Text(
-                            'Тип опроса',
-                          ),
-                          underline: const SizedBox(),
-                          style: context.textTheme.bodyMedium,
-                          items: state is SurveyTypesInitial
-                              ? List.generate(
-                                  state.types.length,
-                                  (i) => DropdownMenuItem(
-                                    value: state.types[i],
-                                    child: Row(
-                                      children: [Text(state.types[i].name)],
-                                    ),
+            ),
+            const Spacer(),
+            CustomContainer(
+              shadow: AppTheme.smallShadows,
+              margin: const EdgeInsets.all(AppConstants.mediumPadding),
+              child: Column(
+                spacing: AppConstants.smallPadding,
+                children: [
+                  BlocBuilder<SurveyTypesCubit, SurveyTypesState>(
+                    builder: (context, state) {
+                      return DropdownButton<Classifier>(
+                        isExpanded: true,
+                        value: type,
+                        hint: const Text(
+                          'Тип опроса',
+                        ),
+                        underline: const SizedBox(),
+                        style: context.textTheme.bodyMedium,
+                        items: state is SurveyTypesInitial
+                            ? List.generate(
+                                state.types.length,
+                                (i) => DropdownMenuItem(
+                                  value: state.types[i],
+                                  child: Row(
+                                    children: [Text(state.types[i].name)],
                                   ),
-                                )
-                              : [],
-                          onChanged: (value) => setState(
-                            () => type = value,
-                          ),
-                        );
-                      },
+                                ),
+                              )
+                            : [],
+                        onChanged: (value) => setState(
+                          () => type = value,
+                        ),
+                      );
+                    },
+                  ),
+                  TextFormField(
+                    controller: nameController,
+                    decoration: const InputDecoration(
+                      hintText: 'Название',
                     ),
-                    TextFormField(
-                      controller: nameController,
-                      decoration: const InputDecoration(
-                        hintText: 'Название',
-                      ),
+                  ),
+                  TextFormField(
+                    controller: descriptionController,
+                    decoration: const InputDecoration(
+                      hintText: 'Описание',
                     ),
-                    TextFormField(
-                      controller: descriptionController,
-                      decoration: const InputDecoration(
-                        hintText: 'Описание',
-                      ),
-                    ),
-                  ],
-                ),
+                  ),
+                ],
               ),
-              BlocBuilder<UserProfileCubit, UserProfileState>(
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: AppConstants.mediumPadding,
+              ),
+              child: BlocBuilder<UserProfileCubit, UserProfileState>(
                 builder: (context, state) {
                   return ElevatedButton(
                     onPressed: () async {
@@ -139,9 +145,9 @@ class _CreateFormScreenState extends State<CreateFormScreen> {
                   );
                 },
               ),
-              const Spacer(),
-            ],
-          ),
+            ),
+            const Spacer(),
+          ],
         ),
       ),
     );

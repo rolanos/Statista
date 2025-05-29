@@ -6,13 +6,14 @@ import 'package:statistika_mobile/core/constants/routes.dart';
 import 'package:statistika_mobile/features/form/data/model/create_form_request.dart';
 import 'package:statistika_mobile/features/form/domain/model/form.dart';
 
+import '../../../../core/utils/dio_client.dart';
 import '../../../../core/utils/shared_preferences_manager.dart';
 
 class FormRepository {
   Future<Either<Exception, List<Form>>> getAllForms() async {
     try {
       final list = <Form>[];
-      final dio = Dio();
+      final dio = DioClient.dio;
       final result = await dio.get(
         ApiRoutes.forms,
         options: Options(
@@ -33,7 +34,7 @@ class FormRepository {
   Future<Either<Exception, List<Form>>> getUserForms() async {
     try {
       final list = <Form>[];
-      final dio = Dio();
+      final dio = DioClient.dio;
       final userId = await SharedPreferencesManager.getUserId();
       final result = await dio.get(
         ApiRoutes.formsByUserId,
@@ -55,7 +56,7 @@ class FormRepository {
 
   Future<Either<Exception, Form>> getFormById(String id) async {
     try {
-      final dio = Dio();
+      final dio = DioClient.dio;
       final result = await dio.get(
         ApiRoutes.formsByFormId,
         queryParameters: {'id': id},
@@ -74,7 +75,7 @@ class FormRepository {
     CreateFormRequest request,
   ) async {
     try {
-      final dio = Dio();
+      final dio = DioClient.dio;
       final result = await dio.post(
         ApiRoutes.forms,
         data: request.toJson(),

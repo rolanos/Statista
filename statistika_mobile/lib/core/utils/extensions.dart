@@ -1,9 +1,17 @@
-import 'dart:math';
+import 'dart:developer';
+import 'dart:math' as math;
 
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:statistika_mobile/core/utils/api_exception.dart';
+
+import '../constants/app_constants.dart';
 
 extension ThemeExtension on BuildContext {
   TextTheme get textTheme => Theme.of(this).textTheme;
+
+  ElevatedButtonThemeData get elevatedStyle =>
+      Theme.of(this).elevatedButtonTheme;
 
   Size get mediaQuerySize => MediaQuery.of(this).size;
 }
@@ -35,11 +43,30 @@ extension IntegerListExtension on List<int> {
     if (isNotEmpty) {
       var maxValue = first;
       for (var value in this) {
-        maxValue = max(maxValue, value);
+        maxValue = math.max(maxValue, value);
       }
       return maxValue;
     } else {
       return 0;
     }
+  }
+}
+
+extension DioExceptionExtension on DioException {
+  ApiException get toParsed {
+    log(toString());
+    var error = AppConstants.defaultError;
+    final data = response?.data as Map<String, dynamic>?;
+    if (data != null && data.containsKey(AppConstants.apiErrorFieldName)) {
+      error = data[AppConstants.apiErrorFieldName];
+    }
+    return ApiException(error);
+  }
+}
+
+extension ExceptionExtension on Exception {
+  ApiException get toParsed {
+    log(toString());
+    return ApiException(AppConstants.defaultError);
   }
 }

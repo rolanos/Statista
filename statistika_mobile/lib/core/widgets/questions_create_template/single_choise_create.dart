@@ -17,9 +17,12 @@ class SingleChoiseCreateWidget extends StatefulWidget {
     this.onUpdateTitle,
     this.onDeleteAvailableAnswer,
     this.onUpdateAvailableAnswer,
+    this.updateDuration,
   });
 
   final Question question;
+
+  final Duration? updateDuration;
 
   final FutureOr<void> Function(Question)? onDeleteQuestion;
 
@@ -163,7 +166,7 @@ class _SingleChoiseCreateWidgetState extends State<SingleChoiseCreateWidget> {
     _debounceTimer?.cancel();
 
     // Запускаем новый таймер на 3 секунды
-    _debounceTimer = Timer(const Duration(milliseconds: 500), () {
+    _debounceTimer = Timer(widget.updateDuration ?? Duration.zero, () {
       // Действие, которое выполнится через 3 секунды после последнего изменения
       if (widget.onUpdateTitle != null) {
         widget.onUpdateTitle!(titleController.text);

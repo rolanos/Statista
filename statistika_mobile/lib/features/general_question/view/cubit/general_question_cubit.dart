@@ -17,10 +17,16 @@ class GeneralQuestionCubit extends Cubit<GeneralQuestionState> {
   GeneralQuestionCubit() : super(GeneralQuestionEmpty());
 
   Future<void> getGeneralQuestion() async {
+    final state = this.state;
     final result = await QuestionRepository().getGeneralQuestion();
 
     result.match(
-      (e) => emit(GeneralQuestionError(message: e.toString())),
+      (e) => emit(
+        GeneralQuestionError(
+          message: e.toString(),
+          question: state is GeneralQuestionInitial ? state.question : null,
+        ),
+      ),
       (q) => emit(GeneralQuestionInitial(question: q)),
     );
   }
@@ -28,11 +34,13 @@ class GeneralQuestionCubit extends Cubit<GeneralQuestionState> {
   Future<void> answerQuestion(AvailableAnswer? answer) async {
     final state = this.state;
 
-    if (state is GeneralQuestionInitial && answer != null) {
+    if (state is GeneralQuestionInitial &&
+        state.question != null &&
+        answer != null) {
       emit(GeneralQuestionInitialAnswerLoading(question: state.question));
       final userId = await SharedPreferencesManager.getUserId();
       final request = CreateAnswerRequest(
-        questionId: state.question.id,
+        questionId: state.question!.id,
         answerValueIds: [answer.id],
         userId: userId,
       );
@@ -40,13 +48,24 @@ class GeneralQuestionCubit extends Cubit<GeneralQuestionState> {
       final result = await AnswerRepository().sendAnswer(request);
 
       result.match(
-        (e) => emit(GeneralQuestionError(message: e.toString())),
+        (e) => emit(
+          GeneralQuestionError(
+            message: e.toString(),
+            question: state.question,
+          ),
+        ),
         (_) async {
-          final analiticResult =
-              await AnaliticalRepository().getAnalitic(state.question.id);
+          final analiticResult = await AnaliticalRepository().getAnalitic(
+            state.question!.id,
+          );
 
           analiticResult.match(
-            (e) => emit(GeneralQuestionError(message: e.toString())),
+            (e) => emit(
+              GeneralQuestionError(
+                message: e.toString(),
+                question: state.question,
+              ),
+            ),
             (a) => emit(
               GeneralQuestionInitialShowAnalitic(
                 question: state.question,

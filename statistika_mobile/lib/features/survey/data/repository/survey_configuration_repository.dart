@@ -7,13 +7,14 @@ import 'package:statistika_mobile/features/survey/domain/model/survey_configurat
 import 'package:statistika_mobile/features/survey/domain/model/survey_configuration_update/survey_configuration_update_request.dart';
 
 import '../../../../core/constants/routes.dart';
+import '../../../../core/utils/dio_client.dart';
 
 class SurveyConfigurationRepository {
   Future<Either<Exception, SurveyConfiguration>> getSurveyConfiguration(
     String surveyId,
   ) async {
     try {
-      final dio = Dio();
+      final dio = DioClient.dio;
       final result = await dio.get(
         ApiRoutes.surveyConfiguration,
         queryParameters: {'surveyId': surveyId},
@@ -32,7 +33,7 @@ class SurveyConfigurationRepository {
     SurveyConfigurationUpdateRequest request,
   ) async {
     try {
-      final dio = Dio();
+      final dio = DioClient.dio;
       final result = await dio.patch(
         ApiRoutes.surveyConfiguration,
         data: request.toJson(),

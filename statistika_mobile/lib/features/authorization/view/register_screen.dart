@@ -19,6 +19,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   final passwordController = TextEditingController();
 
+  bool _showPassword = false;
+
   @override
   Widget build(BuildContext context) {
     return BlocListener<AuthorizationCubit, AuthorizationState>(
@@ -38,28 +40,28 @@ class _RegisterScreenState extends State<RegisterScreen> {
               children: [
                 const Spacer(),
                 Text(
-                  'Survey App',
+                  'Регистрация',
                   style: context.textTheme.titleLarge,
                 ),
-                Column(
-                  spacing: AppConstants.smallPadding,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Имя',
-                      style: context.textTheme.bodySmall?.copyWith(
-                        color: AppColors.gray,
-                      ),
-                    ),
-                    TextFormField(
-                      controller: passwordController,
-                      style: context.textTheme.bodySmall,
-                      decoration: const InputDecoration(
-                        hintText: 'Введите имя',
-                      ),
-                    ),
-                  ],
-                ),
+                // Column(
+                //   spacing: AppConstants.smallPadding,
+                //   crossAxisAlignment: CrossAxisAlignment.start,
+                //   children: [
+                //     Text(
+                //       'Имя',
+                //       style: context.textTheme.bodySmall?.copyWith(
+                //         color: AppColors.gray,
+                //       ),
+                //     ),
+                //     TextFormField(
+                //       controller: passwordController,
+                //       style: context.textTheme.bodySmall,
+                //       decoration: const InputDecoration(
+                //         hintText: 'Введите имя',
+                //       ),
+                //     ),
+                //   ],
+                // ),
                 Column(
                   spacing: AppConstants.smallPadding,
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -112,7 +114,24 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     TextFormField(
                       controller: passwordController,
                       style: context.textTheme.bodySmall,
-                      decoration: const InputDecoration(
+                      textAlignVertical: TextAlignVertical.center,
+                      obscureText: !_showPassword,
+                      decoration: InputDecoration(
+                        isCollapsed: true,
+                        isDense: true,
+                        suffixIcon: IconButton(
+                          onPressed: () {
+                            setState(() {
+                              _showPassword = !_showPassword;
+                            });
+                          },
+                          icon: Icon(
+                            _showPassword
+                                ? Icons.visibility
+                                : Icons.visibility_off,
+                            color: AppColors.black,
+                          ),
+                        ),
                         hintText: 'Введите пароль',
                       ),
                     ),
@@ -121,7 +140,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 BlocBuilder<AuthorizationCubit, AuthorizationState>(
                   builder: (context, state) {
                     return ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () async {
+                        await context.read<AuthorizationCubit>().register(
+                              emailController.text,
+                              passwordController.text,
+                            );
+                      },
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -139,7 +163,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             ),
                           if (state is! AuthorizationLoading)
                             Text(
-                              'Регистрация',
+                              'Зарегистрироваться',
                               style: context.textTheme.bodyMedium
                                   ?.copyWith(color: AppColors.white),
                             ),

@@ -1,6 +1,8 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:statistika_mobile/core/constants/routes.dart';
+import 'package:statistika_mobile/core/utils/shared_preferences_manager.dart';
 import 'package:statistika_mobile/features/authorization/view/authorization_screen.dart';
 import 'package:statistika_mobile/features/authorization/view/profile_screen.dart';
 import 'package:statistika_mobile/features/form/view/create_form/create_form_screen.dart';
@@ -17,6 +19,7 @@ import 'package:statistika_mobile/features/general_question/view/general_questio
 import 'package:statistika_mobile/features/home/home_screen.dart';
 import 'package:statistika_mobile/features/survey/view/admin_group/admin_group_screen.dart';
 
+import '../../features/authorization/view/register_screen.dart';
 import '../../features/authorization/view/welcome_screen.dart';
 import '../../features/survey/view/configuration/survey_configuration_screen.dart';
 
@@ -33,7 +36,13 @@ GoRouter get router {
             path: NavigationRoutes.auth,
             name: NavigationRoutes.auth,
             builder: (context, state) => const AuthorizationScreen(),
-            routes: [],
+            routes: [
+              GoRoute(
+                path: NavigationRoutes.register,
+                name: NavigationRoutes.register,
+                builder: (context, state) => const RegisterScreen(),
+              ),
+            ],
           ),
         ],
       ),
@@ -53,6 +62,9 @@ GoRouter get router {
                     name: NavigationRoutes.chooseQuestionType,
                     builder: (context, state) =>
                         const ChooseQuestionTypeScreen(),
+                    redirect: (context, state) async {
+                      return await redirectToAuthorization();
+                    },
                     routes: [
                       GoRoute(
                         path: NavigationRoutes.createGeneralQuestion,
@@ -70,6 +82,9 @@ GoRouter get router {
           StatefulShellBranch(
             routes: [
               GoRoute(
+                redirect: (context, state) async {
+                  return await redirectToAuthorization();
+                },
                 path: '/${NavigationRoutes.forms}',
                 name: NavigationRoutes.forms,
                 builder: (context, state) => const FormsScreen(),
@@ -134,6 +149,9 @@ GoRouter get router {
           StatefulShellBranch(
             routes: [
               GoRoute(
+                redirect: (context, state) async {
+                  return await redirectToAuthorization();
+                },
                 path: '/${NavigationRoutes.profile}',
                 name: NavigationRoutes.profile,
                 builder: (context, state) => const ProfileScreen(),
@@ -144,4 +162,12 @@ GoRouter get router {
       ),
     ],
   );
+}
+
+Future<String?> redirectToAuthorization() async {
+  final userId = await SharedPreferencesManager.getUserId();
+  if (userId == null) {
+    return '/${NavigationRoutes.welcome}/${NavigationRoutes.auth}';
+  }
+  return null;
 }
